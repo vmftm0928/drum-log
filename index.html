@@ -416,18 +416,168 @@ const ETC=['녹음','음악듣기','아이디어 연구','카피 (하루 4마디
 const RYTEC=[
   '메트로놈 1마디키고 3마디 끄고 돌아오기+(필)',
   '1코러스 리듬 1코러스 솔로 (리듬, 찹스)',
-  '장르 연습 (R&B, Gospel, Funk, Neo Soul, Fusion, Latin, Hip Hop, Shuffle, Jazz, Ballad)',
+  '장르 연습',
   '이야기 전개 연습 (10분이상 끊기지 않고 말하듯)',
   '전진 연습 (절지 않고 쭉 밀고 나가기, 빨라져도 안절게 만들기, 단어 사용하기 편하게 익히기)'
 ];
 
+function buildRytecRef(){
+  const el=document.getElementById('ref-rytec');
+  const items=[
+    {txt:'메트로놈 1마디키고 3마디 끄고 돌아오기+(필)', children:[]},
+    {txt:'1코러스 리듬 1코러스 솔로 (리듬, 찹스)', children:[]},
+    {txt:'장르 연습', children:['R&B','Gospel','Funk','Neo Soul','Fusion','Latin','Hip Hop','Shuffle','Jazz','Ballad','Jazz Hip Hop']},
+    {txt:'이야기 전개 연습 (10분이상 끊기지 않고 말하듯)', children:[]},
+    {txt:'전진 연습 (절지 않고 쭉 밀고 나가기, 빨라져도 안절게 만들기, 단어 사용하기 편하게 익히기)', children:[]},
+  ];
+  items.forEach((item,pi)=>{
+    const pd=document.createElement('div');
+    pd.className='ri rt2';
+    pd.style.cssText='font-weight:700;margin-top:4px';
+    pd.innerHTML=`<span class="rn">${pi+1}</span><span class="rtxt" style="color:var(--text)">${item.txt}</span>`;
+    pd.addEventListener('click',()=>{
+      addRow('rhy',item.txt);
+      toast('✅ 추가됨: '+item.txt.slice(0,26)+(item.txt.length>26?'…':''));
+      as();
+    });
+    el.appendChild(pd);
+    item.children.forEach(child=>{
+      const cd=document.createElement('div');
+      cd.className='ri rt2';
+      cd.style.cssText='padding-left:28px;opacity:.85';
+      cd.innerHTML=`<span class="rn" style="width:14px;height:14px;font-size:.55rem;background:rgba(251,146,60,.25)">·</span><span class="rtxt">${child}</span>`;
+      cd.addEventListener('click',(e)=>{
+        e.stopPropagation();
+        const label=`장르 연습 - ${child}`;
+        addRow('rhy',label);
+        toast('✅ 추가됨: '+label.slice(0,26)+(label.length>26?'…':''));
+        as();
+      });
+      el.appendChild(cd);
+    });
+  });
+}
+
 function buildRef(elId,data,cat,cls){
   const el=document.getElementById(elId);
+  if(!el)return;
   data.forEach((txt,i)=>{
     const d=document.createElement('div');
     d.className='ri '+cls; d.id='ri-'+cat+'-'+i;
     d.innerHTML=`<span class="rn">${i+1}</span><span class="rtxt">${txt}</span>`;
     d.addEventListener('click',()=>fromRef(cat,txt,i));
+    el.appendChild(d);
+  });
+}
+
+function buildRhyRef(){
+  const el=document.getElementById('ref-rhy');
+  if(!el)return;
+  RHY_TREE.forEach((item,pi)=>{
+    const pd=document.createElement('div');
+    pd.className='ri r';
+    pd.style.cssText='font-weight:700;margin-top:4px';
+    pd.innerHTML=`<span class="rn">${pi+1}</span><span class="rtxt" style="color:var(--text)">${item.parent}</span>`;
+    pd.addEventListener('click',()=>{
+      addRow('rhy',item.parent);
+      toast('✅ 추가됨: '+item.parent.slice(0,26)+(item.parent.length>26?'…':''));
+      as();
+    });
+    el.appendChild(pd);
+    item.children.forEach(child=>{
+      const cd=document.createElement('div');
+      cd.className='ri r';
+      cd.style.cssText='padding-left:28px;opacity:.85';
+      cd.innerHTML=`<span class="rn" style="width:14px;height:14px;font-size:.55rem;background:rgba(168,85,247,.25)">·</span><span class="rtxt">${child}</span>`;
+      cd.addEventListener('click',(e)=>{
+        e.stopPropagation();
+        const label=`${item.parent} - ${child}`;
+        addRow('rhy',label);
+        toast('✅ 추가됨: '+label.slice(0,26)+(label.length>26?'…':''));
+        as();
+      });
+      el.appendChild(cd);
+    });
+  });
+}
+
+function buildTecRef(){
+  const el=document.getElementById('ref-tec');
+  if(!el)return;
+  TEC_TREE.forEach((item,pi)=>{
+    const pd=document.createElement('div');
+    pd.className='ri t';
+    pd.style.cssText='font-weight:700;margin-top:4px';
+    pd.innerHTML=`<span class="rn">${pi+1}</span><span class="rtxt" style="color:var(--text)">${item.parent}</span>`;
+    pd.addEventListener('click',()=>{
+      addRow('tec',item.parent);
+      toast('✅ 추가됨: '+item.parent.slice(0,26)+(item.parent.length>26?'…':''));
+      as();
+    });
+    el.appendChild(pd);
+    item.children.forEach(child=>{
+      const cd=document.createElement('div');
+      cd.className='ri t';
+      cd.style.cssText='padding-left:28px;opacity:.85';
+      cd.innerHTML=`<span class="rn" style="width:14px;height:14px;font-size:.55rem;background:rgba(34,197,94,.25)">·</span><span class="rtxt">${child}</span>`;
+      cd.addEventListener('click',(e)=>{
+        e.stopPropagation();
+        const label=`${item.parent} - ${child}`;
+        addRow('tec',label);
+        toast('✅ 추가됨: '+label.slice(0,26)+(label.length>26?'…':''));
+        as();
+      });
+      el.appendChild(cd);
+    });
+  });
+}
+
+function buildRytecRef(){
+  const el=document.getElementById('ref-rytec');
+  if(!el)return;
+  const items=[
+    {txt:'메트로놈 1마디키고 3마디 끄고 돌아오기+(필)', children:[], cat:'rhy'},
+    {txt:'1코러스 리듬 1코러스 솔로 (리듬, 찹스)', children:[], cat:'rhy'},
+    {txt:'장르 연습', children:['R&B','Gospel','Funk','Neo Soul','Fusion','Latin','Hip Hop','Shuffle','Jazz','Ballad','Jazz Hip Hop'], cat:'rhy'},
+    {txt:'이야기 전개 연습 (10분이상 끊기지 않고 말하듯)', children:[], cat:'etc'},
+    {txt:'전진 연습 (절지 않고 쭉 밀고 나가기, 빨라져도 안절게 만들기, 단어 사용하기 편하게 익히기)', children:[], cat:'etc'},
+  ];
+  items.forEach((item,pi)=>{
+    const pd=document.createElement('div');
+    pd.className='ri rt2';
+    pd.style.cssText='font-weight:700;margin-top:4px';
+    pd.innerHTML=`<span class="rn">${pi+1}</span><span class="rtxt" style="color:var(--text)">${item.txt}</span>`;
+    pd.addEventListener('click',()=>{
+      addRow(item.cat, item.txt);
+      toast('✅ 추가됨: '+item.txt.slice(0,26)+(item.txt.length>26?'…':''));
+      as();
+    });
+    el.appendChild(pd);
+    item.children.forEach(child=>{
+      const cd=document.createElement('div');
+      cd.className='ri rt2';
+      cd.style.cssText='padding-left:28px;opacity:.85';
+      cd.innerHTML=`<span class="rn" style="width:14px;height:14px;font-size:.55rem;background:rgba(251,146,60,.25)">·</span><span class="rtxt">${child}</span>`;
+      cd.addEventListener('click',(e)=>{
+        e.stopPropagation();
+        const label=`장르 연습 - ${child}`;
+        addRow(item.cat, label);
+        toast('✅ 추가됨: '+label.slice(0,26)+(label.length>26?'…':''));
+        as();
+      });
+      el.appendChild(cd);
+    });
+  });
+}
+
+function buildEtcRef(){
+  const el=document.getElementById('ref-etc');
+  if(!el)return;
+  ETC.forEach((txt,i)=>{
+    const d=document.createElement('div');
+    d.className='ri e'; d.id='ri-etc-'+i;
+    d.innerHTML=`<span class="rn">${i+1}</span><span class="rtxt">${txt}</span>`;
+    d.addEventListener('click',()=>fromRef('etc',txt,i));
     el.appendChild(d);
   });
 }
@@ -466,7 +616,7 @@ buildRef('ref-pad',PAD,'pad','p');
 buildRhyRef();
 buildTecRef();
 buildRef('ref-etc',ETC,'etc','e');
-buildRef('ref-rytec',RYTEC,'rytec','rt2');
+buildRytecRef();
 
 function addRow(cat,txt,chk,mins,tempo,set){
   const tb=document.getElementById('body-'+cat);
