@@ -198,6 +198,8 @@ textarea.inp{resize:vertical;line-height:1.7}
         <li>타임키핑</li>
         <li>다이나믹 (강하게 치기만 함)</li>
         <li>찹스중 킥으로 공간만들때 전다</li>
+        <li>시작 필인 다양하게 넣기</li>
+        <li>킥으로만 끝내는 것 고치기</li>
       </ul>
     </div>
   </div>
@@ -345,16 +347,16 @@ textarea.inp{resize:vertical;line-height:1.7}
 </div>
 
 <script>
-const PAD=['싱글 스트로크 (양손)','더블 스트로크 (양손)','트리플 스트로크 (양손)','핑거링 (양손)','3/6연음','루디먼트','스틱 컨트롤, 아메리칸 드럼 솔로','자유 스틱킹(악센트, 루디먼트)','임용훈 스트로크','싱글 더블 MIX'];
+const PAD=['싱글 스트로크 (양손)','더블 스트로크 (양손)','트리플 스트로크 (양손)','핑거링 (양손)','모울러 테크닉','3/6연음','루디먼트','스틱 컨트롤, 아메리칸 드럼 솔로','자유 스틱킹(악센트, 루디먼트)','임용훈 스트로크','싱글 더블 MIX'];
 
 const RHY_TREE=[
   {parent:'킥 위치 변경', children:[]},
   {parent:'스네어', children:['고스트 위치 변형','악센트 위치 변형','프레스 위치 변형','고스트(더블) 선명도']},
-  {parent:'심벌', children:['(오픈)하이햇 경우의 수','변형 및 경우의 수 연구','풋 하이햇 응용 리듬','스플래쉬 경우의 수']},
-  {parent:'그루브 연구 및 아이디어 (R&B, Gospel, Funk, Neo Soul, Fusion, Latin, Hip Hop, Jazz Hip Hop, Shuffle, Jazz, Ballad)', children:['8비트 리듬','16비트 리듬','3연음 리듬','6연음 리듬','셔플','하프 타임','더블타임','크로스 스틱','라이드 리듬','루디먼트 리듬','엇박 리듬','변박','폴리리듬','메트릭 모듈레이션','리니어','쉼표 · 비우기','리듬 그루핑','쪼개기','레이백','핑거링 리듬','가벼운(사부작) 사운드']},
-  {parent:'리듬 다이나믹', children:['팔 높이 조절','힘 조절','오픈 하이햇만 악센트']},
+  {parent:'심벌', children:['(오픈)하이햇 경우의 수','하이햇 위치 변형, 더블로 꾸미기','풋 하이햇 응용 리듬','스플래쉬 경우의 수']},
+  {parent:'그루브 연구 및 아이디어', children:['8비트 리듬','16비트 리듬','3연음 리듬','6연음 리듬','셔플','하프 타임','더블타임','크로스 스틱','라이드 리듬','루디먼트 리듬','엇박 리듬','변박','폴리리듬','메트릭 모듈레이션','리니어','쉼표 · 비우기','리듬 그루핑','쪼개기','레이백','핑거링 리듬','가벼운(사부작) 사운드','1을 n 으로 생각하며 연주하기']},
+  {parent:'리듬 다이나믹(팔 높이, 힘, 오픈 하이햇만 악센트)', children:[]},
   {parent:'리듬 · 그루브 변화', children:['4마디마다 변화 ex) 8비트→16비트→연음','기본 리듬→하프타임','기본 리듬→더블타임','킥으로 공간 만들기']},
-  {parent:'타임키핑', children:['메트로놈 1마디 키고 3마디 끄고 돌아오기']},
+  {parent:'타임키핑', children:['메트로놈 1마디 키고 1마디 끄기','메트로놈 1마디 키고 2마디 끄기','메트로놈 1마디 키고 3마디 끄기']},
   {parent:'리듬 솔로 연구 및 연습', children:['킥으로 공간 만들기']},
 ];
 
@@ -378,9 +380,29 @@ function buildRhyRef(){
       cd.innerHTML=`<span class="rn" style="width:14px;height:14px;font-size:.55rem;background:rgba(168,85,247,.25)">·</span><span class="rtxt">${child}</span>`;
       cd.addEventListener('click',(e)=>{
         e.stopPropagation();
-        const label=`${item.parent} - ${child}`;
-        addRow('rhy',label);
-        toast('✅ 추가됨: '+label.slice(0,26)+(label.length>26?'…':''));
+        let label=`${item.parent} - ${child}`;
+
+        if(item.parent==='그루브 연구 및 아이디어'){
+          grooveBuilder = label;
+          addRow('rhy', grooveBuilder);
+          const rows=document.querySelectorAll('#body-rhy .clr');
+          const lastRow=rows[rows.length-1];
+          grooveComboInput = lastRow ? lastRow.querySelector('.cltxt') : null;
+        }else if(grooveBuilder && ['킥 위치 변경','스네어','심벌'].includes(item.parent)){
+          if(!grooveBuilder.includes(child)){
+            grooveBuilder += ' + ' + child;
+          }
+          if(grooveComboInput){
+            grooveComboInput.value = grooveBuilder;
+            as();
+          }else{
+            addRow('rhy', grooveBuilder);
+          }
+        }else{
+          addRow('rhy',label);
+        }
+
+        toast('✅ 추가됨: '+grooveBuilder.slice(0,26)+(grooveBuilder.length>26?'…':''));
         as();
       });
       el.appendChild(cd);
@@ -390,9 +412,9 @@ function buildRhyRef(){
 
 const TEC_TREE=[
   {parent:'콤비네이션', children:['오케스트레이션','플램 활용','32비트 활용','쉼표 활용','심벌 활용','엇박 활용','스와핑 활용','3·4·6연음','3·4·6 그루핑']},
-  {parent:'스틱킹', children:['오케스트레이션','플램 활용','32비트 활용','쉼표 활용','심벌 활용','엇박 활용','스와핑 활용','킥 유니즌','손 발 치환','3·4·6연음','3·4·6 그루핑']},
+  {parent:'스틱킹', children:['오케스트레이션','플램 활용','32비트 활용','쉼표 활용','심벌 활용','엇박 활용','스와핑 활용','킥 밀기','킥 유니즌','손 발 치환','3·4·6연음','3·4·6 그루핑']},
   {parent:'콤비네이션·스틱킹 MIX', children:[]},
-  {parent:'그루핑', children:['4연음 3/5/6/7그루핑','6연음 3/4/5/7그루핑','그루핑 바꾸기 ex) 3-6-4-3-6']},
+  {parent:'스틱컨트롤, 루디먼트 세트 응용(킥 밀기, 쉼표, 플램)', children:[]},{parent:'그루핑', children:['4연음 3/5/6/7그루핑','6연음 3/4/5/7그루핑','그루핑 바꾸기 ex) 3-6-4-3-6','1을 n 으로 생각하며 연주하기']},
   {parent:'플램 아이디어', children:['플램 오케스트레이션 (하이햇+플로어탐, 크로스+플로어탐, 왼손 하이탐+스네어)','플램 피지컬 기르기']},
   {parent:'32비트 아이디어', children:['1e&a 중에 넣어보기','3·6연음 중 사용','더블 32비트','(더블)킥으로 32비트','콤비네이션 + 더블킥 32비트']},
   {parent:'쉼표 아이디어', children:['쉼표 자리에 풋하이햇']},
@@ -407,7 +429,7 @@ const TEC_TREE=[
   {parent:'피지컬', children:['탐돌리기','손발손발','더블킥','체력 기르기','크로스 스틱','RLK 다운업']},
   {parent:'인디펜던스 교재', children:[]},
   {parent:'하이햇 카운트 하면서 찹스', children:[]},
-  {parent:'타임키핑', children:['메트로놈 1마디 키고 1마디 끄기','메트로놈 1마디 키고 2마디 끄기','메트로놈 1마디 키고 3마디 끄기','킥으로 공간 만들기']},
+  {parent:'타임키핑', children:['메트로놈 1마디 키고 1마디 끄기','메트로놈 1마디 키고 2마디 끄기','메트로놈 1마디 키고 3마디 끄기']},
   {parent:'자유롭게 찹스', children:['90~160 BPM']},
 ];
 
@@ -491,9 +513,29 @@ function buildRhyRef(){
       cd.innerHTML=`<span class="rn" style="width:14px;height:14px;font-size:.55rem;background:rgba(168,85,247,.25)">·</span><span class="rtxt">${child}</span>`;
       cd.addEventListener('click',(e)=>{
         e.stopPropagation();
-        const label=`${item.parent} - ${child}`;
-        addRow('rhy',label);
-        toast('✅ 추가됨: '+label.slice(0,26)+(label.length>26?'…':''));
+        let label=`${item.parent} - ${child}`;
+
+        if(item.parent==='그루브 연구 및 아이디어'){
+          grooveBuilder = label;
+          addRow('rhy', grooveBuilder);
+          const rows=document.querySelectorAll('#body-rhy .clr');
+          const lastRow=rows[rows.length-1];
+          grooveComboInput = lastRow ? lastRow.querySelector('.cltxt') : null;
+        }else if(grooveBuilder && ['킥 위치 변경','스네어','심벌'].includes(item.parent)){
+          if(!grooveBuilder.includes(child)){
+            grooveBuilder += ' + ' + child;
+          }
+          if(grooveComboInput){
+            grooveComboInput.value = grooveBuilder;
+            as();
+          }else{
+            addRow('rhy', grooveBuilder);
+          }
+        }else{
+          addRow('rhy',label);
+        }
+
+        toast('✅ 추가됨: '+grooveBuilder.slice(0,26)+(grooveBuilder.length>26?'…':''));
         as();
       });
       el.appendChild(cd);
@@ -522,7 +564,13 @@ function buildTecRef(){
       cd.innerHTML=`<span class="rn" style="width:14px;height:14px;font-size:.55rem;background:rgba(34,197,94,.25)">·</span><span class="rtxt">${child}</span>`;
       cd.addEventListener('click',(e)=>{
         e.stopPropagation();
-        const label=`${item.parent} - ${child}`;
+        let label=`${item.parent} - ${child}`;
+        if(item.parent==='그루브 연구 및 아이디어'){
+          grooveBuilder=label;
+        }else if(grooveBuilder && ['킥 위치 변경','스네어','심벌'].includes(item.parent)){
+          grooveBuilder += ' + ' + child;
+          label = grooveBuilder;
+        }
         addRow('tec',label);
         toast('✅ 추가됨: '+label.slice(0,26)+(label.length>26?'…':''));
         as();
@@ -536,7 +584,7 @@ function buildRytecRef(){
   const el=document.getElementById('ref-rytec');
   if(!el)return;
   const items=[
-    {txt:'메트로놈 1마디키고 3마디 끄고 돌아오기+(필)', children:[], cat:'rhy'},
+    {txt:'타임키핑', children:['메트로놈 1마디 키고 1마디 끄기 +(필)','메트로놈 1마디 키고 2마디 끄기 +(필)','메트로놈 1마디 키고 3마디 끄기 +(필)'], cat:'rhy'},
     {txt:'1코러스 리듬 1코러스 솔로 (리듬, 찹스)', children:[], cat:'rhy'},
     {txt:'장르 연습', children:['R&B','Gospel','Funk','Neo Soul','Fusion','Latin','Hip Hop','Shuffle','Jazz','Ballad','Jazz Hip Hop'], cat:'rhy'},
     {txt:'이야기 전개 연습 (10분이상 끊기지 않고 말하듯)', children:[], cat:'etc'},
@@ -602,7 +650,13 @@ function buildTecRef(){
       cd.innerHTML=`<span class="rn" style="width:14px;height:14px;font-size:.55rem;background:rgba(34,197,94,.25)">·</span><span class="rtxt">${child}</span>`;
       cd.addEventListener('click',(e)=>{
         e.stopPropagation();
-        const label=`${item.parent} - ${child}`;
+        let label=`${item.parent} - ${child}`;
+        if(item.parent==='그루브 연구 및 아이디어'){
+          grooveBuilder=label;
+        }else if(grooveBuilder && ['킥 위치 변경','스네어','심벌'].includes(item.parent)){
+          grooveBuilder += ' + ' + child;
+          label = grooveBuilder;
+        }
         addRow('tec',label);
         toast('✅ 추가됨: '+label.slice(0,26)+(label.length>26?'…':''));
         as();
@@ -647,6 +701,26 @@ function getCL(){
     });
   });
   return r;
+}
+
+
+let grooveBuilder='';
+function setGrooveBuilder(v){grooveBuilder=v;}
+
+
+let grooveComboBase = '';
+let grooveComboParts = [];
+let grooveComboRow = null;
+let grooveComboInput = null;
+
+function updateGrooveCombo(){
+  if(!grooveComboBase) return;
+  const txt = grooveComboBase + (grooveComboParts.length ? ' + ' + grooveComboParts.join(' + ') : '');
+
+  if(grooveComboRow && grooveComboRow.isConnected){
+    const t = grooveComboRow.querySelector('.task-text');
+    if(t) t.textContent = txt;
+  }
 }
 
 let cond='좋음';
@@ -849,5 +923,39 @@ window.addEventListener('load',()=>{
   renderHist();
 });
 </script>
+
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  function groupClass(el){
+    if(el.classList.contains('p')) return 'p';
+    if(el.classList.contains('r')) return 'r';
+    if(el.classList.contains('t')) return 't';
+    if(el.classList.contains('e')) return 'e';
+    if(el.classList.contains('rt2')) return 'rt2';
+    return null;
+  }
+
+  document.querySelectorAll('.ri').forEach(item=>{
+    item.addEventListener('click',()=>{
+      item.classList.toggle('done');
+
+      const cls = groupClass(item);
+      if(!cls) return;
+
+      const group = [...document.querySelectorAll('.ri.'+cls)];
+      const allDone = group.length && group.every(x=>x.classList.contains('done'));
+
+      // 해당 카테고리 전체 완료 시 자동 초기화
+      if(allDone){
+        setTimeout(()=>{
+          group.forEach(x=>x.classList.remove('done'));
+          toast('🔄 해당 카테고리 완료! 체크 표시를 초기화했습니다.');
+        },150);
+      }
+    });
+  });
+});
+</script>
+
 </body>
-</html>
+</html>\n<!-- 문제점/고쳐야할점: 시작 필인 다양하게 넣기, 킥으로만 끝내는 것 고치기 -->\n
