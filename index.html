@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>🥁 드럼 연습일지</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&amp;family=Bebas+Neue&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
 <style>
 :root{
   --bg:#0a0a0f;--surface:#12121a;--surface2:#1a1a26;--border:#2a2a40;
@@ -116,303 +117,198 @@ textarea.inp{resize:vertical;line-height:1.7}
 </style>
 </head>
 <body>
-
 <div class="hdr">
-  <div class="hdr-left">
-    <div class="hdr-icon">🥁</div>
-    <div>
-      <div class="hdr-title">DRUM PRACTICE LOG</div>
-      <div class="hdr-sub">드럼 연습 일지</div>
-    </div>
-  </div>
-  <div class="hdr-badge">SESSION TRACKER</div>
+<div class="hdr-left">
+<div class="hdr-icon">🥁</div>
+<div>
+<div class="hdr-title">DRUM PRACTICE LOG</div>
+<div class="hdr-sub">드럼 연습 일지</div>
+</div>
+</div>
+<div class="hdr-badge">SESSION TRACKER</div>
+</div>
+<div class="main"><div class="g2"><div class="card"><div class="ch"><span class="ci">📅</span><span class="ct">날짜</span></div>
+<div class="cb"><label class="lbl">날짜</label><input class="inp" id="dateInput" oninput="as()" type="date"/></div></div>
+<div class="card">
+<div class="ch"><span class="ci">⏱️</span><span class="ct">순 연습시간</span></div>
+<div class="cb">
+<label class="lbl">오늘 총 연습시간</label>
+<input class="inp" id="practiceTimeInput" oninput="as()" placeholder="예) 2시간 30분 / 1h 40m" type="text"/>
+</div>
 </div>
 
-<div class="main">
-
+</div><div class="g2"><div class="card">
+<div class="ch"><span class="ci">⚠️</span><span class="ct">연습 주의할점</span></div>
+<div class="cb">
+<ul class="nl">
+<li>메트로놈 틀고 연습</li>
+<li>어중간한 템포 (80~100)</li>
+<li>느린 템포 연습 (50~70)</li>
+<li>실수 즉시 속도 낮추기</li>
+<li>매일 한 가지라도 '의도' 가지고 연습</li>
+<li>하루 4마디 이상 카피하기</li>
+<li>테크닉 리듬 하루 두개이상 연습완료하기</li>
+</ul>
+</div>
+</div><div class="card">
+<div class="ch"><span class="ci">🔧</span><span class="ct">문제점 / 고쳐야할점</span></div>
+<div class="cb">
+<ul class="nl">
+<li>필인 타임키핑</li>
+<li>인터플레이</li>
+<li>솔로 빌드업</li>
+<li>찹스 오래 유지하기</li>
+<li>타임키핑</li>
+<li>다이나믹 (강하게 치기만 함)</li>
+<li>찹스중 킥으로 공간만들때 전다</li>
+<li>시작 필인 다양하게 넣기</li>
+<li>킥으로만 끝내는 것 고치기</li>
+</ul>
+</div>
+</div></div>
 <!-- 날짜/장소 & 컨디션 -->
-<div class="g2">
-  <div class="card">
-    <div class="ch"><span class="ci">📅</span><span class="ct">날짜 / 장소</span></div>
-    <div class="cb">
-      <label class="lbl">날짜</label>
-      <input type="text" class="inp" id="dateInput" placeholder="예) 2025-05-20" oninput="as()">
-      <label class="lbl" style="margin-top:13px">장소</label>
-      <input type="text" class="inp" id="locationInput" placeholder="학원 / 연습실 / 집" oninput="as()">
-    </div>
-  </div>
-  <div class="card">
-    <div class="ch"><span class="ci">💪</span><span class="ct">오늘의 컨디션</span></div>
-    <div class="cb">
-      <div class="cg">
-        <button class="cb2" onclick="setCond(this,'매우 좋음')">😄 매우 좋음</button>
-        <button class="cb2 on" onclick="setCond(this,'좋음')">😊 좋음</button>
-        <button class="cb2" onclick="setCond(this,'보통')">😐 보통</button>
-        <button class="cb2" onclick="setCond(this,'나쁨')">😔 나쁨</button>
-      </div>
-    </div>
-  </div>
 </div>
-
 <!-- 목표 & 주의할점 -->
-<div class="g2">
-  <div class="card">
-    <div class="ch"><span class="ci">🎯</span><span class="ct">오늘의 목표</span></div>
-    <div class="cb">
-      <textarea class="inp" id="goalInput" rows="7" oninput="as()" placeholder="ex) 싱글 스트로크 BPM 120까지 고르게 치기&#10;ex) 8비트 킥 변형 패턴 3가지 외우기"></textarea>
-    </div>
-  </div>
-  <div class="card">
-    <div class="ch"><span class="ci">⚠️</span><span class="ct">연습 주의할점</span></div>
-    <div class="cb">
-      <ul class="nl">
-        <li>메트로놈 틀고 연습</li>
-        <li>어중간한 템포 (80~100)</li>
-        <li>느린 템포 연습 (50~70)</li>
-        <li>실수 즉시 속도 낮추기</li>
-        <li>매일 한 가지라도 '의도' 가지고 연습</li>
-        <li>하루 4마디 이상 카피하기</li>
-        <li>테크닉 리듬 하루 두개이상 연습완료하기</li>
-      </ul>
-    </div>
-  </div>
-</div>
 
 <!-- 순 연습시간 & 문제점 -->
-<div class="g2">
-  <div class="card">
-    <div class="ch"><span class="ci">⏱️</span><span class="ct">순 연습시간</span></div>
-    <div class="cb">
-      <label class="lbl">오늘 총 연습시간</label>
-      <input type="text" class="inp" id="practiceTimeInput" placeholder="예) 2시간 30분 / 1h 40m" oninput="as()">
-    </div>
-  </div>
-  <div class="card">
-    <div class="ch"><span class="ci">🔧</span><span class="ct">문제점 / 고쳐야할점</span></div>
-    <div class="cb">
-      <ul class="nl">
-        <li>필인 타임키핑</li>
-        <li>인터플레이</li>
-        <li>솔로 빌드업</li>
-        <li>찹스 오래 유지하기</li>
-        <li>타임키핑</li>
-        <li>다이나믹 (강하게 치기만 함)</li>
-        <li>찹스중 킥으로 공간만들때 전다</li>
-        <li>시작 필인 다양하게 넣기</li>
-        <li>킥으로만 끝내는 것 고치기</li>
-      </ul>
-    </div>
-  </div>
-</div>
 
 <!-- 체크리스트 -->
 <div class="card">
-  <div class="ch">
-    <span class="ci">✅</span><span class="ct">연습 체크리스트</span>
-    <span style="margin-left:auto;font-size:.63rem;color:var(--accent3)">✦ 참고표 클릭 → 자동 추가</span>
-  </div>
-  <div class="cb" style="padding:13px 18px;display:flex;flex-direction:column;gap:20px">
-    <div>
-      <div class="cath pad">🥁 패드 / 스네어</div>
-      <table class="clt"><thead><tr><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">SET</th><th style="width:24px"></th></tr></thead><tbody id="body-pad"></tbody></table>
-      <button class="addbtn" onclick="addRow('pad','')">+ 패드 항목 추가</button>
-    </div>
-    <div>
-      <div class="cath rhy">🎵 리듬</div>
-      <table class="clt"><thead><tr><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">SET</th><th style="width:24px"></th></tr></thead><tbody id="body-rhy"></tbody></table>
-      <button class="addbtn" onclick="addRow('rhy','')">+ 리듬 항목 추가</button>
-    </div>
-    <div>
-      <div class="cath tec">⚡ 테크닉</div>
-      <table class="clt"><thead><tr><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">SET</th><th style="width:24px"></th></tr></thead><tbody id="body-tec"></tbody></table>
-      <button class="addbtn" onclick="addRow('tec','')">+ 테크닉 항목 추가</button>
-    </div>
-    <div>
-      <div class="cath etc">기타</div>
-      <table class="clt"><thead><tr><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">SET</th><th style="width:24px"></th></tr></thead><tbody id="body-etc"></tbody></table>
-      <button class="addbtn" onclick="addRow('etc','')">+ 기타 항목 추가</button>
-    </div>
-  </div>
+<div class="ch">
+<span class="ci">✅</span><span class="ct">연습 체크리스트</span>
+<span style="margin-left:auto;font-size:.63rem;color:var(--accent3)">✦ 참고표 클릭 → 자동 추가</span>
 </div>
-
+<div class="cb" style="padding:13px 18px;display:flex;flex-direction:column;gap:20px">
+<div>
+<div class="cath pad">🥁 패드 / 스네어</div>
+<table class="clt"><thead><tr><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">SET</th><th style="width:24px"></th></tr></thead><tbody id="body-pad"></tbody></table>
+<button class="addbtn" onclick="addRow('pad','')">+ 패드 항목 추가</button>
+</div>
+<div>
+<div class="cath rhy">🎵 리듬</div>
+<table class="clt"><thead><tr><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">SET</th><th style="width:24px"></th></tr></thead><tbody id="body-rhy"></tbody></table>
+<button class="addbtn" onclick="addRow('rhy','')">+ 리듬 항목 추가</button>
+</div>
+<div>
+<div class="cath tec">⚡ 테크닉</div>
+<table class="clt"><thead><tr><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">SET</th><th style="width:24px"></th></tr></thead><tbody id="body-tec"></tbody></table>
+<div style="display:flex;gap:8px;margin-top:5px">
+<button class="addbtn" onclick="addRow('tec','')" style="margin-top:0">+ 테크닉 항목 추가</button>
+<button class="addbtn" onclick="addTecRandom()" id="btnTecRandom" style="margin-top:0;border-color:var(--tec);color:var(--tec);flex-shrink:0;width:auto;padding:7px 14px;white-space:nowrap">🎲 랜덤 2개</button>
+</div>
+</div>
+<div>
+<div class="cath etc">기타</div>
+<table class="clt"><thead><tr><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">SET</th><th style="width:24px"></th></tr></thead><tbody id="body-etc"></tbody></table>
+<button class="addbtn" onclick="addRow('etc','')">+ 기타 항목 추가</button>
+</div>
+</div>
+</div>
 <!-- 참고표 -->
 <div class="card">
-  <div class="ch">
-    <span class="ci">📋</span><span class="ct">연습 참고표</span>
-    <span style="margin-left:auto;font-size:.65rem;color:var(--accent3)">✦ 번호 클릭 → 체크리스트 추가</span>
-  </div>
-  <div style="padding:0">
-    <div class="rw">
-      <table class="rt">
-        <thead><tr>
-          <th>패드 <span class="hint">클릭하여 추가</span></th>
-          <th>리듬 <span class="hint">클릭하여 추가</span></th>
-          <th>테크닉 <span class="hint">클릭하여 추가</span></th>
-        </tr></thead>
-        <tbody><tr>
-          <td style="vertical-align:top;padding:0">
-            <div style="padding:8px 12px"><div id="ref-pad"></div></div>
-            <div style="background:linear-gradient(135deg,#7e22ce,#a855f7);padding:14px;font-size:.9rem;font-weight:900;letter-spacing:2px;color:#fff;text-align:center;font-family:'Space Mono',monospace">리듬+테크닉 <span class="hint">클릭하여 추가</span></div>
-            <div style="padding:8px 12px"><div id="ref-rytec"></div></div>
-            <div style="background:linear-gradient(135deg,#4c1d95,#5b21b6);padding:14px;font-size:.9rem;font-weight:900;letter-spacing:2px;color:#fff;text-align:center;font-family:'Space Mono',monospace">기타 <span class="hint">클릭하여 추가</span></div>
-            <div style="padding:8px 12px"><div id="ref-etc"></div></div>
-          </td>
-          <td><div id="ref-rhy"></div></td>
-          <td><div id="ref-tec"></div></td>
-        </tr></tbody>
-      </table>
-    </div>
-  </div>
+<div class="ch">
+<span class="ci">📋</span><span class="ct">연습 참고표</span>
+<span style="margin-left:auto;font-size:.65rem;color:var(--accent3)">✦ 번호 클릭 → 체크리스트 추가</span>
 </div>
-
+<div style="padding:0">
+<div class="rw">
+<table class="rt">
+<thead><tr>
+<th>패드 <span class="hint">클릭하여 추가</span></th>
+<th>리듬 <span class="hint">클릭하여 추가</span></th>
+<th>테크닉 <span class="hint">클릭하여 추가</span></th>
+</tr></thead>
+<tbody><tr>
+<td style="vertical-align:top;padding:0">
+<div style="padding:8px 12px"><div id="ref-pad"></div></div>
+<div style="background:linear-gradient(135deg,#7e22ce,#a855f7);padding:14px;font-size:.9rem;font-weight:900;letter-spacing:2px;color:#fff;text-align:center;font-family:'Space Mono',monospace">리듬+테크닉 <span class="hint">클릭하여 추가</span></div>
+<div style="padding:8px 12px"><div id="ref-rytec"></div></div>
+<div style="background:linear-gradient(135deg,#4c1d95,#5b21b6);padding:14px;font-size:.9rem;font-weight:900;letter-spacing:2px;color:#fff;text-align:center;font-family:'Space Mono',monospace">기타 <span class="hint">클릭하여 추가</span></div>
+<div style="padding:8px 12px"><div id="ref-etc"></div></div>
+</td>
+<td><div id="ref-rhy"></div></td>
+<td><div id="ref-tec"></div></td>
+</tr></tbody>
+</table>
+</div>
+</div>
+</div>
 <!-- 악보 메모 -->
 <div class="card">
-  <div class="ch">
-    <span class="ci">✍️</span><span class="ct">아이디어 / 악보 메모</span>
-    <span style="margin-left:auto;font-size:.65rem;color:var(--accent3)">손가락 또는 펜슬로 자유롭게</span>
-  </div>
-  <div class="ctb">
-    <button class="tbtn on" id="btnPen" onclick="setTool('pen')">✏️ 펜</button>
-    <button class="tbtn" id="btnErase" onclick="setTool('eraser')">🧹 지우개</button>
-    <div class="sep"></div>
-    <div class="csw on" style="background:#111" data-c="#111" onclick="setColor(this)"></div>
-    <div class="csw" style="background:#fff;border-color:#999" data-c="#fff" onclick="setColor(this)"></div>
-    <div class="sep"></div>
-    <span style="font-size:.68rem;color:var(--text3);font-family:'Space Mono',monospace">굵기</span>
-    <input type="range" class="cslider" id="sz" min="1" max="20" value="3" oninput="bsz=+this.value;document.getElementById('szlbl').textContent=bsz">
-    <span id="szlbl" style="font-size:.7rem;color:var(--text2);font-family:'Space Mono',monospace;width:18px">3</span>
-    <div class="sep"></div>
-    <button class="tbtn" onclick="undoC()">↩ 실행취소</button>
-    <button class="tbtn" onclick="clearC()">🗑 전체삭제</button>
-  </div>
-  <div class="cwrap" id="cwrap">
-    <canvas id="cv"></canvas>
-    <div class="chint">IDEA / SCORE MEMO</div>
-  </div>
+<div class="ch">
+<span class="ci">✍️</span><span class="ct">아이디어 / 악보 메모</span>
+<span style="margin-left:auto;font-size:.65rem;color:var(--accent3)">손가락 또는 펜슬로 자유롭게</span>
 </div>
-
+<div class="ctb">
+<button class="tbtn on" id="btnPen" onclick="setTool('pen')">✏️ 펜</button>
+<button class="tbtn" id="btnErase" onclick="setTool('eraser')">🧹 지우개</button>
+<div class="sep"></div>
+<div class="csw on" data-c="#111" onclick="setColor(this)" style="background:#111"></div>
+<div class="csw" data-c="#fff" onclick="setColor(this)" style="background:#fff;border-color:#999"></div>
+<div class="sep"></div>
+<span style="font-size:.68rem;color:var(--text3);font-family:'Space Mono',monospace">굵기</span>
+<input class="cslider" id="sz" max="20" min="1" oninput="bsz=+this.value;document.getElementById('szlbl').textContent=bsz" type="range" value="3"/>
+<span id="szlbl" style="font-size:.7rem;color:var(--text2);font-family:'Space Mono',monospace;width:18px">3</span>
+<div class="sep"></div>
+<button class="tbtn" onclick="undoC()">↩ 실행취소</button>
+<button class="tbtn" onclick="clearC()">🗑 전체삭제</button>
+</div>
+<div class="cwrap" id="cwrap">
+<canvas id="cv"></canvas>
+<div class="chint">IDEA / SCORE MEMO</div>
+</div>
+</div>
 <!-- 레슨 & 느낀점 -->
 <div class="g2">
-  <div class="card">
-    <div class="ch"><span class="ci">🎙️</span><span class="ct">레슨 코멘트 기록</span></div>
-    <div class="cb"><textarea class="inp" id="lessonInput" rows="5" oninput="as()" placeholder="ex) 스네어 고스트 노트 더 작게&#10;ex) 필인 끝에 탐 accent 더 강조하기"></textarea></div>
-  </div>
-  <div class="card">
-    <div class="ch"><span class="ci">💭</span><span class="ct">연습 중 느낀 점</span></div>
-    <div class="cb"><textarea class="inp" id="feelInput" rows="5" oninput="as()" placeholder="ex) 왼손 싱글이 오른손이랑 볼륨 차이가 심하다&#10;ex) BPM 100 넘으면 킥 더블이 뭉친다"></textarea></div>
-  </div>
+<div class="card">
+<div class="ch"><span class="ci">🎙️</span><span class="ct">레슨 코멘트 기록</span></div>
+<div class="cb"><textarea class="inp" id="lessonInput" oninput="as()" placeholder="ex) 스네어 고스트 노트 더 작게
+ex) 필인 끝에 탐 accent 더 강조하기" rows="5"></textarea></div>
 </div>
-
+<div class="card"><div class="ch"><span class="ci">⭐</span><span class="ct">오늘 연습 피드백</span></div>
+<div class="cb">
+<label class="lbl">만족도</label>
+<div class="stars">
+<span class="star" data-v="1">★</span><span class="star" data-v="2">★</span><span class="star" data-v="3">★</span><span class="star" data-v="4">★</span><span class="star" data-v="5">★</span>
+</div>
+<label class="lbl" style="margin-top:12px">피드백</label>
+<textarea class="inp" id="feedbackInput" oninput="as()" rows="4"></textarea>
+</div></div></div>
 <!-- 피드백 & 내일 목표 -->
 <div class="g2">
-  <div class="card">
-    <div class="ch"><span class="ci">📊</span><span class="ct">오늘 연습 피드백</span></div>
-    <div class="cb">
-      <label class="lbl">오늘 연습 만족도</label>
-      <div class="stars" id="stars">
-        <span class="star" data-v="1">★</span>
-        <span class="star" data-v="2">★</span>
-        <span class="star" data-v="3">★</span>
-        <span class="star" data-v="4">★</span>
-        <span class="star" data-v="5">★</span>
-      </div>
-      <div style="margin-top:13px">
-        <label class="lbl">피드백 메모</label>
-        <textarea class="inp" id="feedbackInput" rows="4" oninput="as()" placeholder="ex) 스틱 그립이 너무 세다, 손목 힘 빼는 연습 필요"></textarea>
-      </div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="ch"><span class="ci">🎯</span><span class="ct">내일 연습 목표</span></div>
-    <div class="cb"><textarea class="inp" id="tomorrowInput" rows="9" oninput="as()" placeholder="ex) 오늘 못 완성한 킥 더블 BPM 80부터 다시&#10;ex) 레슨 코멘트 반영해서 고스트 노트 집중 연습"></textarea></div>
-  </div>
 </div>
-
 <button class="savebtn" onclick="saveRec()"><span style="font-size:1.1rem">💾</span> 오늘 연습일지 저장하기</button>
-
 <div>
-  <div class="htitle">📂 나의 이전 기록</div>
-  <div id="histList"></div>
+<div class="htitle">📂 나의 이전 기록</div>
+<div id="histList"></div>
 </div>
-
-</div>
-
 <div class="toast" id="toast"></div>
-<div class="mo" id="modal" style="display:none" onclick="closeM()">
-  <div class="mb" onclick="event.stopPropagation()">
-    <h2 id="mtitle"></h2>
-    <div id="mbody"></div>
-    <button class="mclose" onclick="closeM()">✕ 닫기</button>
-  </div>
+<div class="mo" id="modal" onclick="closeM()" style="display:none">
+<div class="mb" onclick="event.stopPropagation()">
+<h2 id="mtitle"></h2>
+<div id="mbody"></div>
+<button class="mclose" onclick="closeM()">✕ 닫기</button>
 </div>
-
+</div>
 <script>
 const PAD=['싱글 스트로크 (양손)','더블 스트로크 (양손)','트리플 스트로크 (양손)','핑거링 (양손)','모울러 테크닉','3/6연음','루디먼트','스틱 컨트롤, 아메리칸 드럼 솔로','자유 스틱킹(악센트, 루디먼트)','임용훈 스트로크','싱글 더블 MIX'];
 
 const RHY_TREE=[
   {parent:'킥 위치 변경', children:[]},
   {parent:'스네어', children:['고스트 위치 변형','악센트 위치 변형','프레스 위치 변형','고스트(더블) 선명도']},
-  {parent:'심벌', children:['(오픈)하이햇 경우의 수','하이햇 위치 변형, 더블로 꾸미기','풋 하이햇 응용 리듬','스플래쉬 경우의 수']},
+  {parent:'활용', children:['오픈 하이햇 활용','쉼표 활용','32비트 활용','엇박 활용','Duble stroke, 5 stroke, 7stroke 활용','풋 하이햇 활용','스플래쉬 활용','하이햇 위치변형']},
   {parent:'그루브 연구 및 아이디어', children:['8비트 리듬','16비트 리듬','3연음 리듬','6연음 리듬','셔플','하프 타임','더블타임','크로스 스틱','라이드 리듬','루디먼트 리듬','엇박 리듬','변박','폴리리듬','메트릭 모듈레이션','리니어','쉼표 · 비우기','리듬 그루핑','쪼개기','레이백','핑거링 리듬','가벼운(사부작) 사운드','1을 n 으로 생각하며 연주하기']},
   {parent:'리듬 다이나믹(팔 높이, 힘, 오픈 하이햇만 악센트)', children:[]},
   {parent:'리듬 · 그루브 변화', children:['4마디마다 변화 ex) 8비트→16비트→연음','기본 리듬→하프타임','기본 리듬→더블타임','킥으로 공간 만들기']},
-  {parent:'타임키핑', children:['메트로놈 1마디 키고 1마디 끄기','메트로놈 1마디 키고 2마디 끄기','메트로놈 1마디 키고 3마디 끄기']},
+  {parent:'메트로놈', children:['메트로놈 1마디 키고 1마디 끄기','메트로놈 1마디 키고 2마디 끄기','메트로놈 1마디 키고 3마디 끄기','1을 n으로 생각하며 연주']},
   {parent:'리듬 솔로 연구 및 연습', children:['킥으로 공간 만들기']},
 ];
 
-function buildRhyRef(){
-  const el=document.getElementById('ref-rhy');
-  RHY_TREE.forEach((item,pi)=>{
-    const pd=document.createElement('div');
-    pd.className='ri r';
-    pd.style.cssText='font-weight:700;margin-top:4px';
-    pd.innerHTML=`<span class="rn">${pi+1}</span><span class="rtxt" style="color:var(--text)">${item.parent}</span>`;
-    pd.addEventListener('click',()=>{
-      addRow('rhy',item.parent);
-      toast('✅ 추가됨: '+item.parent.slice(0,26)+(item.parent.length>26?'…':''));
-      as();
-    });
-    el.appendChild(pd);
-    item.children.forEach(child=>{
-      const cd=document.createElement('div');
-      cd.className='ri r';
-      cd.style.cssText='padding-left:28px;opacity:.85';
-      cd.innerHTML=`<span class="rn" style="width:14px;height:14px;font-size:.55rem;background:rgba(168,85,247,.25)">·</span><span class="rtxt">${child}</span>`;
-      cd.addEventListener('click',(e)=>{
-        e.stopPropagation();
-        let label=`${item.parent} - ${child}`;
 
-        if(item.parent==='그루브 연구 및 아이디어'){
-          grooveBuilder = label;
-          addRow('rhy', grooveBuilder);
-          const rows=document.querySelectorAll('#body-rhy .clr');
-          const lastRow=rows[rows.length-1];
-          grooveComboInput = lastRow ? lastRow.querySelector('.cltxt') : null;
-        }else if(grooveBuilder && ['킥 위치 변경','스네어','심벌'].includes(item.parent)){
-          if(!grooveBuilder.includes(child)){
-            grooveBuilder += ' + ' + child;
-          }
-          if(grooveComboInput){
-            grooveComboInput.value = grooveBuilder;
-            as();
-          }else{
-            addRow('rhy', grooveBuilder);
-          }
-        }else{
-          addRow('rhy',label);
-        }
-
-        toast('✅ 추가됨: '+grooveBuilder.slice(0,26)+(grooveBuilder.length>26?'…':''));
-        as();
-      });
-      el.appendChild(cd);
-    });
-  });
-}
 
 const TEC_TREE=[
-  {parent:'콤비네이션', children:['오케스트레이션','플램 활용','32비트 활용','쉼표 활용','심벌 활용','엇박 활용','스와핑 활용','3·4·6연음','3·4·6 그루핑']},
-  {parent:'스틱킹', children:['오케스트레이션','플램 활용','32비트 활용','쉼표 활용','심벌 활용','엇박 활용','스와핑 활용','킥 밀기','킥 유니즌','손 발 치환','3·4·6연음','3·4·6 그루핑']},
+  {parent:'콤비네이션', children:['오케스트레이션','플램 활용','32비트 활용','쉼표 활용','심벌 활용','엇박 활용','스와핑 활용','3·4·6연음','4연음 3·5·6 그루핑','6연음 3·4·5 그루핑']},
+  {parent:'스틱킹', children:['오케스트레이션','플램 활용','32비트 활용','쉼표 활용','심벌 활용','엇박 활용','스와핑 활용','킥 밀기','킥 유니즌','손 발 치환','3·4·6연음','4연음 3·5·6 그루핑','6연음 3·4·5 그루핑']},
   {parent:'콤비네이션·스틱킹 MIX', children:[]},
   {
   parent:'스틱컨트롤, 루디먼트 세트 응용',
@@ -424,7 +320,7 @@ const TEC_TREE=[
     '32비트 활용',
     '심벌 활용'
   ]
-},{parent:'그루핑', children:['4연음 3/5/6/7그루핑','6연음 3/4/5/7그루핑','그루핑 바꾸기 ex) 3-6-4-3-6','1을 n 으로 생각하며 연주하기']},
+},{parent:'그루핑', children:['4연음 3/5/6/7그루핑','6연음 3/4/5/7그루핑','그루핑 바꾸기 ex) 3-6-4-3-6']},
   {parent:'플램 아이디어', children:['플램 오케스트레이션 (하이햇+플로어탐, 크로스+플로어탐, 왼손 하이탐+스네어)','플램 피지컬 기르기']},
   {parent:'32비트 아이디어', children:['1e&a 중에 넣어보기','3·6연음 중 사용','더블 32비트','(더블)킥으로 32비트','콤비네이션 + 더블킥 32비트']},
   {parent:'쉼표 아이디어', children:['쉼표 자리에 풋하이햇']},
@@ -439,7 +335,7 @@ const TEC_TREE=[
   {parent:'피지컬', children:['탐돌리기','손발손발','더블킥','체력 기르기','크로스 스틱','RLK 다운업']},
   {parent:'인디펜던스 교재', children:[]},
   {parent:'하이햇 카운트 하면서 찹스', children:[]},
-  {parent:'타임키핑', children:['메트로놈 1마디 키고 1마디 끄기','메트로놈 1마디 키고 2마디 끄기','메트로놈 1마디 키고 3마디 끄기']},
+  {parent:'메트로놈', children:['메트로놈 1마디 키고 1마디 끄기','메트로놈 1마디 키고 2마디 끄기','메트로놈 1마디 키고 3마디 끄기','1을 n으로 생각하며 연주']},
   {parent:'자유롭게 찹스', children:['90~160 BPM']},
 ];
 
@@ -453,42 +349,7 @@ const RYTEC=[
   '전진 연습 (절지 않고 쭉 밀고 나가기, 빨라져도 안절게 만들기, 단어 사용하기 편하게 익히기)'
 ];
 
-function buildRytecRef(){
-  const el=document.getElementById('ref-rytec');
-  const items=[
-    {txt:'메트로놈 1마디키고 3마디 끄고 돌아오기+(필)', children:[]},
-    {txt:'1코러스 리듬 1코러스 솔로 (리듬, 찹스)', children:[]},
-    {txt:'장르 연습', children:['R&B','Gospel','Funk','Neo Soul','Fusion','Latin','Hip Hop','Shuffle','Jazz','Ballad','Jazz Hip Hop']},
-    {txt:'이야기 전개 연습 (10분이상 끊기지 않고 말하듯)', children:[]},
-    {txt:'전진 연습 (절지 않고 쭉 밀고 나가기, 빨라져도 안절게 만들기, 단어 사용하기 편하게 익히기)', children:[]},
-  ];
-  items.forEach((item,pi)=>{
-    const pd=document.createElement('div');
-    pd.className='ri rt2';
-    pd.style.cssText='font-weight:700;margin-top:4px';
-    pd.innerHTML=`<span class="rn">${pi+1}</span><span class="rtxt" style="color:var(--text)">${item.txt}</span>`;
-    pd.addEventListener('click',()=>{
-      addRow('rhy',item.txt);
-      toast('✅ 추가됨: '+item.txt.slice(0,26)+(item.txt.length>26?'…':''));
-      as();
-    });
-    el.appendChild(pd);
-    item.children.forEach(child=>{
-      const cd=document.createElement('div');
-      cd.className='ri rt2';
-      cd.style.cssText='padding-left:28px;opacity:.85';
-      cd.innerHTML=`<span class="rn" style="width:14px;height:14px;font-size:.55rem;background:rgba(251,146,60,.25)">·</span><span class="rtxt">${child}</span>`;
-      cd.addEventListener('click',(e)=>{
-        e.stopPropagation();
-        const label=`장르 연습 - ${child}`;
-        addRow('rhy',label);
-        toast('✅ 추가됨: '+label.slice(0,26)+(label.length>26?'…':''));
-        as();
-      });
-      el.appendChild(cd);
-    });
-  });
-}
+
 
 function buildRef(elId,data,cat,cls){
   const el=document.getElementById(elId);
@@ -505,96 +366,103 @@ function buildRef(elId,data,cat,cls){
 function buildRhyRef(){
   const el=document.getElementById('ref-rhy');
   if(!el)return;
+
+  // 그루브 조합에 참여하는 부모 목록 (이 부모들의 자식은 +로 붙음, 부모 자체는 클릭 불가 — 단 킥 위치 변경은 부모 클릭 허용)
+  const COMBO_PARENTS=['킥 위치 변경','스네어','활용'];
+
   RHY_TREE.forEach((item,pi)=>{
+    const isComboParent = COMBO_PARENTS.includes(item.parent);
+
     const pd=document.createElement('div');
     pd.className='ri r';
     pd.style.cssText='font-weight:700;margin-top:4px';
     pd.innerHTML=`<span class="rn">${pi+1}</span><span class="rtxt" style="color:var(--text)">${item.parent}</span>`;
-    pd.addEventListener('click',()=>{
-      addRow('rhy',item.parent);
-      toast('✅ 추가됨: '+item.parent.slice(0,26)+(item.parent.length>26?'…':''));
-      as();
-    });
+
+    if(item.parent==='킥 위치 변경'){
+      // 킥 위치 변경 부모: 클릭하면 현재 grooveComboInput에 + 로 붙임
+      pd.addEventListener('click',()=>{
+        if(grooveComboInput && grooveComboInput.isConnected){
+          const cur=grooveComboInput.value.trim();
+          if(!cur.includes('킥 위치 변경')){
+            grooveComboInput.value = cur + ' + 킥 위치 변경';
+            as();
+            toast('✅ 추가됨: 킥 위치 변경');
+          }
+        }else{
+          toast('⚠️ 먼저 그루브 연구 항목을 선택해주세요');
+        }
+      });
+    } else if(isComboParent){
+      // 스네어, 활용 부모: 클릭해도 추가 안 됨 (안내만)
+      pd.style.cursor='default';
+      pd.style.opacity='0.6';
+    } else {
+      // 일반 부모
+      pd.addEventListener('click',()=>{
+        if(item.children.length===0){
+          addRow('rhy',item.parent);
+          toast('✅ 추가됨: '+item.parent.slice(0,26)+(item.parent.length>26?'…':''));
+          as();
+        }
+      });
+    }
+
     el.appendChild(pd);
+
     item.children.forEach(child=>{
       const cd=document.createElement('div');
       cd.className='ri r';
       cd.style.cssText='padding-left:28px;opacity:.85';
       cd.innerHTML=`<span class="rn" style="width:14px;height:14px;font-size:.55rem;background:rgba(168,85,247,.25)">·</span><span class="rtxt">${child}</span>`;
-      cd.addEventListener('click',(e)=>{
-        e.stopPropagation();
-        let label=`${item.parent} - ${child}`;
 
-        if(item.parent==='그루브 연구 및 아이디어'){
-          grooveBuilder = label;
-          addRow('rhy', grooveBuilder);
+      if(item.parent==='그루브 연구 및 아이디어'){
+        // 그루브 자식: 새 행 생성 + grooveComboInput 저장
+        cd.addEventListener('click',(e)=>{
+          e.stopPropagation();
+          addRow('rhy', child);
           const rows=document.querySelectorAll('#body-rhy .clr');
           const lastRow=rows[rows.length-1];
           grooveComboInput = lastRow ? lastRow.querySelector('.cltxt') : null;
-        }else if(grooveBuilder && ['킥 위치 변경','스네어','심벌'].includes(item.parent)){
-          if(!grooveBuilder.includes(child)){
-            grooveBuilder += ' + ' + child;
-          }
-          if(grooveComboInput){
-            grooveComboInput.value = grooveBuilder;
+          grooveBuilder = child;
+          toast('✅ 추가됨: '+child.slice(0,26)+(child.length>26?'…':''));
+          as();
+        });
+      } else if(isComboParent){
+        // 킥위치변경·스네어·활용 자식: grooveComboInput에 + 로 붙임
+        cd.addEventListener('click',(e)=>{
+          e.stopPropagation();
+          if(grooveComboInput && grooveComboInput.isConnected){
+            const cur=grooveComboInput.value.trim();
+            grooveComboInput.value = cur + ' + ' + child;
             as();
+            toast('✅ 추가됨: '+child.slice(0,26)+(child.length>26?'…':''));
           }else{
-            addRow('rhy', grooveBuilder);
+            toast('⚠️ 먼저 그루브 연구 항목을 선택해주세요');
           }
-        }else{
-          addRow('rhy',label);
-        }
+        });
+      } else {
+        // 일반 자식
+        cd.addEventListener('click',(e)=>{
+          e.stopPropagation();
+          const label=`${item.parent} - ${child}`;
+          addRow('rhy', label);
+          toast('✅ 추가됨: '+label.slice(0,26)+(label.length>26?'…':''));
+          as();
+        });
+      }
 
-        toast('✅ 추가됨: '+grooveBuilder.slice(0,26)+(grooveBuilder.length>26?'…':''));
-        as();
-      });
       el.appendChild(cd);
     });
   });
 }
 
-function buildTecRef(){
-  const el=document.getElementById('ref-tec');
-  if(!el)return;
-  TEC_TREE.forEach((item,pi)=>{
-    const pd=document.createElement('div');
-    pd.className='ri t';
-    pd.style.cssText='font-weight:700;margin-top:4px';
-    pd.innerHTML=`<span class="rn">${pi+1}</span><span class="rtxt" style="color:var(--text)">${item.parent}</span>`;
-    pd.addEventListener('click',()=>{
-      addRow('tec',item.parent);
-      toast('✅ 추가됨: '+item.parent.slice(0,26)+(item.parent.length>26?'…':''));
-      as();
-    });
-    el.appendChild(pd);
-    item.children.forEach(child=>{
-      const cd=document.createElement('div');
-      cd.className='ri t';
-      cd.style.cssText='padding-left:28px;opacity:.85';
-      cd.innerHTML=`<span class="rn" style="width:14px;height:14px;font-size:.55rem;background:rgba(34,197,94,.25)">·</span><span class="rtxt">${child}</span>`;
-      cd.addEventListener('click',(e)=>{
-        e.stopPropagation();
-        let label=`${item.parent} - ${child}`;
-        if(item.parent==='그루브 연구 및 아이디어'){
-          grooveBuilder=label;
-        }else if(grooveBuilder && ['킥 위치 변경','스네어','심벌'].includes(item.parent)){
-          grooveBuilder += ' + ' + child;
-          label = grooveBuilder;
-        }
-        addRow('tec',label);
-        toast('✅ 추가됨: '+label.slice(0,26)+(label.length>26?'…':''));
-        as();
-      });
-      el.appendChild(cd);
-    });
-  });
-}
+
 
 function buildRytecRef(){
   const el=document.getElementById('ref-rytec');
   if(!el)return;
   const items=[
-    {txt:'타임키핑', children:['메트로놈 1마디 키고 1마디 끄기 +(필)','메트로놈 1마디 키고 2마디 끄기 +(필)','메트로놈 1마디 키고 3마디 끄기 +(필)'], cat:'rhy'},
+    {txt:'메트로놈', children:['메트로놈 1마디 키고 1마디 끄기 +(필)','메트로놈 1마디 키고 2마디 끄기 +(필)','메트로놈 1마디 키고 3마디 끄기 +(필)','1을 n으로 생각하며 연주'], cat:'rhy'},
     {txt:'1코러스 리듬 1코러스 솔로 (리듬, 찹스)', children:[], cat:'rhy'},
     {txt:'장르 연습', children:['R&B','Gospel','Funk','Neo Soul','Fusion','Latin','Hip Hop','Shuffle','Jazz','Ballad','Jazz Hip Hop'], cat:'rhy'},
     {txt:'이야기 전개 연습 (10분이상 끊기지 않고 말하듯)', children:[], cat:'etc'},
@@ -676,6 +544,95 @@ function buildTecRef(){
   });
 }
 
+// ── 테크닉 랜덤 버튼 ──────────────────────────────────────
+// 1번(idx0), 2번(idx1), 4번(idx3), 5번(idx4) → 자식 목록에서 랜덤
+// 나머지 → 부모 이름으로 랜덤
+const TEC_CHILD_PICK = new Set([0, 1, 3, 4]); // 자식에서 뽑는 인덱스 (0-based)
+
+// done 상태 추적: "pi-child" 또는 "pi" 문자열 키
+const tecRandomDone = new Set();
+
+function getTecCandidates(){
+  const candidates = [];
+  TEC_TREE.forEach((item, pi) => {
+    if(TEC_CHILD_PICK.has(pi)){
+      // 자식 목록에서 각각 후보로 (부모 이름 앞에 붙임)
+      item.children.forEach((child, ci) => {
+        candidates.push({ key: `${pi}-${ci}`, label: `${item.parent} - ${child}`, pi, ci });
+      });
+    } else {
+      // 부모 이름으로
+      candidates.push({ key: `${pi}`, label: item.parent, pi, ci: -1 });
+    }
+  });
+  return candidates;
+}
+
+function getTecAddedLabels(){
+  const added = new Set();
+  document.querySelectorAll('#body-tec .clr').forEach(tr=>{
+    const v = tr.querySelector('.cltxt').value.trim();
+    if(v) added.add(v);
+  });
+  return added;
+}
+
+function addTecRandom(){
+  const candidates = getTecCandidates();
+
+  // 모두 done이면 초기화
+  if(candidates.every(c => tecRandomDone.has(c.key))){
+    tecRandomDone.clear();
+    const refEl = document.getElementById('ref-tec');
+    if(refEl) refEl.querySelectorAll('.ri.t.done').forEach(el => el.classList.remove('done'));
+    toast('🔄 테크닉 랜덤 목록 초기화!');
+  }
+
+  const added = getTecAddedLabels();
+  let pool = candidates.filter(c =>
+    !tecRandomDone.has(c.key) && !added.has(c.label)
+  );
+
+  if(pool.length === 0){
+    toast('⚠️ 추가 가능한 항목이 없습니다');
+    return;
+  }
+
+  pool = pool.sort(()=>Math.random()-0.5);
+  const picks = pool.slice(0, Math.min(2, pool.length));
+
+  // 부모 DOM 요소 목록 (padding-left 없는 .ri.t)
+  const refEl = document.getElementById('ref-tec');
+  const parentEls = refEl
+    ? [...refEl.querySelectorAll('.ri.t')].filter(el => !el.style.cssText.includes('padding-left'))
+    : [];
+
+  picks.forEach(pick => {
+    addRow('tec', pick.label);
+    tecRandomDone.add(pick.key);
+    // 참고표 done 표시: 자식 픽이면 해당 자식 el, 부모 픽이면 부모 el
+    if(refEl){
+      if(pick.ci >= 0){
+        // 자식 el 찾기: 해당 부모 el 이후의 padding-left 있는 .ri.t 중 ci번째
+        const allRi = [...refEl.querySelectorAll('.ri.t')];
+        const parentEl = parentEls[pick.pi];
+        const parentIdx = allRi.indexOf(parentEl);
+        let childCount = 0;
+        for(let i = parentIdx+1; i < allRi.length; i++){
+          if(!allRi[i].style.cssText.includes('padding-left')) break;
+          if(childCount === pick.ci){ allRi[i].classList.add('done'); break; }
+          childCount++;
+        }
+      } else {
+        if(parentEls[pick.pi]) parentEls[pick.pi].classList.add('done');
+      }
+    }
+    toast('🎲 랜덤 추가: '+pick.label.slice(0,24)+(pick.label.length>24?'…':''));
+  });
+  as();
+}
+// ──────────────────────────────────────────────────────────
+
 buildRef('ref-pad',PAD,'pad','p');
 buildRhyRef();
 buildTecRef();
@@ -733,11 +690,6 @@ function updateGrooveCombo(){
   }
 }
 
-let cond='좋음';
-function setCond(btn,val){
-  document.querySelectorAll('.cb2').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on'); cond=val; as();
-}
 
 let sv=0;
 document.querySelectorAll('.star').forEach(s=>{
@@ -824,7 +776,7 @@ function as(){
   clearTimeout(asTimer);
   asTimer=setTimeout(()=>{
     try{localStorage.setItem(DK,JSON.stringify({
-      date:g('dateInput'),loc:g('locationInput'),cond,
+      date:g('dateInput'),loc:g('locationInput'),
       goal:g('goalInput'),lesson:g('lessonInput'),feel:g('feelInput'),
       feedback:g('feedbackInput'),tomorrow:g('tomorrowInput'),
       ptime:g('practiceTimeInput'),stars:sv,cl:getCL()
@@ -840,7 +792,7 @@ function restoreDraft(){
     s('dateInput',d.date);s('locationInput',d.loc);
     s('goalInput',d.goal);s('lessonInput',d.lesson);s('feelInput',d.feel);
     s('feedbackInput',d.feedback);s('tomorrowInput',d.tomorrow);s('practiceTimeInput',d.ptime);
-    if(d.cond){cond=d.cond;document.querySelectorAll('.cb2').forEach(b=>b.classList.toggle('on',b.textContent.trim().includes(d.cond)));}
+    
     if(d.stars){sv=d.stars;document.querySelectorAll('.star').forEach((x,i)=>x.classList.toggle('on',i<sv));}
     if(d.cl)d.cl.forEach(c=>addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set));
   }catch(e){}
@@ -849,13 +801,13 @@ function clearForm(){
   ['dateInput','locationInput','goalInput','lessonInput','feelInput','feedbackInput','tomorrowInput','practiceTimeInput'].forEach(id=>s(id,''));
   ['pad','rhy','tec','etc'].forEach(c=>document.getElementById('body-'+c).innerHTML='');
   sv=0;document.querySelectorAll('.star').forEach(x=>x.classList.remove('on'));
-  cond='좋음';document.querySelectorAll('.cb2').forEach(b=>b.classList.toggle('on',b.textContent.includes('좋음')&&!b.textContent.includes('매우')));
+  
   drawBg();localStorage.removeItem(DK);
   const n=new Date();
   s('dateInput',`${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`);
 }
 function saveRec(){
-  const rec={id:Date.now(),date:g('dateInput'),loc:g('locationInput'),cond,
+  const rec={id:Date.now(),date:g('dateInput'),loc:g('locationInput'),
     goal:g('goalInput'),lesson:g('lessonInput'),feel:g('feelInput'),
     feedback:g('feedbackInput'),tomorrow:g('tomorrowInput'),
     ptime:g('practiceTimeInput'),stars:sv,cl:getCL(),sketch:cv.toDataURL('image/png')};
@@ -882,7 +834,7 @@ function renderHist(){
     const total=(r.cl||[]).length;
     return `<div class="rcard" onclick="openM(${r.id})">
       <button class="rdel" onclick="delRec(${r.id},event)">🗑 삭제</button>
-      <div class="rmeta"><span>📅 ${r.date||'-'}</span><span>${CE[r.cond]||'😊'} ${r.cond||''}</span>${r.loc?`<span>📍 ${r.loc}</span>`:''}</div>
+      <div class="rmeta"><span>📅 ${r.date||'-'}</span>${r.loc?`<span>📍 ${r.loc}</span>`:''}</div>
       <div class="rgoal">${goal.split('\n')[0].slice(0,50)}${goal.length>50?'…':''}</div>
       <div class="rbot">${r.ptime?`<span>⏱ ${r.ptime}</span>`:''}<span style="color:var(--gold)">${SS(r.stars)}</span>${total?`<span>✅ ${done}/${total}</span>`:''}</div>
     </div>`;
@@ -933,7 +885,6 @@ window.addEventListener('load',()=>{
   renderHist();
 });
 </script>
-
 <script>
 document.addEventListener('DOMContentLoaded',()=>{
   function groupClass(el){
@@ -966,6 +917,5 @@ document.addEventListener('DOMContentLoaded',()=>{
   });
 });
 </script>
-
 </body>
 </html>\n<!-- 문제점/고쳐야할점: 시작 필인 다양하게 넣기, 킥으로만 끝내는 것 고치기 -->\n
