@@ -111,6 +111,9 @@ textarea.inp{resize:vertical;line-height:1.7}
 .mv{font-size:.86rem;color:var(--text);line-height:1.7;white-space:pre-wrap}
 .mclose{background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text2);padding:8px 18px;cursor:pointer;font-family:'Space Mono',monospace;font-size:.78rem;margin-top:14px}
 .mci{display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid rgba(42,42,64,.4);font-size:.84rem}
+.daybtn{background:var(--bg);border:1px solid var(--border);border-radius:7px;color:var(--text2);padding:5px 11px;font-size:.8rem;cursor:pointer;font-family:'Noto Sans KR',sans-serif;font-weight:700;transition:all .15s;-webkit-tap-highlight-color:transparent}
+.daybtn:hover{border-color:var(--accent);color:var(--accent3)}
+.daybtn.on{background:rgba(124,58,237,.3);border-color:var(--accent);color:#fff}
 .toast{position:fixed;bottom:28px;right:28px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-radius:10px;padding:11px 16px;font-size:.8rem;font-family:'Noto Sans KR',sans-serif;box-shadow:0 4px 18px rgba(124,58,237,.5);opacity:0;transform:translateY(8px);transition:all .3s;pointer-events:none;z-index:9999}
 .toast.show{opacity:1;transform:translateY(0)}
 @media(max-width:700px){.g2{grid-template-columns:1fr}.hdr{padding:14px 16px}.hdr-title{font-size:1.7rem}.main{padding:14px 12px}}
@@ -178,6 +181,17 @@ textarea.inp{resize:vertical;line-height:1.7}
 <span class="ci">✅</span><span class="ct">연습 체크리스트</span>
 <span style="margin-left:auto;font-size:.63rem;color:var(--accent3)">✦ 참고표 클릭 → 자동 추가</span>
 </div>
+<div style="display:flex;gap:6px;padding:10px 14px;background:rgba(10,10,15,.6);border-bottom:1px solid var(--border);flex-wrap:wrap;align-items:center">
+<span style="font-size:.65rem;color:var(--text3);font-family:'Space Mono',monospace;letter-spacing:1px;margin-right:4px">요일별 체크리스트</span>
+<button class="daybtn" data-day="0" onclick="switchDay(0)">월</button>
+<button class="daybtn" data-day="1" onclick="switchDay(1)">화</button>
+<button class="daybtn" data-day="2" onclick="switchDay(2)">수</button>
+<button class="daybtn" data-day="3" onclick="switchDay(3)">목</button>
+<button class="daybtn" data-day="4" onclick="switchDay(4)">금</button>
+<button class="daybtn" data-day="5" onclick="switchDay(5)">토</button>
+<button class="daybtn" data-day="6" onclick="switchDay(6)">일</button>
+<span id="dayLabel" style="margin-left:auto;font-size:.68rem;color:var(--accent3);font-family:'Space Mono',monospace"></span>
+</div>
 <div class="cb" style="padding:13px 18px;display:flex;flex-direction:column;gap:20px">
 <div>
 <div class="cath pad">🥁 패드 / 스네어</div>
@@ -205,12 +219,13 @@ textarea.inp{resize:vertical;line-height:1.7}
 </div>
 </div>
 <!-- 참고표 -->
-<div class="card">
-<div class="ch">
+<div class="card" id="refCard">
+<div class="ch" style="cursor:pointer" onclick="toggleRef()">
 <span class="ci">📋</span><span class="ct">연습 참고표</span>
 <span style="margin-left:auto;font-size:.65rem;color:var(--accent3)">✦ 번호 클릭 → 체크리스트 추가</span>
+<button id="refToggleBtn" style="margin-left:12px;background:rgba(124,58,237,.2);border:1px solid var(--accent);border-radius:7px;color:var(--accent3);padding:3px 10px;font-size:.72rem;cursor:pointer;font-family:'Space Mono',monospace;white-space:nowrap">🙈 숨기기</button>
 </div>
-<div style="padding:0">
+<div id="refBody" style="padding:0">
 <div class="rw">
 <table class="rt">
 <thead><tr>
@@ -231,8 +246,8 @@ textarea.inp{resize:vertical;line-height:1.7}
 </tr></tbody>
 </table>
 </div>
-</div>
-</div>
+</div><!-- /refBody -->
+</div><!-- /refCard -->
 <!-- 악보 메모 -->
 <div class="card">
 <div class="ch">
@@ -465,8 +480,12 @@ function buildRytecRef(){
     {txt:'메트로놈', children:['메트로놈 1마디 키고 1마디 끄기 +(필)','메트로놈 1마디 키고 2마디 끄기 +(필)','메트로놈 1마디 키고 3마디 끄기 +(필)','1을 n으로 생각하며 연주'], cat:'rhy'},
     {txt:'1코러스 리듬 1코러스 솔로 (리듬, 찹스)', children:[], cat:'rhy'},
     {txt:'장르 연습', children:['R&B','Gospel','Funk','Neo Soul','Fusion','Latin','Hip Hop','Shuffle','Jazz','Ballad','Jazz Hip Hop'], cat:'rhy'},
-    {txt:'이야기 전개 연습 (10분이상 끊기지 않고 말하듯)', children:[], cat:'etc'},
+    {txt:'이야기 전개 연습 (10분이상 끊기지 않고 말하듯)', children:['다이나믹 선으로 그리고 연주'], cat:'etc'},
     {txt:'전진 연습 (절지 않고 쭉 밀고 나가기, 빨라져도 안절게 만들기, 단어 사용하기 편하게 익히기)', children:[], cat:'etc'},
+    {txt:'작은 다이나믹에 안무너지기', children:[], cat:'etc'},
+    {txt:'느린 템포에 안무너지기', children:[], cat:'etc'},
+    {txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 다이나믹, 드럼 부분 제거하고 연주)', children:[], cat:'etc'},
+    {txt:'드럼만으로 멜로디 연주', children:[], cat:'etc'},
   ];
   items.forEach((item,pi)=>{
     const pd=document.createElement('div');
@@ -771,6 +790,54 @@ const SK='drum_v4',DK='drum_draft_v2';
 function dbGet(){try{return JSON.parse(localStorage.getItem(SK))||[];}catch{return[];}}
 function dbSet(a){localStorage.setItem(SK,JSON.stringify(a));}
 
+// ── 요일별 체크리스트 ───────────────────────────────────────
+const DAYS=['월','화','수','목','금','토','일'];
+const DAY_KEY='drum_day_cl_v1'; // prefix, 뒤에 _0~_6 붙음
+let currentDay = new Date().getDay(); // 0=일요일 기준이므로 변환
+currentDay = currentDay === 0 ? 6 : currentDay - 1; // 월=0 ~ 일=6
+
+function getDayCLKey(d){ return DAY_KEY+'_'+d; }
+function saveDayCL(d){
+  try{
+    const data = {cl: getCL()};
+    localStorage.setItem(getDayCLKey(d), JSON.stringify(data));
+  }catch(e){}
+}
+function loadDayCL(d){
+  try{
+    const raw = localStorage.getItem(getDayCLKey(d));
+    return raw ? JSON.parse(raw) : null;
+  }catch(e){ return null; }
+}
+function clearDayCLDom(){
+  ['pad','rhy','tec','etc'].forEach(c=>document.getElementById('body-'+c).innerHTML='');
+}
+function switchDay(d){
+  // 현재 요일 저장
+  saveDayCL(currentDay);
+  currentDay = d;
+  // 새 요일 불러오기
+  clearDayCLDom();
+  const data = loadDayCL(d);
+  if(data && data.cl) data.cl.forEach(c=>addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set));
+  // 버튼 하이라이트
+  document.querySelectorAll('.daybtn').forEach(btn=>{
+    btn.classList.toggle('on', +btn.dataset.day === d);
+  });
+  document.getElementById('dayLabel').textContent = DAYS[d]+'요일';
+  toast('📅 '+DAYS[d]+'요일 체크리스트');
+}
+function initDayButtons(){
+  document.querySelectorAll('.daybtn').forEach(btn=>{
+    btn.classList.toggle('on', +btn.dataset.day === currentDay);
+  });
+  document.getElementById('dayLabel').textContent = DAYS[currentDay]+'요일';
+  // 오늘 요일 데이터 불러오기
+  const data = loadDayCL(currentDay);
+  if(data && data.cl) data.cl.forEach(c=>addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set));
+}
+// ──────────────────────────────────────────────────────────
+
 let asTimer;
 function as(){
   clearTimeout(asTimer);
@@ -781,6 +848,7 @@ function as(){
       feedback:g('feedbackInput'),tomorrow:g('tomorrowInput'),
       ptime:g('practiceTimeInput'),stars:sv,cl:getCL()
     }));}catch(e){}
+    saveDayCL(currentDay);
   },600);
 }
 function g(id){return document.getElementById(id).value;}
@@ -792,27 +860,90 @@ function restoreDraft(){
     s('dateInput',d.date);s('locationInput',d.loc);
     s('goalInput',d.goal);s('lessonInput',d.lesson);s('feelInput',d.feel);
     s('feedbackInput',d.feedback);s('tomorrowInput',d.tomorrow);s('practiceTimeInput',d.ptime);
-    
     if(d.stars){sv=d.stars;document.querySelectorAll('.star').forEach((x,i)=>x.classList.toggle('on',i<sv));}
-    if(d.cl)d.cl.forEach(c=>addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set));
+    // CL은 요일별로 initDayButtons()에서 불러옴
   }catch(e){}
 }
 function clearForm(){
   ['dateInput','locationInput','goalInput','lessonInput','feelInput','feedbackInput','tomorrowInput','practiceTimeInput'].forEach(id=>s(id,''));
-  ['pad','rhy','tec','etc'].forEach(c=>document.getElementById('body-'+c).innerHTML='');
+  clearDayCLDom();
+  localStorage.removeItem(getDayCLKey(currentDay));
   sv=0;document.querySelectorAll('.star').forEach(x=>x.classList.remove('on'));
-  
   drawBg();localStorage.removeItem(DK);
   const n=new Date();
   s('dateInput',`${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`);
 }
+// ── 참고표 토글 ───────────────────────────────────────────
+let refVisible = true;
+function toggleRef(){
+  refVisible = !refVisible;
+  const body = document.getElementById('refBody');
+  const btn  = document.getElementById('refToggleBtn');
+  body.style.display = refVisible ? '' : 'none';
+  btn.textContent = refVisible ? '🙈 숨기기' : '👁 보이기';
+}
+// ──────────────────────────────────────────────────────────
+
 function saveRec(){
+  // ── 저장 전 처리: 미체크 항목 이동 로직 ──────────────────
+  if(currentDay === 6){
+    // 일요일: 일요일 체크리스트 완전 초기화, 나머지 요일은 체크만 해제
+    localStorage.removeItem(getDayCLKey(6));
+    for(let d = 0; d < 6; d++){
+      const data = loadDayCL(d);
+      if(data && data.cl){
+        data.cl.forEach(c => { c.chk = false; });
+        localStorage.setItem(getDayCLKey(d), JSON.stringify(data));
+      }
+    }
+    // 현재 화면(일요일) DOM 비우기
+    clearDayCLDom();
+  } else {
+    // 일요일 아닌 요일: 현재 요일 미체크 항목 → 일요일로 이동
+    saveDayCL(currentDay); // 먼저 현재 상태 저장
+    const curData = loadDayCL(currentDay);
+    if(curData && curData.cl){
+      const unchecked = curData.cl.filter(c => !c.chk);
+      const checked   = curData.cl.filter(c => c.chk);
+
+      if(unchecked.length > 0){
+        // 일요일 기존 항목에 추가 (중복 텍스트 제외)
+        const sunData = loadDayCL(6);
+        const sunCL   = (sunData && sunData.cl) ? sunData.cl : [];
+        const sunTexts = new Set(sunCL.map(c => c.txt));
+        unchecked.forEach(c => {
+          if(!sunTexts.has(c.txt)){ sunCL.push({...c, chk:false}); sunTexts.add(c.txt); }
+        });
+        localStorage.setItem(getDayCLKey(6), JSON.stringify({cl: sunCL}));
+
+        // 현재 요일은 체크된 항목만 남기기
+        curData.cl = checked;
+        localStorage.setItem(getDayCLKey(currentDay), JSON.stringify(curData));
+
+        // 현재 DOM 갱신 (미체크 행 제거)
+        clearDayCLDom();
+        checked.forEach(c => addRow(c.cat, c.txt, c.chk, c.mins, c.tempo, c.set));
+
+        toast(`📅 미체크 ${unchecked.length}개 → 일요일로 이동`);
+      }
+    }
+  }
+  // ─────────────────────────────────────────────────────────
+
   const rec={id:Date.now(),date:g('dateInput'),loc:g('locationInput'),
     goal:g('goalInput'),lesson:g('lessonInput'),feel:g('feelInput'),
     feedback:g('feedbackInput'),tomorrow:g('tomorrowInput'),
     ptime:g('practiceTimeInput'),stars:sv,cl:getCL(),sketch:cv.toDataURL('image/png')};
   const arr=dbGet();arr.unshift(rec);dbSet(arr);
-  clearForm();renderHist();
+
+  // 체크리스트 외 필드만 초기화
+  ['dateInput','locationInput','goalInput','lessonInput','feelInput','feedbackInput','tomorrowInput','practiceTimeInput'].forEach(id=>s(id,''));
+  sv=0;document.querySelectorAll('.star').forEach(x=>x.classList.remove('on'));
+  drawBg();localStorage.removeItem(DK);
+  const n=new Date();
+  s('dateInput',`${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`);
+
+  renderHist();
   toast('💾 저장되었습니다!');
   setTimeout(()=>document.querySelector('.htitle').scrollIntoView({behavior:'smooth'}),300);
 }
@@ -882,6 +1013,7 @@ window.addEventListener('load',()=>{
     const n=new Date();
     s('dateInput',`${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`);
   }
+  initDayButtons();
   renderHist();
 });
 </script>
