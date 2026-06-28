@@ -696,132 +696,90 @@ function setColor(el){document.querySelectorAll('.csw').forEach(s=>s.classList.r
 function undoC(){if(!hist.length)return toast('↩ 더 이상 되돌릴 수 없습니다');cx.putImageData(hist.pop(),0,0);}
 function clearC(){if(!confirm('전체 삭제할까요?'))return;pushH();drawBg();}
 
-const SK='drum_v4',DK='drum_draft_v2';
+const SK='drum_v5';
 function dbGet(){try{return JSON.parse(localStorage.getItem(SK))||[];}catch{return[];}}
-function dbSet(a){localStorage.setItem(SK,JSON.stringify(a));}
+function dbSet(a){try{localStorage.setItem(SK,JSON.stringify(a));}catch(e){alert('저장 실패\n'+e.message);}}
 
-// ── 요일별 체크리스트 ───────────────────────────────────────
+// ── 요일별 체크리스트 ──────────────────────────────────────
 const DAYS=['월','화','수','목','금','토','일'];
-const DAY_KEY='drum_day_cl_v1'; // prefix, 뒤에 _0~_6 붙음
-let currentDay = new Date().getDay(); // 0=일요일 기준이므로 변환
-currentDay = currentDay === 0 ? 6 : currentDay - 1; // 월=0 ~ 일=6
+const DAY_KEY='drum_day_cl_v1';
+let currentDay = (()=>{ const d=new Date().getDay(); return d===0?6:d-1; })();
 
 function getDayCLKey(d){ return DAY_KEY+'_'+d; }
 function saveDayCL(d){
-  try{
-    const data = {cl: getCL()};
-    localStorage.setItem(getDayCLKey(d), JSON.stringify(data));
-  }catch(e){}
+  try{ localStorage.setItem(getDayCLKey(d), JSON.stringify({cl:getCL()})); }catch(e){}
 }
 function loadDayCL(d){
-  try{
-    const raw = localStorage.getItem(getDayCLKey(d));
-    return raw ? JSON.parse(raw) : null;
-  }catch(e){ return null; }
+  try{ const r=localStorage.getItem(getDayCLKey(d)); return r?JSON.parse(r):null; }catch(e){return null;}
 }
 function clearDayCLDom(){
   ['pad','rhy','tec','etc'].forEach(c=>document.getElementById('body-'+c).innerHTML='');
 }
 function switchDay(d){
-  // 현재 요일 저장
   saveDayCL(currentDay);
-  currentDay = d;
-  // 새 요일 불러오기
+  currentDay=d;
   clearDayCLDom();
-  const data = loadDayCL(d);
-  if(data && data.cl) data.cl.forEach(c=>addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set));
-  // 버튼 하이라이트
-  document.querySelectorAll('.daybtn').forEach(btn=>{
-    btn.classList.toggle('on', +btn.dataset.day === d);
-  });
-  document.getElementById('dayLabel').textContent = DAYS[d]+'요일';
+  const data=loadDayCL(d);
+  if(data&&data.cl) data.cl.forEach(c=>addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set));
+  document.querySelectorAll('.daybtn').forEach(btn=>btn.classList.toggle('on',+btn.dataset.day===d));
+  document.getElementById('dayLabel').textContent=DAYS[d]+'요일';
   toast('📅 '+DAYS[d]+'요일 체크리스트');
 }
 function initDayButtons(){
-  document.querySelectorAll('.daybtn').forEach(btn=>{
-    btn.classList.toggle('on', +btn.dataset.day === currentDay);
-  });
-  document.getElementById('dayLabel').textContent = DAYS[currentDay]+'요일';
-  // 오늘 요일 데이터 불러오기
-  const data = loadDayCL(currentDay);
-  if(data && data.cl) data.cl.forEach(c=>addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set));
+  document.querySelectorAll('.daybtn').forEach(btn=>btn.classList.toggle('on',+btn.dataset.day===currentDay));
+  document.getElementById('dayLabel').textContent=DAYS[currentDay]+'요일';
+  const data=loadDayCL(currentDay);
+  if(data&&data.cl) data.cl.forEach(c=>addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set));
+}
+function moveTodoToSunday(){
+  saveDayCL(currentDay);
+  const curData=loadDayCL(currentDay);
+  if(!curData||!curData.cl){toast('⚠️ 이동할 항목이 없습니다');return;}
+  const unchecked=curData.cl.filter(c=>!c.chk);
+  if(unchecked.length===0){toast('⚠️ 미체크 항목이 없습니다');return;}
+  const sunData=loadDayCL(6);
+  const sunCL=(sunData&&sunData.cl)?sunData.cl:[];
+  const sunTexts=new Set(sunCL.map(c=>c.txt));
+  let added=0;
+  unchecked.forEach(c=>{if(!sunTexts.has(c.txt)){sunCL.push({...c,chk:false});sunTexts.add(c.txt);added++;}});
+  localStorage.setItem(getDayCLKey(6),JSON.stringify({cl:sunCL}));
+  toast(`📅 ${added}개 → 일요일에 추가됨`);
+}
+// ──────────────────────────────────────────────────────────
+
+// ── 참고표 토글 ───────────────────────────────────────────
+let refVisible=true;
+function toggleRef(){
+  refVisible=!refVisible;
+  document.getElementById('refBody').style.display=refVisible?'':'none';
+  document.getElementById('refToggleBtn').textContent=refVisible?'🙈 숨기기':'👁 보이기';
 }
 // ──────────────────────────────────────────────────────────
 
 let asTimer;
-function as(){
-  clearTimeout(asTimer);
-  asTimer=setTimeout(()=>{
-    try{localStorage.setItem(DK,JSON.stringify({
-      date:g('dateInput'),loc:g('locationInput'),
-      goal:g('goalInput'),lesson:g('lessonInput'),feel:g('feelInput'),
-      feedback:g('feedbackInput'),tomorrow:g('tomorrowInput'),
-      ptime:g('practiceTimeInput'),stars:sv,cl:getCL()
-    }));}catch(e){}
-    saveDayCL(currentDay);
-  },600);
-}
-function g(id){return document.getElementById(id).value;}
-function s(id,v){document.getElementById(id).value=v||'';}
+function as(){clearTimeout(asTimer);asTimer=setTimeout(()=>saveDayCL(currentDay),600);}
+function g(id){const el=document.getElementById(id);return el?el.value:'';}
+function s(id,v){const el=document.getElementById(id);if(el)el.value=v||'';}
 
-function restoreDraft(){
-  try{
-    const d=JSON.parse(localStorage.getItem(DK)); if(!d)return;
-    s('dateInput',d.date);s('locationInput',d.loc);
-    s('goalInput',d.goal);s('lessonInput',d.lesson);s('feelInput',d.feel);
-    s('feedbackInput',d.feedback);s('tomorrowInput',d.tomorrow);s('practiceTimeInput',d.ptime);
-    if(d.stars){sv=d.stars;document.querySelectorAll('.star').forEach((x,i)=>x.classList.toggle('on',i<sv));}
-    // CL은 요일별로 initDayButtons()에서 불러옴
-  }catch(e){}
-}
 function clearForm(){
   ['dateInput','locationInput','goalInput','lessonInput','feelInput','feedbackInput','tomorrowInput','practiceTimeInput'].forEach(id=>s(id,''));
-  ['pad','rhy','tec','etc'].forEach(c=>document.getElementById('body-'+c).innerHTML='');
+  clearDayCLDom();
   sv=0;document.querySelectorAll('.star').forEach(x=>x.classList.remove('on'));
-  drawBg();localStorage.removeItem(DK);
+  try{drawBg();}catch(e){}
   const n=new Date();
   s('dateInput',`${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`);
 }
-// ── 참고표 토글 ───────────────────────────────────────────
-let refVisible = true;
-function toggleRef(){
-  refVisible = !refVisible;
-  const body = document.getElementById('refBody');
-  const btn  = document.getElementById('refToggleBtn');
-  body.style.display = refVisible ? '' : 'none';
-  btn.textContent = refVisible ? '🙈 숨기기' : '👁 보이기';
-}
-// ──────────────────────────────────────────────────────────
 
 function saveRec(){
-  let sketch='';
-  try{ sketch=cv.toDataURL('image/png'); }catch(e){}
-  const rec={id:Date.now(),date:g('dateInput'),loc:g('locationInput'),
-    goal:g('goalInput'),lesson:g('lessonInput'),feel:g('feelInput'),
-    feedback:g('feedbackInput'),tomorrow:g('tomorrowInput'),
-    ptime:g('practiceTimeInput'),stars:sv,cl:getCL(),sketch};
-  try{ const arr=dbGet();arr.unshift(rec);dbSet(arr); }catch(e){ alert('저장 실패: '+e.message); return; }
+  const rec={id:Date.now(),date:g('dateInput'),loc:g('locationInput'),goal:g('goalInput'),
+    lesson:g('lessonInput'),feel:g('feelInput'),feedback:g('feedbackInput'),
+    tomorrow:g('tomorrowInput'),ptime:g('practiceTimeInput'),stars:sv,cl:getCL()};
+  const arr=dbGet();arr.unshift(rec);dbSet(arr);
   clearForm();renderHist();
   toast('💾 저장되었습니다!');
-  setTimeout(()=>document.querySelector('.htitle').scrollIntoView({behavior:'smooth'}),300);
+  setTimeout(()=>{const h=document.querySelector('.htitle');if(h)h.scrollIntoView({behavior:'smooth'});},300);
 }
 
-function moveTodoToSunday(){
-  saveDayCL(currentDay);
-  const curData = loadDayCL(currentDay);
-  if(!curData || !curData.cl){ toast('⚠️ 이동할 항목이 없습니다'); return; }
-  const unchecked = curData.cl.filter(c => !c.chk);
-  if(unchecked.length === 0){ toast('⚠️ 미체크 항목이 없습니다'); return; }
-  const sunData = loadDayCL(6);
-  const sunCL = (sunData && sunData.cl) ? sunData.cl : [];
-  const sunTexts = new Set(sunCL.map(c => c.txt));
-  let added = 0;
-  unchecked.forEach(c => {
-    if(!sunTexts.has(c.txt)){ sunCL.push({...c, chk:false}); sunTexts.add(c.txt); added++; }
-  });
-  localStorage.setItem(getDayCLKey(6), JSON.stringify({cl: sunCL}));
-  toast(`📅 ${added}개 → 일요일에 추가됨`);
-}
 function delRec(id,e){
   e.stopPropagation();
   if(!confirm('이 기록을 삭제할까요?'))return;
@@ -830,8 +788,9 @@ function delRec(id,e){
 
 const CE={'매우 좋음':'😄','좋음':'😊','보통':'😐','나쁨':'😔'};
 const SS=n=>'★'.repeat(n||0)+'☆'.repeat(5-(n||0));
+
 function renderHist(){
-  const el=document.getElementById('histList');
+  const el=document.getElementById('histList');if(!el)return;
   const arr=dbGet();
   if(!arr.length){el.innerHTML='<div class="nohist">아직 저장된 기록이 없습니다.<br>연습 후 저장 버튼을 눌러보세요! 🥁</div>';return;}
   el.innerHTML=arr.map(r=>{
@@ -864,8 +823,6 @@ function openM(id){
   }
   document.getElementById('mtitle').textContent=`📅 ${r.date} 연습일지`;
   document.getElementById('mbody').innerHTML=`
-    ${r.sketch?`<div class="mr"><div class="ml" style="margin-bottom:6px">✍️ 악보 메모</div><img src="${r.sketch}" style="width:100%;border-radius:9px;border:1px solid var(--border)"></div>`:''}
-    <div class="mr"><div class="ml">컨디션</div><div class="mv">${CE[r.cond]||''} ${r.cond||'-'}${r.loc?' · 📍 '+r.loc:''}</div></div>
     <div class="mr"><div class="ml">오늘의 목표</div><div class="mv">${r.goal||'-'}</div></div>
     ${clh?`<div class="mr"><div class="ml">연습 체크리스트</div>${clh}</div>`:''}
     <div class="mr"><div class="ml">레슨 코멘트</div><div class="mv">${r.lesson||'-'}</div></div>
@@ -879,12 +836,11 @@ function openM(id){
 function closeM(){document.getElementById('modal').style.display='none';}
 
 let tt;
-function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2400);}
+function toast(msg){const t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2400);}
 
 window.addEventListener('load',()=>{
-  initCv();
-  restoreDraft();
-  if(!document.getElementById('dateInput').value){
+  try{initCv();}catch(e){}
+  if(!g('dateInput')){
     const n=new Date();
     s('dateInput',`${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`);
   }
