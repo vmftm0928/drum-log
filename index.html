@@ -190,6 +190,7 @@ textarea.inp{resize:vertical;line-height:1.7}
 <button class="daybtn" data-day="4" onclick="switchDay(4)">금</button>
 <button class="daybtn" data-day="5" onclick="switchDay(5)">토</button>
 <button class="daybtn" data-day="6" onclick="switchDay(6)">일</button>
+<button onclick="moveTodoToSunday()" style="background:rgba(168,85,247,.15);border:1px solid var(--rhy);border-radius:7px;color:var(--rhy);padding:5px 11px;font-size:.75rem;cursor:pointer;font-family:'Noto Sans KR',sans-serif;font-weight:700;white-space:nowrap" title="미체크 항목을 일요일로 복사">📤 일요일로</button>
 <span id="dayLabel" style="margin-left:auto;font-size:.68rem;color:var(--accent3);font-family:'Space Mono',monospace"></span>
 </div>
 <div class="cb" style="padding:13px 18px;display:flex;flex-direction:column;gap:20px">
@@ -206,10 +207,7 @@ textarea.inp{resize:vertical;line-height:1.7}
 <div>
 <div class="cath tec">⚡ 테크닉</div>
 <table class="clt"><thead><tr><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">SET</th><th style="width:24px"></th></tr></thead><tbody id="body-tec"></tbody></table>
-<div style="display:flex;gap:8px;margin-top:5px">
-<button class="addbtn" onclick="addRow('tec','')" style="margin-top:0">+ 테크닉 항목 추가</button>
-<button class="addbtn" onclick="addTecRandom()" id="btnTecRandom" style="margin-top:0;border-color:var(--tec);color:var(--tec);flex-shrink:0;width:auto;padding:7px 14px;white-space:nowrap">🎲 랜덤 2개</button>
-</div>
+<button class="addbtn" onclick="addRow('tec','')">+ 테크닉 항목 추가</button>
 </div>
 <div>
 <div class="cath etc">기타</div>
@@ -564,94 +562,6 @@ function buildTecRef(){
 }
 
 // ── 테크닉 랜덤 버튼 ──────────────────────────────────────
-// 1번(idx0), 2번(idx1), 4번(idx3), 5번(idx4) → 자식 목록에서 랜덤
-// 나머지 → 부모 이름으로 랜덤
-const TEC_CHILD_PICK = new Set([0, 1, 3, 4]); // 자식에서 뽑는 인덱스 (0-based)
-
-// done 상태 추적: "pi-child" 또는 "pi" 문자열 키
-const tecRandomDone = new Set();
-
-function getTecCandidates(){
-  const candidates = [];
-  TEC_TREE.forEach((item, pi) => {
-    if(TEC_CHILD_PICK.has(pi)){
-      // 자식 목록에서 각각 후보로 (부모 이름 앞에 붙임)
-      item.children.forEach((child, ci) => {
-        candidates.push({ key: `${pi}-${ci}`, label: `${item.parent} - ${child}`, pi, ci });
-      });
-    } else {
-      // 부모 이름으로
-      candidates.push({ key: `${pi}`, label: item.parent, pi, ci: -1 });
-    }
-  });
-  return candidates;
-}
-
-function getTecAddedLabels(){
-  const added = new Set();
-  document.querySelectorAll('#body-tec .clr').forEach(tr=>{
-    const v = tr.querySelector('.cltxt').value.trim();
-    if(v) added.add(v);
-  });
-  return added;
-}
-
-function addTecRandom(){
-  const candidates = getTecCandidates();
-
-  // 모두 done이면 초기화
-  if(candidates.every(c => tecRandomDone.has(c.key))){
-    tecRandomDone.clear();
-    const refEl = document.getElementById('ref-tec');
-    if(refEl) refEl.querySelectorAll('.ri.t.done').forEach(el => el.classList.remove('done'));
-    toast('🔄 테크닉 랜덤 목록 초기화!');
-  }
-
-  const added = getTecAddedLabels();
-  let pool = candidates.filter(c =>
-    !tecRandomDone.has(c.key) && !added.has(c.label)
-  );
-
-  if(pool.length === 0){
-    toast('⚠️ 추가 가능한 항목이 없습니다');
-    return;
-  }
-
-  pool = pool.sort(()=>Math.random()-0.5);
-  const picks = pool.slice(0, Math.min(2, pool.length));
-
-  // 부모 DOM 요소 목록 (padding-left 없는 .ri.t)
-  const refEl = document.getElementById('ref-tec');
-  const parentEls = refEl
-    ? [...refEl.querySelectorAll('.ri.t')].filter(el => !el.style.cssText.includes('padding-left'))
-    : [];
-
-  picks.forEach(pick => {
-    addRow('tec', pick.label);
-    tecRandomDone.add(pick.key);
-    // 참고표 done 표시: 자식 픽이면 해당 자식 el, 부모 픽이면 부모 el
-    if(refEl){
-      if(pick.ci >= 0){
-        // 자식 el 찾기: 해당 부모 el 이후의 padding-left 있는 .ri.t 중 ci번째
-        const allRi = [...refEl.querySelectorAll('.ri.t')];
-        const parentEl = parentEls[pick.pi];
-        const parentIdx = allRi.indexOf(parentEl);
-        let childCount = 0;
-        for(let i = parentIdx+1; i < allRi.length; i++){
-          if(!allRi[i].style.cssText.includes('padding-left')) break;
-          if(childCount === pick.ci){ allRi[i].classList.add('done'); break; }
-          childCount++;
-        }
-      } else {
-        if(parentEls[pick.pi]) parentEls[pick.pi].classList.add('done');
-      }
-    }
-    toast('🎲 랜덤 추가: '+pick.label.slice(0,24)+(pick.label.length>24?'…':''));
-  });
-  as();
-}
-// ──────────────────────────────────────────────────────────
-
 buildRef('ref-pad',PAD,'pad','p');
 buildRhyRef();
 buildTecRef();
@@ -866,8 +776,7 @@ function restoreDraft(){
 }
 function clearForm(){
   ['dateInput','locationInput','goalInput','lessonInput','feelInput','feedbackInput','tomorrowInput','practiceTimeInput'].forEach(id=>s(id,''));
-  clearDayCLDom();
-  localStorage.removeItem(getDayCLKey(currentDay));
+  ['pad','rhy','tec','etc'].forEach(c=>document.getElementById('body-'+c).innerHTML='');
   sv=0;document.querySelectorAll('.star').forEach(x=>x.classList.remove('on'));
   drawBg();localStorage.removeItem(DK);
   const n=new Date();
@@ -885,58 +794,31 @@ function toggleRef(){
 // ──────────────────────────────────────────────────────────
 
 function saveRec(){
-  try {
-    // 현재 체크리스트 전체를 먼저 캡처
-    saveDayCL(currentDay);
-    const sketch = (typeof cv !== 'undefined') ? cv.toDataURL('image/png') : '';
-    const rec={id:Date.now(),date:g('dateInput'),loc:g('locationInput'),
-      goal:g('goalInput'),lesson:g('lessonInput'),feel:g('feelInput'),
-      feedback:g('feedbackInput'),tomorrow:g('tomorrowInput'),
-      ptime:g('practiceTimeInput'),stars:sv,cl:getCL(),sketch};
-    const arr=dbGet();arr.unshift(rec);dbSet(arr);
-  } catch(e) {
-    alert('저장 중 오류가 발생했습니다: ' + e.message);
-    return;
-  }
-
-  // ── 미체크 항목 이동 로직 ────────────────────────────────
-  if(currentDay === 6){
-    localStorage.removeItem(getDayCLKey(6));
-    for(let d = 0; d < 6; d++){
-      const data = loadDayCL(d);
-      if(data && data.cl){
-        data.cl.forEach(c => { c.chk = false; });
-        localStorage.setItem(getDayCLKey(d), JSON.stringify(data));
-      }
-    }
-    clearDayCLDom();
-  } else {
-    const curData = loadDayCL(currentDay);
-    if(curData && curData.cl){
-      const unchecked = curData.cl.filter(c => !c.chk);
-      if(unchecked.length > 0){
-        const sunData = loadDayCL(6);
-        const sunCL   = (sunData && sunData.cl) ? sunData.cl : [];
-        const sunTexts = new Set(sunCL.map(c => c.txt));
-        unchecked.forEach(c => {
-          if(!sunTexts.has(c.txt)){ sunCL.push({...c, chk:false}); sunTexts.add(c.txt); }
-        });
-        localStorage.setItem(getDayCLKey(6), JSON.stringify({cl: sunCL}));
-        toast(`📅 미체크 ${unchecked.length}개 → 일요일에도 추가됨`);
-      }
-    }
-  }
-  // ─────────────────────────────────────────────────────────
-
-  ['dateInput','locationInput','goalInput','lessonInput','feelInput','feedbackInput','tomorrowInput','practiceTimeInput'].forEach(id=>s(id,''));
-  sv=0;document.querySelectorAll('.star').forEach(x=>x.classList.remove('on'));
-  drawBg();localStorage.removeItem(DK);
-  const n=new Date();
-  s('dateInput',`${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`);
-
-  renderHist();
-  setTimeout(()=>toast('💾 저장되었습니다!'), 2600);
+  const rec={id:Date.now(),date:g('dateInput'),loc:g('locationInput'),
+    goal:g('goalInput'),lesson:g('lessonInput'),feel:g('feelInput'),
+    feedback:g('feedbackInput'),tomorrow:g('tomorrowInput'),
+    ptime:g('practiceTimeInput'),stars:sv,cl:getCL(),sketch:cv.toDataURL('image/png')};
+  const arr=dbGet();arr.unshift(rec);dbSet(arr);
+  clearForm();renderHist();
+  toast('💾 저장되었습니다!');
   setTimeout(()=>document.querySelector('.htitle').scrollIntoView({behavior:'smooth'}),300);
+}
+
+function moveTodoToSunday(){
+  saveDayCL(currentDay);
+  const curData = loadDayCL(currentDay);
+  if(!curData || !curData.cl){ toast('⚠️ 이동할 항목이 없습니다'); return; }
+  const unchecked = curData.cl.filter(c => !c.chk);
+  if(unchecked.length === 0){ toast('⚠️ 미체크 항목이 없습니다'); return; }
+  const sunData = loadDayCL(6);
+  const sunCL = (sunData && sunData.cl) ? sunData.cl : [];
+  const sunTexts = new Set(sunCL.map(c => c.txt));
+  let added = 0;
+  unchecked.forEach(c => {
+    if(!sunTexts.has(c.txt)){ sunCL.push({...c, chk:false}); sunTexts.add(c.txt); added++; }
+  });
+  localStorage.setItem(getDayCLKey(6), JSON.stringify({cl: sunCL}));
+  toast(`📅 ${added}개 → 일요일에 추가됨`);
 }
 function delRec(id,e){
   e.stopPropagation();
