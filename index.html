@@ -630,7 +630,7 @@ document.querySelectorAll('.star').forEach(s=>{
 });
 
 const cv=document.getElementById('cv');
-const cx=cv.getContext('2d');
+const cx=cv.getContext('2d',{willReadFrequently:true});
 const cwrap=document.getElementById('cwrap');
 let tool='pen',color='#111111',bsz=3,drawing=false,lx=0,ly=0,hist=[];
 
@@ -794,11 +794,13 @@ function toggleRef(){
 // ──────────────────────────────────────────────────────────
 
 function saveRec(){
+  let sketch='';
+  try{ sketch=cv.toDataURL('image/png'); }catch(e){}
   const rec={id:Date.now(),date:g('dateInput'),loc:g('locationInput'),
     goal:g('goalInput'),lesson:g('lessonInput'),feel:g('feelInput'),
     feedback:g('feedbackInput'),tomorrow:g('tomorrowInput'),
-    ptime:g('practiceTimeInput'),stars:sv,cl:getCL(),sketch:cv.toDataURL('image/png')};
-  const arr=dbGet();arr.unshift(rec);dbSet(arr);
+    ptime:g('practiceTimeInput'),stars:sv,cl:getCL(),sketch};
+  try{ const arr=dbGet();arr.unshift(rec);dbSet(arr); }catch(e){ alert('저장 실패: '+e.message); return; }
   clearForm();renderHist();
   toast('💾 저장되었습니다!');
   setTimeout(()=>document.querySelector('.htitle').scrollIntoView({behavior:'smooth'}),300);
