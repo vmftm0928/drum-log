@@ -885,7 +885,15 @@ function toggleRef(){
 // ──────────────────────────────────────────────────────────
 
 function saveRec(){
-  // ── 저장 전 처리: 미체크 항목 이동 로직 ──────────────────
+  // 현재 체크리스트 전체를 먼저 캡처 (이동 처리 전)
+  saveDayCL(currentDay);
+  const rec={id:Date.now(),date:g('dateInput'),loc:g('locationInput'),
+    goal:g('goalInput'),lesson:g('lessonInput'),feel:g('feelInput'),
+    feedback:g('feedbackInput'),tomorrow:g('tomorrowInput'),
+    ptime:g('practiceTimeInput'),stars:sv,cl:getCL(),sketch:cv.toDataURL('image/png')};
+  const arr=dbGet();arr.unshift(rec);dbSet(arr);
+
+  // ── 미체크 항목 이동 로직 ────────────────────────────────
   if(currentDay === 6){
     // 일요일: 일요일 체크리스트 완전 초기화, 나머지 요일은 체크만 해제
     localStorage.removeItem(getDayCLKey(6));
@@ -896,18 +904,14 @@ function saveRec(){
         localStorage.setItem(getDayCLKey(d), JSON.stringify(data));
       }
     }
-    // 현재 화면(일요일) DOM 비우기
     clearDayCLDom();
   } else {
-    // 일요일 아닌 요일: 현재 요일 미체크 항목 → 일요일로 이동
-    saveDayCL(currentDay); // 먼저 현재 상태 저장
+    // 월~토: 미체크 항목 → 일요일로 이동
     const curData = loadDayCL(currentDay);
     if(curData && curData.cl){
       const unchecked = curData.cl.filter(c => !c.chk);
       const checked   = curData.cl.filter(c => c.chk);
-
       if(unchecked.length > 0){
-        // 일요일 기존 항목에 추가 (중복 텍스트 제외)
         const sunData = loadDayCL(6);
         const sunCL   = (sunData && sunData.cl) ? sunData.cl : [];
         const sunTexts = new Set(sunCL.map(c => c.txt));
@@ -915,28 +919,17 @@ function saveRec(){
           if(!sunTexts.has(c.txt)){ sunCL.push({...c, chk:false}); sunTexts.add(c.txt); }
         });
         localStorage.setItem(getDayCLKey(6), JSON.stringify({cl: sunCL}));
-
-        // 현재 요일은 체크된 항목만 남기기
         curData.cl = checked;
         localStorage.setItem(getDayCLKey(currentDay), JSON.stringify(curData));
-
-        // 현재 DOM 갱신 (미체크 행 제거)
         clearDayCLDom();
         checked.forEach(c => addRow(c.cat, c.txt, c.chk, c.mins, c.tempo, c.set));
-
         toast(`📅 미체크 ${unchecked.length}개 → 일요일로 이동`);
       }
     }
   }
   // ─────────────────────────────────────────────────────────
 
-  const rec={id:Date.now(),date:g('dateInput'),loc:g('locationInput'),
-    goal:g('goalInput'),lesson:g('lessonInput'),feel:g('feelInput'),
-    feedback:g('feedbackInput'),tomorrow:g('tomorrowInput'),
-    ptime:g('practiceTimeInput'),stars:sv,cl:getCL(),sketch:cv.toDataURL('image/png')};
-  const arr=dbGet();arr.unshift(rec);dbSet(arr);
-
-  // 체크리스트 외 필드만 초기화
+  // 체크리스트 외 나머지 필드 초기화
   ['dateInput','locationInput','goalInput','lessonInput','feelInput','feedbackInput','tomorrowInput','practiceTimeInput'].forEach(id=>s(id,''));
   sv=0;document.querySelectorAll('.star').forEach(x=>x.classList.remove('on'));
   drawBg();localStorage.removeItem(DK);
@@ -944,9 +937,10 @@ function saveRec(){
   s('dateInput',`${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`);
 
   renderHist();
-  toast('💾 저장되었습니다!');
+  setTimeout(()=>toast('💾 저장되었습니다!'), 2600);
   setTimeout(()=>document.querySelector('.htitle').scrollIntoView({behavior:'smooth'}),300);
 }
+function uncheckedToastDelay(d){}
 function delRec(id,e){
   e.stopPropagation();
   if(!confirm('이 기록을 삭제할까요?'))return;
