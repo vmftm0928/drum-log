@@ -293,6 +293,12 @@ ex) 필인 끝에 탐 accent 더 강조하기" rows="5"></textarea></div>
 <label class="lbl" style="margin-top:12px">피드백</label>
 <textarea class="inp" id="feedbackInput" oninput="as()" rows="4"></textarea>
 </div></div></div>
+<!-- 어제보다 달라진점 -->
+<div class="card">
+<div class="ch"><span class="ci">📈</span><span class="ct">어제보다 달라진점</span></div>
+<div class="cb"><textarea class="inp" id="changeInput" oninput="as()" placeholder="ex) 고스트 노트가 어제보다 일정해짐
+ex) 필인 후 타임이 더 안정적이었음" rows="4"></textarea></div>
+</div>
 <!-- 피드백 & 내일 목표 -->
 <div class="g2">
 </div>
@@ -739,17 +745,20 @@ function initDayButtons(){
 }
 function moveTodoToSunday(){
   saveDayCL(currentDay);
-  const curData=loadDayCL(currentDay);
-  if(!curData||!curData.cl){toast('⚠️ 이동할 항목이 없습니다');return;}
-  const unchecked=curData.cl.filter(c=>!c.chk);
-  if(unchecked.length===0){toast('⚠️ 미체크 항목이 없습니다');return;}
   const sunData=loadDayCL(6);
   const sunCL=(sunData&&sunData.cl)?sunData.cl:[];
   const sunTexts=new Set(sunCL.map(c=>c.txt));
   let added=0;
-  unchecked.forEach(c=>{if(!sunTexts.has(c.txt)){sunCL.push({...c,chk:false});sunTexts.add(c.txt);added++;}});
+  for(let d=0;d<6;d++){
+    const data=loadDayCL(d);
+    if(!data||!data.cl)continue;
+    data.cl.filter(c=>!c.chk).forEach(c=>{
+      if(!sunTexts.has(c.txt)){sunCL.push({...c,chk:false});sunTexts.add(c.txt);added++;}
+    });
+  }
+  if(added===0){toast('⚠️ 이동할 미체크 항목이 없습니다');return;}
   localStorage.setItem(getDayCLKey(6),JSON.stringify({cl:sunCL}));
-  toast(`📅 ${added}개 → 일요일에 추가됨`);
+  toast(`📅 월~토 미체크 ${added}개 → 일요일에 추가됨`);
 }
 // ──────────────────────────────────────────────────────────
 
@@ -768,8 +777,7 @@ function g(id){const el=document.getElementById(id);return el?el.value:'';}
 function s(id,v){const el=document.getElementById(id);if(el)el.value=v||'';}
 
 function clearForm(){
-  ['dateInput','locationInput','goalInput','lessonInput','feelInput','feedbackInput','tomorrowInput','practiceTimeInput'].forEach(id=>s(id,''));
-  ['pad','rhy','tec','ryt','etc'].forEach(c=>document.getElementById('body-'+c).innerHTML='');
+  ['dateInput','locationInput','goalInput','lessonInput','feelInput','feedbackInput','changeInput','tomorrowInput','practiceTimeInput'].forEach(id=>s(id,''));
   sv=0;document.querySelectorAll('.star').forEach(x=>x.classList.remove('on'));
   try{drawBg();}catch(e){}
   const n=new Date();
@@ -777,10 +785,18 @@ function clearForm(){
 }
 
 function saveRec(){
-  const rec={id:Date.now(),date:g('dateInput'),loc:g('locationInput'),goal:g('goalInput'),
+  let sketch='';
+  try{sketch=cv.toDataURL('image/png');}catch(e){}
+  const rec={id:Date.now(),day:currentDay,dayName:DAYS[currentDay],
+    date:g('dateInput'),loc:g('locationInput'),goal:g('goalInput'),
     lesson:g('lessonInput'),feel:g('feelInput'),feedback:g('feedbackInput'),
-    tomorrow:g('tomorrowInput'),ptime:g('practiceTimeInput'),stars:sv,cl:getCL()};
+    change:g('changeInput'),
+    tomorrow:g('tomorrowInput'),ptime:g('practiceTimeInput'),stars:sv,cl:getCL(),sketch};
   const arr=dbGet();arr.unshift(rec);dbSet(arr);
+  if(currentDay===6){
+    localStorage.removeItem(getDayCLKey(6));
+    clearDayCLDom();
+  }
   clearForm();renderHist();
   toast('💾 저장되었습니다!');
   setTimeout(()=>{const h=document.querySelector('.htitle');if(h)h.scrollIntoView({behavior:'smooth'});},300);
@@ -803,9 +819,10 @@ function renderHist(){
     const goal=r.goal||'목표 없음';
     const done=(r.cl||[]).filter(c=>c.chk).length;
     const total=(r.cl||[]).length;
+    const dayBadge=r.dayName?`<span style="background:rgba(124,58,237,.25);border:1px solid var(--accent);border-radius:5px;padding:1px 7px;font-size:.68rem;color:var(--accent3);font-weight:700">${r.dayName}요일</span>`:'';
     return `<div class="rcard" onclick="openM(${r.id})">
       <button class="rdel" onclick="delRec(${r.id},event)">🗑 삭제</button>
-      <div class="rmeta"><span>📅 ${r.date||'-'}</span>${r.loc?`<span>📍 ${r.loc}</span>`:''}</div>
+      <div class="rmeta">${dayBadge}<span>📅 ${r.date||'-'}</span>${r.loc?`<span>📍 ${r.loc}</span>`:''}</div>
       <div class="rgoal">${goal.split('\n')[0].slice(0,50)}${goal.length>50?'…':''}</div>
       <div class="rbot">${r.ptime?`<span>⏱ ${r.ptime}</span>`:''}<span style="color:var(--gold)">${SS(r.stars)}</span>${total?`<span>✅ ${done}/${total}</span>`:''}</div>
     </div>`;
@@ -827,15 +844,14 @@ function openM(id){
       });
     });
   }
-  document.getElementById('mtitle').textContent=`📅 ${r.date} 연습일지`;
+  document.getElementById('mtitle').textContent=`${r.dayName?r.dayName+'요일 · ':''}📅 ${r.date} 연습일지`;
   document.getElementById('mbody').innerHTML=`
-    <div class="mr"><div class="ml">오늘의 목표</div><div class="mv">${r.goal||'-'}</div></div>
+    ${r.sketch&&r.sketch.length>100?`<div class="mr"><div class="ml">✍️ 아이디어 / 악보 메모</div><img src="${r.sketch}" style="width:100%;border-radius:9px;border:1px solid var(--border);margin-top:6px"></div>`:''}
     ${clh?`<div class="mr"><div class="ml">연습 체크리스트</div>${clh}</div>`:''}
     <div class="mr"><div class="ml">레슨 코멘트</div><div class="mv">${r.lesson||'-'}</div></div>
-    <div class="mr"><div class="ml">연습 중 느낀 점</div><div class="mv">${r.feel||'-'}</div></div>
     <div class="mr"><div class="ml">순 연습시간</div><div class="mv">⏱ ${r.ptime||'-'}</div></div>
     <div class="mr"><div class="ml">피드백</div><div class="mv">${r.feedback||'-'}</div></div>
-    <div class="mr"><div class="ml">내일 목표</div><div class="mv">${r.tomorrow||'-'}</div></div>
+    ${r.change?`<div class="mr"><div class="ml">📈 어제보다 달라진점</div><div class="mv">${r.change}</div></div>`:''}
     <div class="mr"><div class="ml">만족도</div><div class="mv" style="color:var(--gold);letter-spacing:2px">${SS(r.stars)}</div></div>`;
   document.getElementById('modal').style.display='flex';
 }
