@@ -47,6 +47,7 @@ textarea.inp{resize:vertical;line-height:1.7}
 .cath.pad{background:rgba(14,165,233,.13);color:var(--pad);border-left:3px solid var(--pad)}
 .cath.rhy{background:rgba(168,85,247,.13);color:var(--rhy);border-left:3px solid var(--rhy)}
 .cath.tec{background:rgba(34,197,94,.13);color:var(--tec);border-left:3px solid var(--tec)}
+.cath.ryt{background:rgba(124,58,237,.13);color:var(--accent3);border-left:3px solid var(--accent)}
 .cath.etc{background:rgba(251,191,36,.13);color:var(--etc);border-left:3px solid var(--etc)}
 .clt{width:100%;border-collapse:collapse}
 .clt th{background:rgba(124,58,237,.12);padding:6px 8px;font-size:.62rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent3);font-family:'Space Mono',monospace;font-weight:700;text-align:left;border-bottom:1px solid var(--border)}
@@ -208,6 +209,11 @@ textarea.inp{resize:vertical;line-height:1.7}
 <div class="cath tec">⚡ 테크닉</div>
 <table class="clt"><thead><tr><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">SET</th><th style="width:24px"></th></tr></thead><tbody id="body-tec"></tbody></table>
 <button class="addbtn" onclick="addRow('tec','')">+ 테크닉 항목 추가</button>
+</div>
+<div>
+<div class="cath ryt">🎼 리듬+테크닉</div>
+<table class="clt"><thead><tr><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">SET</th><th style="width:24px"></th></tr></thead><tbody id="body-ryt"></tbody></table>
+<button class="addbtn" onclick="addRow('ryt','')">+ 리듬+테크닉 항목 추가</button>
 </div>
 <div>
 <div class="cath etc">기타</div>
@@ -475,15 +481,15 @@ function buildRytecRef(){
   const el=document.getElementById('ref-rytec');
   if(!el)return;
   const items=[
-    {txt:'메트로놈', children:['메트로놈 1마디 키고 1마디 끄기 +(필)','메트로놈 1마디 키고 2마디 끄기 +(필)','메트로놈 1마디 키고 3마디 끄기 +(필)','1을 n으로 생각하며 연주'], cat:'rhy'},
-    {txt:'1코러스 리듬 1코러스 솔로 (리듬, 찹스)', children:[], cat:'rhy'},
-    {txt:'장르 연습', children:['R&B','Gospel','Funk','Neo Soul','Fusion','Latin','Hip Hop','Shuffle','Jazz','Ballad','Jazz Hip Hop'], cat:'rhy'},
-    {txt:'이야기 전개 연습 (10분이상 끊기지 않고 말하듯)', children:['다이나믹 선으로 그리고 연주'], cat:'etc'},
-    {txt:'전진 연습 (절지 않고 쭉 밀고 나가기, 빨라져도 안절게 만들기, 단어 사용하기 편하게 익히기)', children:[], cat:'etc'},
-    {txt:'작은 다이나믹에 안무너지기', children:[], cat:'etc'},
-    {txt:'느린 템포에 안무너지기', children:[], cat:'etc'},
-    {txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 다이나믹, 드럼 부분 제거하고 연주)', children:[], cat:'etc'},
-    {txt:'드럼만으로 멜로디 연주', children:[], cat:'etc'},
+    {txt:'메트로놈', children:['메트로놈 1마디 키고 1마디 끄기 +(필)','메트로놈 1마디 키고 2마디 끄기 +(필)','메트로놈 1마디 키고 3마디 끄기 +(필)','1을 n으로 생각하며 연주'], cat:'ryt'},
+    {txt:'1코러스 리듬 1코러스 솔로 (리듬, 찹스)', children:[], cat:'ryt'},
+    {txt:'장르 연습', children:['R&B','Gospel','Funk','Neo Soul','Fusion','Latin','Hip Hop','Shuffle','Jazz','Ballad','Jazz Hip Hop'], cat:'ryt'},
+    {txt:'이야기 전개 연습 (10분이상 끊기지 않고 말하듯)', children:['다이나믹 선으로 그리고 연주'], cat:'ryt'},
+    {txt:'전진 연습 (절지 않고 쭉 밀고 나가기, 빨라져도 안절게 만들기, 단어 사용하기 편하게 익히기)', children:[], cat:'ryt'},
+    {txt:'작은 다이나믹에 안무너지기', children:[], cat:'ryt'},
+    {txt:'느린 템포에 안무너지기', children:[], cat:'ryt'},
+    {txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 다이나믹, 드럼 부분 제거하고 연주)', children:[], cat:'ryt'},
+    {txt:'드럼만으로 멜로디 연주', children:[], cat:'ryt'},
   ];
   items.forEach((item,pi)=>{
     const pd=document.createElement('div');
@@ -589,7 +595,7 @@ function fromRef(cat,txt,idx){
 }
 function getCL(){
   const r=[];
-  ['pad','rhy','tec','etc'].forEach(c=>{
+  ['pad','rhy','tec','ryt','etc'].forEach(c=>{
     document.querySelectorAll('#body-'+c+' .clr').forEach(tr=>{
       const txt=tr.querySelector('.cltxt').value.trim(); if(!txt)return;
       const nums=tr.querySelectorAll('.clnum');
@@ -713,7 +719,7 @@ function loadDayCL(d){
   try{ const r=localStorage.getItem(getDayCLKey(d)); return r?JSON.parse(r):null; }catch(e){return null;}
 }
 function clearDayCLDom(){
-  ['pad','rhy','tec','etc'].forEach(c=>document.getElementById('body-'+c).innerHTML='');
+  ['pad','rhy','tec','ryt','etc'].forEach(c=>document.getElementById('body-'+c).innerHTML='');
 }
 function switchDay(d){
   saveDayCL(currentDay);
@@ -763,7 +769,7 @@ function s(id,v){const el=document.getElementById(id);if(el)el.value=v||'';}
 
 function clearForm(){
   ['dateInput','locationInput','goalInput','lessonInput','feelInput','feedbackInput','tomorrowInput','practiceTimeInput'].forEach(id=>s(id,''));
-  clearDayCLDom();
+  ['pad','rhy','tec','ryt','etc'].forEach(c=>document.getElementById('body-'+c).innerHTML='');
   sv=0;document.querySelectorAll('.star').forEach(x=>x.classList.remove('on'));
   try{drawBg();}catch(e){}
   const n=new Date();
@@ -808,11 +814,11 @@ function renderHist(){
 
 function openM(id){
   const r=dbGet().find(x=>x.id===id);if(!r)return;
-  const CI={pad:'🥁',rhy:'🎵',tec:'⚡',etc:'기타'};
-  const CN={pad:'패드',rhy:'리듬',tec:'테크닉',etc:'기타'};
+  const CI={pad:'🥁',rhy:'🎵',tec:'⚡',ryt:'🎼',etc:'기타'};
+  const CN={pad:'패드',rhy:'리듬',tec:'테크닉',ryt:'리듬+테크닉',etc:'기타'};
   let clh='';
   if(r.cl&&r.cl.length){
-    ['pad','rhy','tec','etc'].forEach(c=>{
+    ['pad','rhy','tec','ryt','etc'].forEach(c=>{
       const items=r.cl.filter(x=>x.cat===c);if(!items.length)return;
       clh+=`<div style="font-size:.68rem;color:var(--text3);letter-spacing:1px;text-transform:uppercase;font-family:'Space Mono',monospace;margin:10px 0 3px">${CI[c]} ${CN[c]}</div>`;
       items.forEach(x=>{
