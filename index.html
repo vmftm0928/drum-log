@@ -201,7 +201,12 @@ textarea.inp{resize:vertical;line-height:1.7}
 <button class="addbtn" onclick="addRow('pad','')">+ 패드 항목 추가</button>
 </div>
 <div>
-<div class="cath rhy">🎵 리듬 <span style="font-size:.65rem;font-weight:400;opacity:.7">(리니어, 오픈 하이햇 활용, 쉼표 활용, 32비트 활용, 엇박 활용, Double/5/7stroke 활용, 풋 하이햇 활용, 스플래쉬 활용, 하이햇 위치변형) (스네어: 고스트, 악센트, 프레스, 고스트(더블) 선명도)</span></div>
+<div class="cath rhy">🎵 리듬
+<div style="font-size:.63rem;font-weight:400;margin-top:4px;line-height:1.8">
+<span style="color:var(--rhy);font-weight:600">활용 → </span><span style="color:#fff">리니어 · 오픈 하이햇 · 쉼표 · 32비트 · 엇박 · Double/5/7stroke · 풋 하이햇 · 스플래쉬 · 하이햇 위치변형</span><br>
+<span style="color:var(--rhy);font-weight:600">스네어 → </span><span style="color:#fff">고스트 · 악센트 · 프레스 · 고스트(더블) 선명도</span>
+</div>
+</div>
 <table class="clt"><thead><tr><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">SET</th><th style="width:24px"></th></tr></thead><tbody id="body-rhy"></tbody></table>
 <button class="addbtn" onclick="addRow('rhy','')">+ 리듬 항목 추가</button>
 </div>
@@ -326,7 +331,7 @@ const RHY_TREE=[
   {parent:'리듬 다이나믹(팔 높이, 힘, 오픈 하이햇만 악센트)', children:[]},
   {parent:'리듬 · 그루브 변화', children:['4마디마다 변화 ex) 8비트→16비트→연음','기본 리듬→하프타임','기본 리듬→더블타임','킥으로 공간 만들기']},
   {parent:'메트로놈', children:['메트로놈 1마디 키고 1마디 끄기','메트로놈 1마디 키고 2마디 끄기','메트로놈 1마디 키고 3마디 끄기','1을 n으로 생각하며 연주']},
-  {parent:'리듬 솔로 연구 및 연습', children:['킥으로 공간 만들기']},
+  {parent:'리듬 솔로 연구 및 연습', children:[]},
 ];
 
 
@@ -592,6 +597,12 @@ function addRow(cat,txt,chk,mins,tempo,set){
   tr.querySelector('input[type=checkbox]').addEventListener('change',as);
   tb.appendChild(tr);
 }
+function addLabel(cat,txt){
+  const tb=document.getElementById('body-'+cat);
+  const tr=document.createElement('tr'); tr.className='clr cllabel';
+  tr.innerHTML=`<td colspan="6" style="padding:5px 10px;font-size:.72rem;color:var(--text3);font-style:italic;letter-spacing:.3px;border-bottom:1px solid var(--border);user-select:none">${txt}</td>`;
+  tb.appendChild(tr);
+}
 function fromRef(cat,txt,idx){
   addRow(cat,txt);
   const el=document.getElementById('ri-'+cat+'-'+idx);
@@ -602,7 +613,7 @@ function fromRef(cat,txt,idx){
 function getCL(){
   const r=[];
   ['pad','rhy','tec','ryt','etc'].forEach(c=>{
-    document.querySelectorAll('#body-'+c+' .clr').forEach(tr=>{
+    document.querySelectorAll('#body-'+c+' .clr:not(.cllabel)').forEach(tr=>{
       const txt=tr.querySelector('.cltxt').value.trim(); if(!txt)return;
       const nums=tr.querySelectorAll('.clnum');
       r.push({cat:c,chk:tr.querySelector('input[type=checkbox]').checked,txt,mins:nums[0].value,tempo:nums[1].value,set:nums[2].value});
@@ -734,8 +745,9 @@ function switchDay(d){
   const data=loadDayCL(d);
   if(data&&data.cl){
     data.cl.forEach(c=>addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set));
+    if(d===0) loadMonLabels();
   } else if(d===0){
-    MON_DEFAULT.forEach(c=>addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set));
+    loadDefaultCL(MON_DEFAULT);
   }
   document.querySelectorAll('.daybtn').forEach(btn=>btn.classList.toggle('on',+btn.dataset.day===d));
   document.getElementById('dayLabel').textContent=DAYS[d]+'요일';
@@ -757,6 +769,7 @@ const MON_DEFAULT=[
   {cat:'tec',txt:'스틱킹 - 오케스트레이션',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'스틱킹 - 플램 활용',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'스틱킹 - 킥 밀기·유니즌',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'콤비네이션·스틱킹 MIX',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'콤비네이션 - 심벌 활용',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용 - 오케스트레이션',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용 - 킥 밀기',chk:false,mins:'',tempo:'',set:''},
@@ -784,6 +797,9 @@ const MON_DEFAULT=[
   {cat:'etc',txt:'임시곡',chk:false,mins:'',tempo:'',set:''},
   {cat:'etc',txt:'녹음',chk:false,mins:'',tempo:'',set:''},
 ];
+function loadDefaultCL(list){
+  list.forEach(c=>{ if(c.label) addLabel(c.cat,c.txt); else addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set); });
+}
 
 function initDayButtons(){
   document.querySelectorAll('.daybtn').forEach(btn=>btn.classList.toggle('on',+btn.dataset.day===currentDay));
@@ -791,10 +807,13 @@ function initDayButtons(){
   const data=loadDayCL(currentDay);
   if(data&&data.cl){
     data.cl.forEach(c=>addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set));
+    if(currentDay===0) loadMonLabels();
   } else if(currentDay===0){
-    // 월요일 데이터 없으면 기본값 로드
-    MON_DEFAULT.forEach(c=>addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set));
+    loadDefaultCL(MON_DEFAULT);
   }
+}
+function loadMonLabels(){
+  MON_DEFAULT.filter(c=>c.label).forEach(c=>addLabel(c.cat,c.txt));
 }
 function moveTodoToSunday(){
   saveDayCL(currentDay);
