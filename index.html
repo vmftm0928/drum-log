@@ -732,16 +732,68 @@ function switchDay(d){
   currentDay=d;
   clearDayCLDom();
   const data=loadDayCL(d);
-  if(data&&data.cl) data.cl.forEach(c=>addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set));
+  if(data&&data.cl){
+    data.cl.forEach(c=>addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set));
+  } else if(d===0){
+    MON_DEFAULT.forEach(c=>addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set));
+  }
   document.querySelectorAll('.daybtn').forEach(btn=>btn.classList.toggle('on',+btn.dataset.day===d));
   document.getElementById('dayLabel').textContent=DAYS[d]+'요일';
   toast('📅 '+DAYS[d]+'요일 체크리스트');
 }
+const MON_DEFAULT=[
+  {cat:'pad',txt:'싱글 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'더블 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'트리플 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'싱글 더블 MIX',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'모울러 테크닉',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'3/6연음',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'스틱 컨트롤, 아메리칸 드럼 솔로',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'자유 스틱킹(악센트, 루디먼트)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'콤비네이션, 스틱킹 - 4연음',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'콤비네이션, 스틱킹 - 4연음 3그루핑',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'콤비네이션 - 오케스트레이션',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'콤비네이션 - 플램 활용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스틱킹 - 오케스트레이션',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스틱킹 - 플램 활용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스틱킹 - 킥밀기, 유니즌',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'콤비네이션, 스틱킹 MIX',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용 - 오케스트레이션',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용 - 킥밀기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'플램 아이디어 (피지컬 기르기)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'제한하기 - 왼손만 시작',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'제한하기 - 2번 연속 같은 곳 치기 X',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'찹스 솔로 아이디어 및 연습 - 반복 솔로 → 발전하기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'찹스 솔로 아이디어 및 연습 - 킥으로 공간 만들기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'피지컬 (탐돌리기, 손발손발, 더블킥, 체력 기르기, 크로스 스틱, RLK 다운업)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'e&a에 들어가기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'메트로놈 - 1을 n으로 생각하며 연주',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'장르 연습 - R&B',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'장르 연습 - Neo Soul',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'장르 연습 - Ballad',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'이야기 전개 연습 (10분 이상 끊기지 않고 말하듯)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'작은 다이나믹에 안무너지기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'느린 템포에 안무너지기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 다이나믹, 드럼 부분 제거하고 연주)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'드럼만으로 멜로디 연주',chk:false,mins:'',tempo:'',set:''},
+  {cat:'etc',txt:'음악듣기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'etc',txt:'카피 (하루 4마디 이상 카피 후 연습)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'etc',txt:'임시곡',chk:false,mins:'',tempo:'',set:''},
+  {cat:'etc',txt:'녹음',chk:false,mins:'',tempo:'',set:''},
+];
+
 function initDayButtons(){
   document.querySelectorAll('.daybtn').forEach(btn=>btn.classList.toggle('on',+btn.dataset.day===currentDay));
   document.getElementById('dayLabel').textContent=DAYS[currentDay]+'요일';
   const data=loadDayCL(currentDay);
-  if(data&&data.cl) data.cl.forEach(c=>addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set));
+  if(data&&data.cl){
+    data.cl.forEach(c=>addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set));
+  } else if(currentDay===0){
+    // 월요일 데이터 없으면 기본값 로드
+    MON_DEFAULT.forEach(c=>addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set));
+  }
 }
 function moveTodoToSunday(){
   saveDayCL(currentDay);
