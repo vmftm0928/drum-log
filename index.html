@@ -920,8 +920,106 @@ const WED_DEFAULT=[
   {cat:'etc',txt:'입시곡',chk:false,mins:'',tempo:'',set:''},
   {cat:'etc',txt:'녹음',chk:false,mins:'',tempo:'',set:''},
 ];
-const THU_DEFAULT=MON_DEFAULT;
-const FRI_DEFAULT=[];
+const THU_DEFAULT=[
+  // 패드
+  {cat:'pad',txt:'싱글 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'더블 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'핑거링 (양손)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'싱글 더블 MIX',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'임용훈 스트로크',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'루디먼트',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'스틱 컨트롤, 아메리칸 드럼 솔로',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'자유 스틱킹(악센트, 루디먼트)',chk:false,mins:'',tempo:'',set:''},
+  // 리듬
+  {cat:'rhy',txt:'스윙 리듬',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'라틴 리듬',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'가벼운(사부작) 사운드',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'핑거링 리듬',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'리듬 솔로 연구 및 연습 - 킥으로 공간 만들기',chk:false,mins:'',tempo:'',set:''},
+  // 테크닉
+  {cat:'tec',txt:'콤비네이션·스틱킹 - 6연음',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'콤비네이션·스틱킹 - 6연음 5그루핑',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'콤비네이션 - 오케스트레이션',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'콤비네이션 - 엇박 활용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스틱킹 - 오케스트레이션',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스틱킹 - 엇박 활용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스틱킹 - 손 발 치환',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'콤비네이션·스틱킹 MIX',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용 - 32비트 활용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'심벌 아이디어 (스플래쉬, 심벌, 라이드 벨, 오픈 하이햇, 스와핑+스플래쉬)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'제한하기 - 탐 금지',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'제한하기 - 하이햇 사용 금지',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'찹스 다이나믹',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'인디펜던스 교재',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'자유롭게 찹스 (하이햇 카운트 하면서 찹스)',chk:false,mins:'',tempo:'',set:''},
+  // 리듬+테크닉
+  {cat:'ryt',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'메트로놈 - 1을 n으로 생각하며 연주',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'장르 연습 - Jazz',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'장르 연습 - Fusion',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'장르 연습 - Latin',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'1코러스 리듬 1코러스 솔로 (리듬, 찹스)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'이야기 전개 연습 (10분이상 끊기지 않고 말하듯)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'전진 연습 (절지 않고 쭉 밀고 나가기, 빨라져도 안절게 만들기, 단어 사용하기 편하게 익히기)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 다이나믹, 드럼 부분 제거하고 연주)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'드럼만으로 멜로디 연주',chk:false,mins:'',tempo:'',set:''},
+  // 기타
+  {cat:'etc',txt:'음악듣기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'etc',txt:'카피 (하루 4마디이상 카피후 연습)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'etc',txt:'입시곡',chk:false,mins:'',tempo:'',set:''},
+  {cat:'etc',txt:'녹음',chk:false,mins:'',tempo:'',set:''},
+];
+const FRI_DEFAULT=[
+  // 패드
+  {cat:'pad',txt:'싱글 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'더블 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'트리플 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'싱글 더블 MIX',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'모울러 테크닉',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'3/6연음',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'스틱 컨트롤, 아메리칸 드럼 솔로',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'자유 스틱킹(악센트, 루디먼트)',chk:false,mins:'',tempo:'',set:''},
+  // 리듬
+  {cat:'rhy',txt:'셔플',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'변박',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'메트릭 모듈레이션',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'폴리리듬',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'리듬 다이나믹(팔 높이, 힘, 오픈 하이햇만 악센트,)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'리듬 솔로 연구 및 연습 - 킥으로 공간 만들기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'그루브 변화 - 기본 리듬→하프타임',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'그루브 4마디마다 변화 ex) 8비트→16비트→연음',chk:false,mins:'',tempo:'',set:''},
+  // 테크닉
+  {cat:'tec',txt:'콤비네이션·스틱킹 - 4연음',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'콤비네이션·스틱킹 - 4연음 6 그루핑',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'콤비네이션 - 오케스트레이션',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'콤비네이션 - 스와핑 활용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스틱킹 - 오케스트레이션',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스틱킹 - 스와핑 활용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스틱킹 - 킥 밀기·유니즌',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용 - 오케스트레이션',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용 - 스와핑',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'엇박 아이디어 (엇박 펄스감 연습, 정박 쉼표, 엇박 악센트, 5·7연음)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'변형·응용 아이디어 - 릭 하나 정해서 단어 만들기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'찹스 솔로 아이디어 및 연습 - 반복 솔로 → 발전하기 ex) 같은 박자로 치다가 더 쪼개기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'찹스 솔로 아이디어 및 연습 - 킥으로 공간 만들기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'피지컬 (탐돌리기, 손발손발, 더블킥, 체력 기르기, 크로스 스틱, RLK다운업)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'자유롭게 찹스 (하이햇 카운트 하면서 찹스)',chk:false,mins:'',tempo:'',set:''},
+  // 리듬+테크닉
+  {cat:'ryt',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'메트로놈 - 1을 n으로 생각하며 연주',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'장르 연습 - Shuffle',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'1코러스 리듬 1코러스 솔로 (리듬, 찹스)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'이야기 전개 연습 (10분이상 끊기지 않고 말하듯)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'작은 다이나믹에 안무너지기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'느린 템포에 안무너지기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 다이나믹, 드럼 부분 제거하고 연주)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'드럼만으로 멜로디 연주',chk:false,mins:'',tempo:'',set:''},
+  // 기타
+  {cat:'etc',txt:'음악듣기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'etc',txt:'카피 (하루 4마디이상 카피후 연습)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'etc',txt:'입시곡',chk:false,mins:'',tempo:'',set:''},
+  {cat:'etc',txt:'녹음',chk:false,mins:'',tempo:'',set:''},
+];
 const DAY_DEFAULTS=[MON_DEFAULT,TUE_DEFAULT,WED_DEFAULT,THU_DEFAULT,FRI_DEFAULT,null,null];
 function loadDefaultCL(list){
   list.forEach(c=>{ if(c.label) addLabel(c.cat,c.txt); else addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set); });
