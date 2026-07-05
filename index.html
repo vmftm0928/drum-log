@@ -1126,11 +1126,14 @@ function clearForm(){
 function saveRec(){
   let sketch='';
   try{sketch=cv.toDataURL('image/png');}catch(e){}
+  // 현재 활성화된 rhytag 저장
+  const activeTags=[...document.querySelectorAll('.rhytag.on')].map(el=>el.querySelector?el.textContent:el.textContent);
   const rec={id:Date.now(),day:currentDay,dayName:DAYS[currentDay],
     date:g('dateInput'),loc:g('locationInput'),goal:g('goalInput'),
     lesson:g('lessonInput'),feel:g('feelInput'),feedback:g('feedbackInput'),
     change:g('changeInput'),
-    tomorrow:g('tomorrowInput'),ptime:g('practiceTimeInput'),stars:sv,cl:getCL(),sketch};
+    tomorrow:g('tomorrowInput'),ptime:g('practiceTimeInput'),stars:sv,cl:getCL(),sketch,
+    rhytags:activeTags};
   const arr=dbGet();arr.unshift(rec);dbSet(arr);
   if(currentDay===6){
     // 일요일 체크리스트 초기화
@@ -1203,14 +1206,32 @@ function openM(id){
       });
     });
   }
+  // 전체 rhytag 목록 (순서대로)
+  const ALL_RHYTAGS=[
+    {id:'rhytag-리니어',txt:'리니어'},{id:'rhytag-오픈하이햇',txt:'오픈 하이햇'},
+    {id:'rhytag-쉼표',txt:'쉼표'},{id:'rhytag-32비트',txt:'32비트'},
+    {id:'rhytag-엇박',txt:'엇박'},{id:'rhytag-Double57',txt:'Double/5/7stroke'},
+    {id:'rhytag-풋하이햇',txt:'풋 하이햇'},{id:'rhytag-스플래쉬',txt:'스플래쉬'},
+    {id:'rhytag-하이햇위치변형',txt:'하이햇 위치변형'},{id:'rhytag-하이햇악센트변형',txt:'하이햇 악센트 변형'},
+    {id:'rhytag-킥위치변경',txt:'킥 위치 변경'},
+    {id:'rhytag-고스트',txt:'고스트'},{id:'rhytag-악센트',txt:'악센트'},
+    {id:'rhytag-프레스',txt:'프레스'},{id:'rhytag-고스트더블',txt:'고스트(더블) 선명도'},
+  ];
+  const activeSet=new Set(r.rhytags||[]);
+  const rhytagHtml=ALL_RHYTAGS.map(t=>{
+    const on=activeSet.has(t.txt);
+    return `<span style="${on?'background:rgba(168,85,247,.35);border-color:var(--rhy);color:#fff;font-weight:600':'background:rgba(42,42,64,.4);border-color:var(--border);color:var(--text3)'};border:1px solid;border-radius:5px;padding:2px 8px;font-size:.73rem;display:inline-block;margin:2px">${t.txt}</span>`;
+  }).join('');
+
   document.getElementById('mtitle').textContent=`${r.dayName?r.dayName+'요일 · ':''}📅 ${r.date} 연습일지`;
   document.getElementById('mbody').innerHTML=`
     ${r.sketch&&r.sketch.length>100?`<div class="mr"><div class="ml">✍️ 아이디어 / 악보 메모</div><img src="${r.sketch}" style="width:100%;border-radius:9px;border:1px solid var(--border);margin-top:6px"></div>`:''}
+    <div class="mr"><div class="ml">🎵 리듬 활용 / 스네어</div><div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px">${rhytagHtml}</div></div>
     ${clh?`<div class="mr"><div class="ml">연습 체크리스트</div>${clh}</div>`:''}
     <div class="mr"><div class="ml">레슨 코멘트</div><div class="mv">${r.lesson||'-'}</div></div>
     <div class="mr"><div class="ml">순 연습시간</div><div class="mv">⏱ ${r.ptime||'-'}</div></div>
     <div class="mr"><div class="ml">피드백</div><div class="mv">${r.feedback||'-'}</div></div>
-    ${r.change?`<div class="mr"><div class="ml">📈 어제보다 달라진점</div><div class="mv">${r.change}</div></div>`:''}
+    <div class="mr"><div class="ml">📈 어제보다 달라진점</div><div class="mv">${r.change||'-'}</div></div>
     <div class="mr"><div class="ml">만족도</div><div class="mv" style="color:var(--gold);letter-spacing:2px">${SS(r.stars)}</div></div>`;
   document.getElementById('modal').style.display='flex';
 }
