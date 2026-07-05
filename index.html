@@ -78,6 +78,11 @@ textarea.inp{resize:vertical;line-height:1.7}
 .ri:hover .rtxt{color:var(--text)}
 .ri.done{opacity:.4}
 .ri.done .rtxt{text-decoration:line-through}
+.ri.ri-active{background:rgba(168,85,247,.2);border-radius:6px}
+.ri.ri-active .rtxt{color:var(--accent3);font-weight:600}
+.rhytag{color:#ccc;cursor:pointer;padding:2px 6px;border-radius:5px;border:1px solid transparent;transition:all .15s;display:inline-block;margin:1px 0}
+.rhytag:hover{color:#fff;border-color:var(--rhy)}
+.rhytag.on{background:rgba(168,85,247,.3);border-color:var(--rhy);color:#fff;font-weight:600}
 .stars{display:flex;gap:8px;margin-top:8px}
 .star{font-size:1.6rem;cursor:pointer;color:var(--text3);transition:transform .1s;-webkit-tap-highlight-color:transparent}
 .star.on{color:var(--gold)}
@@ -202,9 +207,9 @@ textarea.inp{resize:vertical;line-height:1.7}
 </div>
 <div>
 <div class="cath rhy">🎵 리듬
-<div style="font-size:.63rem;font-weight:400;margin-top:4px;line-height:1.8">
-<span style="color:var(--rhy);font-weight:600">활용 → </span><span style="color:#fff">리니어 · 오픈 하이햇 · 쉼표 · 32비트 · 엇박 · Double/5/7stroke · 풋 하이햇 · 스플래쉬 · 하이햇 위치변형</span><br>
-<span style="color:var(--rhy);font-weight:600">스네어 → </span><span style="color:#fff">고스트 · 악센트 · 프레스 · 고스트(더블) 선명도</span>
+<div style="font-size:.63rem;font-weight:400;margin-top:4px;line-height:2">
+<span style="color:var(--rhy);font-weight:600">활용 → </span><span id="rhytag-리니어" class="rhytag" onclick="toggleRhyTag('리니어')">리니어</span> · <span id="rhytag-오픈하이햇" class="rhytag" onclick="toggleRhyTag('오픈하이햇')">오픈 하이햇</span> · <span id="rhytag-쉼표" class="rhytag" onclick="toggleRhyTag('쉼표')">쉼표</span> · <span id="rhytag-32비트" class="rhytag" onclick="toggleRhyTag('32비트')">32비트</span> · <span id="rhytag-엇박" class="rhytag" onclick="toggleRhyTag('엇박')">엇박</span> · <span id="rhytag-Double57" class="rhytag" onclick="toggleRhyTag('Double57')">Double/5/7stroke</span> · <span id="rhytag-풋하이햇" class="rhytag" onclick="toggleRhyTag('풋하이햇')">풋 하이햇</span> · <span id="rhytag-스플래쉬" class="rhytag" onclick="toggleRhyTag('스플래쉬')">스플래쉬</span> · <span id="rhytag-하이햇위치변형" class="rhytag" onclick="toggleRhyTag('하이햇위치변형')">하이햇 위치변형</span> · <span id="rhytag-하이햇악센트변형" class="rhytag" onclick="toggleRhyTag('하이햇악센트변형')">하이햇 악센트 변형</span> · <span id="rhytag-킥위치변경" class="rhytag" onclick="toggleRhyTag('킥위치변경')">킥 위치 변경</span><br>
+<span style="color:var(--rhy);font-weight:600">스네어 → </span><span id="rhytag-고스트" class="rhytag" onclick="toggleRhyTag('고스트')">고스트</span> · <span id="rhytag-악센트" class="rhytag" onclick="toggleRhyTag('악센트')">악센트</span> · <span id="rhytag-프레스" class="rhytag" onclick="toggleRhyTag('프레스')">프레스</span> · <span id="rhytag-고스트더블" class="rhytag" onclick="toggleRhyTag('고스트더블')">고스트(더블) 선명도</span>
 </div>
 </div>
 <table class="clt"><thead><tr><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">SET</th><th style="width:24px"></th></tr></thead><tbody id="body-rhy"></tbody></table>
@@ -326,7 +331,7 @@ const PAD=['싱글 스트로크 (양손)','더블 스트로크 (양손)','트리
 const RHY_TREE=[
   {parent:'킥 위치 변경', children:[]},
   {parent:'스네어', children:['고스트 위치 변형','악센트 위치 변형','프레스 위치 변형','고스트(더블) 선명도']},
-  {parent:'활용', children:['오픈 하이햇 활용','쉼표 활용','32비트 활용','엇박 활용','Duble stroke, 5 stroke, 7stroke 활용','풋 하이햇 활용','스플래쉬 활용','하이햇 위치변형']},
+  {parent:'활용', children:['오픈 하이햇 활용','쉼표 활용','32비트 활용','엇박 활용','Duble stroke, 5 stroke, 7stroke 활용','풋 하이햇 활용','스플래쉬 활용','하이햇 위치변형','하이햇 악센트 변형']},
   {parent:'그루브 연구 및 아이디어', children:['8비트 리듬','16비트 리듬','3연음 리듬','6연음 리듬','셔플','하프 타임','더블타임','크로스 스틱','라이드 리듬','루디먼트 리듬','엇박 리듬','변박','폴리리듬','메트릭 모듈레이션','리니어','쉼표 · 비우기','리듬 그루핑','쪼개기','레이백','핑거링 리듬','가벼운(사부작) 사운드','1을 n 으로 생각하며 연주하기']},
   {parent:'리듬 다이나믹(팔 높이, 힘, 오픈 하이햇만 악센트)', children:[]},
   {parent:'리듬 · 그루브 변화', children:['4마디마다 변화 ex) 8비트→16비트→연음','기본 리듬→하프타임','기본 리듬→더블타임','킥으로 공간 만들기']},
@@ -458,17 +463,28 @@ function buildRhyRef(){
           as();
         });
       } else if(isComboParent){
-        // 킥위치변경·스네어·활용 자식: grooveComboInput에 + 로 붙임
+        // 스네어·활용 자식: 클릭하면 색상 토글 + grooveComboInput에 붙이거나 단독 행 추가
         cd.addEventListener('click',(e)=>{
           e.stopPropagation();
+          // 색상 토글
+          const active = cd.classList.toggle('ri-active');
           if(grooveComboInput && grooveComboInput.isConnected){
+            // 그루브 행이 선택된 상태면 + 로 붙임
             const cur=grooveComboInput.value.trim();
-            grooveComboInput.value = cur + ' + ' + child;
+            if(active){
+              grooveComboInput.value = cur + ' + ' + child;
+            } else {
+              grooveComboInput.value = cur.replace(' + ' + child, '').replace(child + ' + ', '');
+            }
             as();
-            toast('✅ 추가됨: '+child.slice(0,26)+(child.length>26?'…':''));
-          }else{
-            toast('⚠️ 먼저 그루브 연구 항목을 선택해주세요');
+          } else {
+            // 그루브 행 없으면 단독 행으로 추가
+            if(active){
+              addRow('rhy', child);
+              as();
+            }
           }
+          toast((active?'✅ 추가됨: ':'❌ 제거됨: ')+child.slice(0,26)+(child.length>26?'…':''));
         });
       } else {
         // 일반 자식
@@ -740,20 +756,22 @@ function clearDayCLDom(){
 }
 function switchDay(d){
   saveDayCL(currentDay);
+  saveRhyTags(currentDay);
   currentDay=d;
   clearDayCLDom();
   const data=loadDayCL(d);
   if(data&&data.cl){
     data.cl.forEach(c=>addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set));
-    if(d===0) loadMonLabels();
-  } else if(d===0){
-    loadDefaultCL(MON_DEFAULT);
+  } else if(DAY_DEFAULTS[d]){
+    loadDefaultCL(DAY_DEFAULTS[d]);
   }
+  applyRhyTags(d);
   document.querySelectorAll('.daybtn').forEach(btn=>btn.classList.toggle('on',+btn.dataset.day===d));
   document.getElementById('dayLabel').textContent=DAYS[d]+'요일';
   toast('📅 '+DAYS[d]+'요일 체크리스트');
 }
 const MON_DEFAULT=[
+  // 패드
   {cat:'pad',txt:'싱글 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'더블 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'트리플 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
@@ -762,6 +780,12 @@ const MON_DEFAULT=[
   {cat:'pad',txt:'3/6연음',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'스틱 컨트롤, 아메리칸 드럼 솔로',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'자유 스틱킹(악센트, 루디먼트)',chk:false,mins:'',tempo:'',set:''},
+  // 리듬
+  {cat:'rhy',txt:'8비트 리듬',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'16비트 리듬',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'리듬 다이나믹(팔 높이, 힘, 오픈 하이햇만 악센트)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'리듬 솔로 연구 및 연습 - 킥으로 공간 만들기',chk:false,mins:'',tempo:'',set:''},
+  // 테크닉
   {cat:'tec',txt:'콤비네이션·스틱킹 - 4연음',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'콤비네이션·스틱킹 - 4연음 3그루핑',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'콤비네이션 - 오케스트레이션',chk:false,mins:'',tempo:'',set:''},
@@ -769,34 +793,86 @@ const MON_DEFAULT=[
   {cat:'tec',txt:'스틱킹 - 오케스트레이션',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'스틱킹 - 플램 활용',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'스틱킹 - 킥 밀기·유니즌',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콤비네이션·스틱킹 MIX',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콤비네이션 - 심벌 활용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'콤비네이션, 스틱킹 MIX',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용 - 오케스트레이션',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용 - 킥 밀기',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'플램 아이디어(오케스트레이션, 플램 피지컬)',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'제한하기 - 왼손만 시작',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'제한하기 - 왼손 악센트',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'제한하기 - 2번 연속 같은 곳 치기 X',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'찹스 솔로 아이디어 및 연습 - 반복 솔로 → 발전하기 ex) 같은 박자로 치다가 더 쪼개기',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'찹스 솔로 아이디어 및 연습 - 킥으로 공간 만들기',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'피지컬(탐돌리기, 손발손발, 더블킥, 체력 기르기, 크로스 스틱, RLK다운업)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'자유 찹스',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'e&a에 들어가기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'자유 찹스 (하이햇 카운트 하면서 찹스)',chk:false,mins:'',tempo:'',set:''},
+  // 리듬+테크닉
   {cat:'ryt',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'메트로놈 - 1을 n으로 생각하며 연주',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'장르 연습 - R&B',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'장르 연습 - Neo Soul',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'장르 연습 - Ballad',chk:false,mins:'',tempo:'',set:''},
-  {cat:'ryt',txt:'이야기 전개 연습 (10분 이상 끊기지 않고 말하듯)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'이야기 전개 연습 (10분이상 끊기지 않고 말하듯)',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'작은 다이나믹에 안무너지기',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'느린 템포에 안무너지기',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 다이나믹, 드럼 부분 제거하고 연주)',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'드럼만으로 멜로디 연주',chk:false,mins:'',tempo:'',set:''},
+  // 기타
   {cat:'etc',txt:'음악듣기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'etc',txt:'카피 (하루 4마디 이상 카피 후 연습)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'etc',txt:'임시곡',chk:false,mins:'',tempo:'',set:''},
+  {cat:'etc',txt:'카피 (하루 4마디이상 카피후 연습)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'etc',txt:'입시곡',chk:false,mins:'',tempo:'',set:''},
   {cat:'etc',txt:'녹음',chk:false,mins:'',tempo:'',set:''},
 ];
+// 화~금은 사진 받는 대로 채울 예정 — 지금은 월요일과 동일하게 임시 설정
+const TUE_DEFAULT=[
+  // 패드
+  {cat:'pad',txt:'싱글 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'더블 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'핑거링 (양손)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'싱글 더블 MIX',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'임용훈 스트로크',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'루디먼트',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'스틱 컨트롤, 아메리칸 드럼 솔로',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'자유 스틱킹(악센트, 루디먼트)',chk:false,mins:'',tempo:'',set:''},
+  // 리듬
+  {cat:'rhy',txt:'6연음 리듬',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'크로스 스틱',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'레이백',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'리듬 솔로 연구 및 연습 - 킥으로 공간 만들기',chk:false,mins:'',tempo:'',set:''},
+  // 테크닉
+  {cat:'tec',txt:'콤비네이션·스틱킹 - 6연음',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'콤비네이션·스틱킹 - 6연음 4그루핑',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'콤비네이션 - 오케스트레이션',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'콤비네이션 - 32비트 활용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스틱킹 - 오케스트레이션',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스틱킹 - 32비트 활용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스틱킹 - 손 발 치환',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'콤비네이션·스틱킹 MIX',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용 - 오케스트레이션',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용 - 쉼표 활용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'32비트 아이디어 (1e&a에 넣기, 3·6연음 중 사용, 더블, (더블)킥으로, 콤비네이션 + 더블킥 32비트)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'제한하기 - 왼손 악센트',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'제한하기 - 2번 연속 같은 단어 X',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'찹스 다이나믹',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'인디펜던스 교재',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'자유롭게 찹스 (하이햇 카운트 하면서 찹스)',chk:false,mins:'',tempo:'',set:''},
+  // 리듬+테크닉
+  {cat:'ryt',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'메트로놈 - 1을 n으로 생각하며 연주',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'장르 연습 - Hip Hop',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'장르 연습 - Jazz Hip Hop',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'1코러스 리듬 1코러스 솔로 (리듬, 찹스)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'이야기 전개 연습 (10분이상 끊기지 않고 말하듯)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'전진 연습 (절지 않고 쭉 밀고 나가기, 빨라져도 안절게 만들기, 단어 사용하기 편하게 익히기)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 다이나믹, 드럼 부분 제거하고 연주)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'드럼만으로 멜로디 연주',chk:false,mins:'',tempo:'',set:''},
+  // 기타
+  {cat:'etc',txt:'음악듣기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'etc',txt:'카피 (하루 4마디이상 카피후 연습)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'etc',txt:'입시곡',chk:false,mins:'',tempo:'',set:''},
+  {cat:'etc',txt:'녹음',chk:false,mins:'',tempo:'',set:''},
+];
+const WED_DEFAULT=MON_DEFAULT;
+const THU_DEFAULT=MON_DEFAULT;
+const FRI_DEFAULT=[];
+const DAY_DEFAULTS=[MON_DEFAULT,TUE_DEFAULT,WED_DEFAULT,THU_DEFAULT,FRI_DEFAULT,null,null];
 function loadDefaultCL(list){
   list.forEach(c=>{ if(c.label) addLabel(c.cat,c.txt); else addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set); });
 }
@@ -807,14 +883,38 @@ function initDayButtons(){
   const data=loadDayCL(currentDay);
   if(data&&data.cl){
     data.cl.forEach(c=>addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set));
-    if(currentDay===0) loadMonLabels();
-  } else if(currentDay===0){
-    loadDefaultCL(MON_DEFAULT);
+  } else if(DAY_DEFAULTS[currentDay]){
+    loadDefaultCL(DAY_DEFAULTS[currentDay]);
   }
+  applyRhyTags(currentDay);
 }
 function loadMonLabels(){
   MON_DEFAULT.filter(c=>c.label).forEach(c=>addLabel(c.cat,c.txt));
 }
+// ── 리듬 헤더 태그 색상 토글 (요일별) ────────────────────
+const RHYTAG_KEY='drum_rhytag_v1';
+function getRhyTagKey(d){return RHYTAG_KEY+'_'+d;}
+function loadRhyTags(d){
+  try{const r=localStorage.getItem(getRhyTagKey(d));return r?JSON.parse(r):[];}catch(e){return[];}
+}
+function saveRhyTags(d){
+  const active=[...document.querySelectorAll('.rhytag.on')].map(el=>el.id);
+  try{localStorage.setItem(getRhyTagKey(d),JSON.stringify(active));}catch(e){}
+}
+function applyRhyTags(d){
+  const active=new Set(loadRhyTags(d));
+  document.querySelectorAll('.rhytag').forEach(el=>{
+    el.classList.toggle('on',active.has(el.id));
+  });
+}
+function toggleRhyTag(key){
+  const el=document.getElementById('rhytag-'+key);
+  if(!el)return;
+  el.classList.toggle('on');
+  saveRhyTags(currentDay);
+}
+// ──────────────────────────────────────────────────────────
+
 function moveTodoToSunday(){
   saveDayCL(currentDay);
   const sunData=loadDayCL(6);
@@ -867,7 +967,9 @@ function saveRec(){
   const arr=dbGet();arr.unshift(rec);dbSet(arr);
   if(currentDay===6){
     localStorage.removeItem(getDayCLKey(6));
+    localStorage.removeItem(getRhyTagKey(6));
     clearDayCLDom();
+    document.querySelectorAll('.rhytag').forEach(el=>el.classList.remove('on'));
   }
   clearForm();renderHist();
   toast('💾 저장되었습니다!');
