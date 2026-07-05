@@ -1133,10 +1133,28 @@ function saveRec(){
     tomorrow:g('tomorrowInput'),ptime:g('practiceTimeInput'),stars:sv,cl:getCL(),sketch};
   const arr=dbGet();arr.unshift(rec);dbSet(arr);
   if(currentDay===6){
+    // 일요일 체크리스트 초기화
     localStorage.removeItem(getDayCLKey(6));
     localStorage.removeItem(getRhyTagKey(6));
     clearDayCLDom();
     document.querySelectorAll('.rhytag').forEach(el=>el.classList.remove('on'));
+    // 월~토: 체크 표시 해제 + rhytag 초기화
+    for(let d=0;d<6;d++){
+      // rhytag 초기화
+      localStorage.removeItem(getRhyTagKey(d));
+      // 체크리스트 체크 해제 (항목은 유지, 체크만 false)
+      const data=loadDayCL(d);
+      if(data&&data.cl){
+        data.cl.forEach(c=>{c.chk=false;});
+        localStorage.setItem(getDayCLKey(d),JSON.stringify(data));
+      } else if(DAY_DEFAULTS[d]){
+        // 저장 데이터 없으면 기본값으로 초기화
+        const resetList=DAY_DEFAULTS[d].map(c=>({...c,chk:false}));
+        localStorage.setItem(getDayCLKey(d),JSON.stringify({cl:resetList}));
+      }
+      // 버전 유지 (기본값 재로드 방지)
+      localStorage.setItem(DEFAULT_VER_KEY+'_'+d, DEFAULT_VERSION);
+    }
   }
   clearForm();renderHist();
   toast('💾 저장되었습니다!');
