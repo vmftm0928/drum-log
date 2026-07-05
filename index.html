@@ -759,11 +759,13 @@ function switchDay(d){
   saveRhyTags(currentDay);
   currentDay=d;
   clearDayCLDom();
-  const data=loadDayCL(d);
-  if(data&&data.cl){
-    data.cl.forEach(c=>addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set));
-  } else if(DAY_DEFAULTS[d]){
+  if(shouldUseDefault(d) && DAY_DEFAULTS[d]){
     loadDefaultCL(DAY_DEFAULTS[d]);
+    markDefaultApplied(d);
+    saveDayCL(d);
+  } else {
+    const data=loadDayCL(d);
+    if(data&&data.cl) data.cl.forEach(c=>addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set));
   }
   applyRhyTags(d);
   document.querySelectorAll('.daybtn').forEach(btn=>btn.classList.toggle('on',+btn.dataset.day===d));
@@ -1021,18 +1023,35 @@ const FRI_DEFAULT=[
   {cat:'etc',txt:'녹음',chk:false,mins:'',tempo:'',set:''},
 ];
 const DAY_DEFAULTS=[MON_DEFAULT,TUE_DEFAULT,WED_DEFAULT,THU_DEFAULT,FRI_DEFAULT,null,null];
+const DEFAULT_VERSION='v2.0'; // 기본값 바뀌면 이 숫자 올리기
+const DEFAULT_VER_KEY='drum_default_ver';
+
 function loadDefaultCL(list){
   list.forEach(c=>{ if(c.label) addLabel(c.cat,c.txt); else addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set); });
+}
+
+function shouldUseDefault(d){
+  // 저장된 데이터가 없거나 버전이 다르면 기본값 사용
+  const savedVer = localStorage.getItem(DEFAULT_VER_KEY+'_'+d);
+  if(savedVer !== DEFAULT_VERSION) return true;
+  const data = loadDayCL(d);
+  return !data || !data.cl || data.cl.length === 0;
+}
+
+function markDefaultApplied(d){
+  localStorage.setItem(DEFAULT_VER_KEY+'_'+d, DEFAULT_VERSION);
 }
 
 function initDayButtons(){
   document.querySelectorAll('.daybtn').forEach(btn=>btn.classList.toggle('on',+btn.dataset.day===currentDay));
   document.getElementById('dayLabel').textContent=DAYS[currentDay]+'요일';
-  const data=loadDayCL(currentDay);
-  if(data&&data.cl){
-    data.cl.forEach(c=>addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set));
-  } else if(DAY_DEFAULTS[currentDay]){
+  if(shouldUseDefault(currentDay) && DAY_DEFAULTS[currentDay]){
     loadDefaultCL(DAY_DEFAULTS[currentDay]);
+    markDefaultApplied(currentDay);
+    saveDayCL(currentDay);
+  } else {
+    const data=loadDayCL(currentDay);
+    if(data&&data.cl) data.cl.forEach(c=>addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set));
   }
   applyRhyTags(currentDay);
 }
