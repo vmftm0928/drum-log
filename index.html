@@ -83,6 +83,9 @@ textarea.inp{resize:vertical;line-height:1.7}
 .rhytag{color:#ccc;cursor:pointer;padding:2px 6px;border-radius:5px;border:1px solid transparent;transition:all .15s;display:inline-block;margin:1px 0}
 .rhytag:hover{color:#fff;border-color:var(--rhy)}
 .rhytag.on{background:rgba(168,85,247,.3);border-color:var(--rhy);color:#fff;font-weight:600}
+.tectag{color:#ccc;cursor:pointer;padding:2px 6px;border-radius:5px;border:1px solid transparent;transition:all .15s;display:inline-block;margin:1px 0}
+.tectag:hover{color:#fff;border-color:var(--tec)}
+.tectag.on{background:rgba(34,197,94,.3);border-color:var(--tec);color:#fff;font-weight:600}
 .stars{display:flex;gap:8px;margin-top:8px}
 .star{font-size:1.6rem;cursor:pointer;color:var(--text3);transition:transform .1s;-webkit-tap-highlight-color:transparent}
 .star.on{color:var(--gold)}
@@ -208,17 +211,33 @@ textarea.inp{resize:vertical;line-height:1.7}
 <div>
 <div class="cath rhy">🎵 리듬
 <div style="font-size:.63rem;font-weight:400;margin-top:4px;line-height:2">
-<span style="color:var(--rhy);font-weight:600">활용 → </span><span id="rhytag-리니어" class="rhytag" onclick="toggleRhyTag('리니어')">리니어</span> · <span id="rhytag-오픈하이햇" class="rhytag" onclick="toggleRhyTag('오픈하이햇')">오픈 하이햇</span> · <span id="rhytag-쉼표" class="rhytag" onclick="toggleRhyTag('쉼표')">쉼표</span> · <span id="rhytag-32비트" class="rhytag" onclick="toggleRhyTag('32비트')">32비트</span> · <span id="rhytag-엇박" class="rhytag" onclick="toggleRhyTag('엇박')">엇박</span> · <span id="rhytag-Double57" class="rhytag" onclick="toggleRhyTag('Double57')">Double/5/7stroke</span> · <span id="rhytag-풋하이햇" class="rhytag" onclick="toggleRhyTag('풋하이햇')">풋 하이햇</span> · <span id="rhytag-스플래쉬" class="rhytag" onclick="toggleRhyTag('스플래쉬')">스플래쉬</span> · <span id="rhytag-하이햇위치변형" class="rhytag" onclick="toggleRhyTag('하이햇위치변형')">하이햇 위치변형</span> · <span id="rhytag-하이햇악센트변형" class="rhytag" onclick="toggleRhyTag('하이햇악센트변형')">하이햇 악센트 변형</span> · <span id="rhytag-킥위치변경" class="rhytag" onclick="toggleRhyTag('킥위치변경')">킥 위치 변경</span><br>
-<span style="color:var(--rhy);font-weight:600">스네어 → </span><span id="rhytag-고스트" class="rhytag" onclick="toggleRhyTag('고스트')">고스트</span> · <span id="rhytag-악센트" class="rhytag" onclick="toggleRhyTag('악센트')">악센트</span> · <span id="rhytag-프레스" class="rhytag" onclick="toggleRhyTag('프레스')">프레스</span> · <span id="rhytag-고스트더블" class="rhytag" onclick="toggleRhyTag('고스트더블')">고스트(더블) 선명도</span>
+<span style="color:var(--rhy);font-weight:600">활용 → </span><span id="rhytag-리니어" class="rhytag" onclick="toggleRhyTag('리니어')">리니어</span> · <span id="rhytag-오픈하이햇" class="rhytag" onclick="toggleRhyTag('오픈하이햇')">오픈 하이햇</span> · <span id="rhytag-쉼표" class="rhytag" onclick="toggleRhyTag('쉼표')">쉼표</span> · <span id="rhytag-32비트" class="rhytag" onclick="toggleRhyTag('32비트')">32비트</span> · <span id="rhytag-엇박" class="rhytag" onclick="toggleRhyTag('엇박')">엇박</span> · <span id="rhytag-Double57" class="rhytag" onclick="toggleRhyTag('Double57')">Double/5/7stroke</span> · <span id="rhytag-풋하이햇" class="rhytag" onclick="toggleRhyTag('풋하이햇')">풋 하이햇</span> · <span id="rhytag-스플래쉬" class="rhytag" onclick="toggleRhyTag('스플래쉬')">스플래쉬</span> · <span id="rhytag-하이햇위치변형" class="rhytag" onclick="toggleRhyTag('하이햇위치변형')">하이햇 위치변형</span> · <span id="rhytag-하이햇악센트변형" class="rhytag" onclick="toggleRhyTag('하이햇악센트변형')">하이햇 악센트 변형</span> · <span id="rhytag-킥위치변경" class="rhytag" onclick="toggleRhyTag('킥위치변경')">킥 위치 변경</span> · <span id="rhytag-다이나믹" class="rhytag" onclick="toggleRhyTag('다이나믹')">다이나믹</span> · <span id="rhytag-사부작" class="rhytag" onclick="toggleRhyTag('사부작')">사부작 리듬</span> · <span id="rhytag-사이드스틱" class="rhytag" onclick="toggleRhyTag('사이드스틱')">사이드 스틱</span><br>
+<span style="color:var(--rhy);font-weight:600">스네어 → </span><span id="rhytag-고스트" class="rhytag" onclick="toggleRhyTag('고스트')">고스트</span> · <span id="rhytag-악센트" class="rhytag" onclick="toggleRhyTag('악센트')">악센트</span> · <span id="rhytag-프레스" class="rhytag" onclick="toggleRhyTag('프레스')">프레스</span> · <span id="rhytag-고스트더블" class="rhytag" onclick="toggleRhyTag('고스트더블')">고스트(더블) 선명도</span> · <span id="rhytag-레이백" class="rhytag" onclick="toggleRhyTag('레이백')">레이백</span><br>
+<span style="color:var(--rhy);font-weight:600">그루핑 → </span><span id="rhytag-3그루핑" class="rhytag" onclick="toggleRhyTag('3그루핑')">3그루핑</span> · <span id="rhytag-4그루핑" class="rhytag" onclick="toggleRhyTag('4그루핑')">4그루핑</span> · <span id="rhytag-5그루핑" class="rhytag" onclick="toggleRhyTag('5그루핑')">5그루핑</span> · <span id="rhytag-6그루핑" class="rhytag" onclick="toggleRhyTag('6그루핑')">6그루핑</span>
 </div>
 </div>
 <table class="clt"><thead><tr><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">번호</th><th style="width:24px"></th></tr></thead><tbody id="body-rhy"></tbody></table>
 <button class="addbtn" onclick="addRow('rhy','')">+ 리듬 항목 추가</button>
 </div>
 <div>
-<div class="cath tec">⚡ 테크닉</div>
+<div class="cath tec">⚡ 테크닉
+<div style="font-size:.63rem;font-weight:400;margin-top:4px;line-height:2">
+<span style="color:var(--tec);font-weight:600">활용 → </span><span id="tectag-오케스트레이션" class="tectag" onclick="toggleTecTag('오케스트레이션')">오케스트레이션</span> · <span id="tectag-플램활용" class="tectag" onclick="toggleTecTag('플램활용')">플램 활용</span> · <span id="tectag-32비트활용" class="tectag" onclick="toggleTecTag('32비트활용')">32비트 활용</span> · <span id="tectag-쉼표활용" class="tectag" onclick="toggleTecTag('쉼표활용')">쉼표 활용</span> · <span id="tectag-심벌활용" class="tectag" onclick="toggleTecTag('심벌활용')">심벌 활용</span> · <span id="tectag-엇박활용" class="tectag" onclick="toggleTecTag('엇박활용')">엇박 활용</span> · <span id="tectag-스와핑활용" class="tectag" onclick="toggleTecTag('스와핑활용')">스와핑 활용</span> · <span id="tectag-킥밀기유니즌" class="tectag" onclick="toggleTecTag('킥밀기유니즌')">킥 밀기·유니즌</span> · <span id="tectag-손발치환" class="tectag" onclick="toggleTecTag('손발치환')">손발 치환</span> · <span id="tectag-다이나믹" class="tectag" onclick="toggleTecTag('다이나믹')">다이나믹</span><br>
+<span style="color:var(--tec);font-weight:600">연음·그루핑 → </span><span id="tectag-4연음" class="tectag" onclick="toggleTecTag('4연음')">4연음</span> · <span id="tectag-4연음3그루핑" class="tectag" onclick="toggleTecTag('4연음3그루핑')">4연음 3그루핑</span> · <span id="tectag-4연음5그루핑" class="tectag" onclick="toggleTecTag('4연음5그루핑')">4연음 5그루핑</span> · <span id="tectag-4연음6그루핑" class="tectag" onclick="toggleTecTag('4연음6그루핑')">4연음 6그루핑</span> · <span id="tectag-6연음" class="tectag" onclick="toggleTecTag('6연음')">6연음</span> · <span id="tectag-6연음4그루핑" class="tectag" onclick="toggleTecTag('6연음4그루핑')">6연음 4그루핑</span> · <span id="tectag-6연음5그루핑" class="tectag" onclick="toggleTecTag('6연음5그루핑')">6연음 5그루핑</span>
+</div>
+</div>
 <table class="clt"><thead><tr><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">번호</th><th style="width:24px"></th></tr></thead><tbody id="body-tec"></tbody></table>
 <button class="addbtn" onclick="addRow('tec','')">+ 테크닉 항목 추가</button>
+</div>
+<div>
+<div class="cath" style="background:rgba(168,85,247,.13);color:#e879f9;border-left:3px solid #e879f9">🎵 리듬 솔로 아이디어 <span style="font-size:.6rem;font-weight:400;opacity:.7">✦ 요일 공유</span></div>
+<table class="clt"><thead><tr><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">번호</th><th style="width:24px"></th></tr></thead><tbody id="body-rsolo"></tbody></table>
+<button class="addbtn" onclick="addSharedRow('rsolo','')">+ 리듬 솔로 아이디어 추가</button>
+</div>
+<div>
+<div class="cath" style="background:rgba(34,197,94,.13);color:#4ade80;border-left:3px solid #4ade80">⚡ 테크닉 솔로 아이디어 <span style="font-size:.6rem;font-weight:400;opacity:.7">✦ 요일 공유</span></div>
+<table class="clt"><thead><tr><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">번호</th><th style="width:24px"></th></tr></thead><tbody id="body-tsolo"></tbody></table>
+<button class="addbtn" onclick="addSharedRow('tsolo','')">+ 테크닉 솔로 아이디어 추가</button>
 </div>
 <div>
 <div class="cath ryt">🎼 리듬+테크닉</div>
@@ -608,7 +627,8 @@ buildRytecRef();
 
 function addRow(cat,txt,chk,mins,tempo,set){
   const tb=document.getElementById('body-'+cat);
-  // 패드에서 싱글/더블/핑거링 스트로크는 세트, 나머지는 번호
+  if(!tb) return;
+  // 패드에서 싱글/더블/핑거링/트리플 스트로크는 세트, 나머지는 번호
   const padSetItems=['싱글 스트로크 (양손)','더블 스트로크 (양손)','핑거링 (양손)','트리플 스트로크 (양손)'];
   const setLabel = (cat==='pad' && padSetItems.some(s=>txt&&txt.includes(s.split(' ')[0]))) ? '세트' : '번호';
   const tr=document.createElement('tr'); tr.className='clr';
@@ -623,6 +643,7 @@ function addRow(cat,txt,chk,mins,tempo,set){
 }
 function addLabel(cat,txt){
   const tb=document.getElementById('body-'+cat);
+  if(!tb) return;
   const tr=document.createElement('tr'); tr.className='clr cllabel';
   tr.innerHTML=`<td colspan="6" style="padding:5px 10px;font-size:.72rem;color:var(--text3);font-style:italic;letter-spacing:.3px;border-bottom:1px solid var(--border);user-select:none">${txt}</td>`;
   tb.appendChild(tr);
@@ -760,11 +781,15 @@ function loadDayCL(d){
   try{ const r=localStorage.getItem(getDayCLKey(d)); return r?JSON.parse(r):null; }catch(e){return null;}
 }
 function clearDayCLDom(){
-  ['pad','rhy','tec','ryt','book','etc'].forEach(c=>document.getElementById('body-'+c).innerHTML='');
+  ['pad','rhy','tec','ryt','book','etc'].forEach(c=>{
+    const el=document.getElementById('body-'+c);
+    if(el) el.innerHTML='';
+  });
 }
 function switchDay(d){
   saveDayCL(currentDay);
   saveRhyTags(currentDay);
+  saveTecTags(currentDay);
   currentDay=d;
   clearDayCLDom();
   if(shouldUseDefault(d) && DAY_DEFAULTS[d]){
@@ -776,6 +801,8 @@ function switchDay(d){
     if(data&&data.cl) data.cl.forEach(c=>addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set));
   }
   applyRhyTags(d);
+  applyTecTags(d);
+  loadSharedSoloDom();
   document.querySelectorAll('.daybtn').forEach(btn=>btn.classList.toggle('on',+btn.dataset.day===d));
   document.getElementById('dayLabel').textContent=DAYS[d]+'요일';
   toast('📅 '+DAYS[d]+'요일 체크리스트');
@@ -793,32 +820,24 @@ const MON_DEFAULT=[
   // 리듬
   {cat:'rhy',txt:'8비트 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'16비트 리듬',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'리듬 다이나믹(팔 높이, 힘, 오픈 하이햇만 악센트)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'리듬 솔로 연구 및 연습 - 킥으로 공간 만들기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'폴리리듬',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
-  {cat:'tec',txt:'콤비네이션·스틱킹 - 4연음',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콤비네이션·스틱킹 - 4연음 3그루핑',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콤비네이션 - 오케스트레이션',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콤비네이션 - 플램 활용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱킹 - 오케스트레이션',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱킹 - 플램 활용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱킹 - 킥 밀기·유니즌',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'콤비네이션',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스틱킹',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'콤비네이션, 스틱킹 MIX',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용 - 오케스트레이션',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용 - 킥 밀기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'플램 아이디어(오케스트레이션, 플램 피지컬)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'엇박 아이디어 (엇박 펄스감 연습, 정박 쉼표, 엇박 악센트, 5·7연음)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'변형·응용 아이디어 - 릭 하나 정해서 단어 만들기',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'제한하기 - 왼손만 시작',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'제한하기 - 2번 연속 같은 곳 치기 X',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'찹스 다이나믹',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'피지컬(탐돌리기, 손발손발, 더블킥, 체력 기르기, 크로스 스틱, RLK다운업)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'피지컬 - 탐돌리기',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'자유 찹스 (하이햇 카운트 하면서 찹스)',chk:false,mins:'',tempo:'',set:''},
   // 리듬+테크닉
   {cat:'ryt',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'ryt',txt:'메트로놈 - 1을 n으로 생각하며 연주',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'장르 연습 - R&B',chk:false,mins:'',tempo:'',set:''},
-  {cat:'ryt',txt:'장르 연습 - Neo Soul',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'장르 연습 - Ballad',chk:false,mins:'',tempo:'',set:''},
-  {cat:'ryt',txt:'이야기 전개 연습 (10분이상 끊기지 않고 말하듯)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'솔로 전개 연습',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'작은 다이나믹에 안무너지기',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'느린 템포에 안무너지기',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 다이나믹, 드럼 부분 제거하고 연주)',chk:false,mins:'',tempo:'',set:''},
@@ -846,35 +865,26 @@ const TUE_DEFAULT=[
   {cat:'pad',txt:'자유 스틱킹(악센트, 루디먼트)',chk:false,mins:'',tempo:'',set:''},
   // 리듬
   {cat:'rhy',txt:'6연음 리듬',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'크로스 스틱',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'레이백',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'리듬 솔로 연구 및 연습 - 킥으로 공간 만들기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'8연음 리듬',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
-  {cat:'tec',txt:'콤비네이션·스틱킹 - 6연음',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콤비네이션·스틱킹 - 6연음 4그루핑',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콤비네이션 - 오케스트레이션',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콤비네이션 - 32비트 활용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱킹 - 오케스트레이션',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱킹 - 32비트 활용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱킹 - 손 발 치환',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'콤비네이션',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스틱킹',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'콤비네이션·스틱킹 MIX',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용 - 오케스트레이션',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용 - 쉼표 활용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'32비트 아이디어 (1e&a에 넣기, 3·6연음 중 사용, 더블, (더블)킥으로, 콤비네이션 + 더블킥 32비트)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스와핑 아이디어 (멀리 빠르게 이동, 왼손 오른손 밸런스, 팔 사용)',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'제한하기 - 왼손 악센트',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'제한하기 - 2번 연속 같은 단어 X',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'찹스 다이나믹',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'찹스 솔로 아이디어 및 연습 - 반복 솔로 → 발전하기 ex) 같은 박자로 치다가 더 쪼개기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'찹스 솔로 아이디어 및 연습 - 킥으로 공간 만들기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'피지컬(탐돌리기, 손발손발, 더블킥, 체력 기르기, 크로스 스틱, RLK다운업)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'피지컬 - 손발손발',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'자유롭게 찹스 (하이햇 카운트 하면서 찹스)',chk:false,mins:'',tempo:'',set:''},
   // 리듬+테크닉
   {cat:'ryt',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'메트로놈 - 1을 n으로 생각하며 연주',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'장르 연습 - Neo Soul',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'장르 연습 - Hip Hop',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'장르 연습 - Jazz Hip Hop',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'1코러스 리듬 1코러스 솔로 (리듬, 찹스)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'ryt',txt:'이야기 전개 연습 (10분이상 끊기지 않고 말하듯)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'솔로 전개 연습',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'전진 연습 (절지 않고 쭉 밀고 나가기, 빨라져도 안절게 만들기, 단어 사용하기 편하게 익히기)',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 다이나믹, 드럼 부분 제거하고 연주)',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'드럼만으로 멜로디 연주',chk:false,mins:'',tempo:'',set:''},
@@ -899,36 +909,26 @@ const WED_DEFAULT=[
   {cat:'pad',txt:'스틱 컨트롤, 아메리칸 드럼 솔로',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'자유 스틱킹(악센트, 루디먼트)',chk:false,mins:'',tempo:'',set:''},
   // 리듬
-  {cat:'rhy',txt:'8연음 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'루디먼트 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'엇박 리듬',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'리듬 그루핑',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'리듬 다이나믹(팔 높이, 힘, 오픈 하이햇만 악센트)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'리듬 솔로 연구 및 연습 - 킥으로 공간 만들기',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
-  {cat:'tec',txt:'콤비네이션·스틱킹 - 4연음',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콤비네이션·스틱킹 - 4연음 5그루핑',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콤비네이션 - 오케스트레이션',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콤비네이션 - 쉼표 활용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱킹 - 오케스트레이션',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱킹 - 쉼표 활용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱킹 - 킥 밀기·유니즌',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'콤비네이션',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스틱킹',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'콤비네이션·스틱킹 MIX',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용 - 오케스트레이션',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용 - 플램 활용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'쉼표 아이디어 (쉼표 자리에 풋하이햇)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'엇박 아이디어 (엇박 펄스감 연습, 정박 쉼표, 엇박 악센트, 5·7연음)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'변형·응용 아이디어 - 릭 하나 정해서 단어 만들기',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'제한하기 - 1 e & a 섹션 or 필 고정',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'제한하기 - 더블킥 X',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'찹스 다이나믹',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'피지컬(탐돌리기, 손발손발, 더블킥, 체력 기르기, 크로스 스틱, RLK다운업)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'피지컬 - 더블킥',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'자유롭게 찹스 (하이햇 카운트 하면서 찹스)',chk:false,mins:'',tempo:'',set:''},
   // 리듬+테크닉
   {cat:'ryt',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'ryt',txt:'메트로놈 - 1을 n으로 생각하며 연주',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'장르 연습 - Funk',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'장르 연습 - Gospel',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'1코러스 리듬 1코러스 솔로 (리듬, 찹스)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'ryt',txt:'이야기 전개 연습 (10분이상 끊기지 않고 말하듯)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'솔로 전개 연습',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'작은 다이나믹에 안무너지기',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'느린 템포에 안무너지기',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 다이나믹, 드럼 부분 제거하고 연주)',chk:false,mins:'',tempo:'',set:''},
@@ -956,34 +956,24 @@ const THU_DEFAULT=[
   // 리듬
   {cat:'rhy',txt:'스윙 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'라틴 리듬',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'가벼운(사부작) 사운드',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'핑거링 리듬',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'리듬 솔로 연구 및 연습 - 킥으로 공간 만들기',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
-  {cat:'tec',txt:'콤비네이션·스틱킹 - 6연음',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콤비네이션·스틱킹 - 6연음 5그루핑',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콤비네이션 - 오케스트레이션',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콤비네이션 - 엇박 활용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱킹 - 오케스트레이션',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱킹 - 엇박 활용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱킹 - 손 발 치환',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'콤비네이션',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스틱킹',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'콤비네이션·스틱킹 MIX',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용 - 32비트 활용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'심벌 아이디어 (스플래쉬, 심벌, 라이드 벨, 오픈 하이햇, 스와핑+스플래쉬)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스와핑 아이디어 (멀리 빠르게 이동, 왼손 오른손 밸런스, 팔 사용)',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'제한하기 - 탐 금지',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'제한하기 - 하이햇 사용 금지',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'찹스 솔로 아이디어 및 연습 - 반복 솔로 → 발전하기 ex) 같은 박자로 치다가 더 쪼개기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'찹스 솔로 아이디어 및 연습 - 킥으로 공간 만들기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'피지컬(탐돌리기, 손발손발, 더블킥, 체력 기르기, 크로스 스틱, RLK다운업)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'피지컬 - RLK다운업',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'자유롭게 찹스 (하이햇 카운트 하면서 찹스)',chk:false,mins:'',tempo:'',set:''},
   // 리듬+테크닉
-  {cat:'ryt',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'메트로놈 - 1을 n으로 생각하며 연주',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'장르 연습 - Jazz',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'장르 연습 - Fusion',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'장르 연습 - Latin',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'1코러스 리듬 1코러스 솔로 (리듬, 찹스)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'ryt',txt:'이야기 전개 연습 (10분이상 끊기지 않고 말하듯)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'솔로 전개 연습',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'전진 연습 (절지 않고 쭉 밀고 나가기, 빨라져도 안절게 만들기, 단어 사용하기 편하게 익히기)',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 다이나믹, 드럼 부분 제거하고 연주)',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'드럼만으로 멜로디 연주',chk:false,mins:'',tempo:'',set:''},
@@ -1009,33 +999,21 @@ const FRI_DEFAULT=[
   {cat:'rhy',txt:'셔플',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'변박',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'메트릭 모듈레이션',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'폴리리듬',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'리듬 다이나믹(팔 높이, 힘, 오픈 하이햇만 악센트,)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'리듬 솔로 연구 및 연습 - 킥으로 공간 만들기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'그루브 변화 - 기본 리듬→하프타임',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'그루브 4마디마다 변화 ex) 8비트→16비트→연음',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
-  {cat:'tec',txt:'콤비네이션·스틱킹 - 4연음',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콤비네이션·스틱킹 - 4연음 6 그루핑',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콤비네이션 - 오케스트레이션',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콤비네이션 - 스와핑 활용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱킹 - 오케스트레이션',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱킹 - 스와핑 활용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱킹 - 킥 밀기·유니즌',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'콤비네이션',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스틱킹',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'콤비네이션·스틱킹 MIX',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용 - 오케스트레이션',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용 - 스와핑',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'쉼표 아이디어 (쉼표 자리에 풋하이햇)',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'엇박 아이디어 (엇박 펄스감 연습, 정박 쉼표, 엇박 악센트, 5·7연음)',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'변형·응용 아이디어 - 릭 하나 정해서 단어 만들기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'찹스 다이나믹',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'피지컬(탐돌리기, 손발손발, 더블킥, 체력 기르기, 크로스 스틱, RLK다운업)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'피지컬 - 탐돌리기',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'자유롭게 찹스 (하이햇 카운트 하면서 찹스)',chk:false,mins:'',tempo:'',set:''},
   // 리듬+테크닉
   {cat:'ryt',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'ryt',txt:'메트로놈 - 1을 n으로 생각하며 연주',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'장르 연습 - Shuffle',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'1코러스 리듬 1코러스 솔로 (리듬, 찹스)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'ryt',txt:'이야기 전개 연습 (10분이상 끊기지 않고 말하듯)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'ryt',txt:'솔로 전개 연습',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'작은 다이나믹에 안무너지기',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'느린 템포에 안무너지기',chk:false,mins:'',tempo:'',set:''},
   {cat:'ryt',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 다이나믹, 드럼 부분 제거하고 연주)',chk:false,mins:'',tempo:'',set:''},
@@ -1051,7 +1029,7 @@ const FRI_DEFAULT=[
   {cat:'book',txt:'뉴 브리드 교재',chk:false,mins:'',tempo:'',set:''},
 ];
 const DAY_DEFAULTS=[MON_DEFAULT,TUE_DEFAULT,WED_DEFAULT,THU_DEFAULT,FRI_DEFAULT,null,null];
-const DEFAULT_VERSION='v4.0'; // 기본값 바뀌면 이 숫자 올리기
+const DEFAULT_VERSION='v10.2'; // 기본값 바뀌면 이 숫자 올리기
 const DEFAULT_VER_KEY='drum_default_ver';
 
 function loadDefaultCL(list){
@@ -1082,6 +1060,8 @@ function initDayButtons(){
     if(data&&data.cl) data.cl.forEach(c=>addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set));
   }
   applyRhyTags(currentDay);
+  applyTecTags(currentDay);
+  loadSharedSoloDom();
 }
 function loadMonLabels(){
   MON_DEFAULT.filter(c=>c.label).forEach(c=>addLabel(c.cat,c.txt));
@@ -1107,6 +1087,62 @@ function toggleRhyTag(key){
   if(!el)return;
   el.classList.toggle('on');
   saveRhyTags(currentDay);
+}
+// ──────────────────────────────────────────────────────────
+
+// ── 테크닉 헤더 태그 색상 토글 (요일별) ─────────────────
+const TECTAG_KEY='drum_tectag_v1';
+function getTecTagKey(d){return TECTAG_KEY+'_'+d;}
+function loadTecTags(d){
+  try{const r=localStorage.getItem(getTecTagKey(d));return r?JSON.parse(r):[];}catch(e){return[];}
+}
+function saveTecTags(d){
+  const active=[...document.querySelectorAll('.tectag.on')].map(el=>el.id);
+  try{localStorage.setItem(getTecTagKey(d),JSON.stringify(active));}catch(e){}
+}
+function applyTecTags(d){
+  const active=new Set(loadTecTags(d));
+  document.querySelectorAll('.tectag').forEach(el=>{
+    el.classList.toggle('on',active.has(el.id));
+  });
+}
+function toggleTecTag(key){
+  const el=document.getElementById('tectag-'+key);
+  if(!el)return;
+  el.classList.toggle('on');
+  saveTecTags(currentDay);
+}
+// ──────────────────────────────────────────────────────────
+
+// ── 공유 솔로 아이디어 (요일 무관 공유) ─────────────────
+const SOLO_KEY='drum_solo_shared_v1';
+function loadSharedSolo(){
+  try{return JSON.parse(localStorage.getItem(SOLO_KEY))||{rsolo:[],tsolo:[]};}catch{return{rsolo:[],tsolo:[]};}
+}
+function saveSharedSolo(){
+  const rsolo=[],tsolo=[];
+  document.querySelectorAll('#body-rsolo .clr:not(.cllabel)').forEach(tr=>{
+    const txt=tr.querySelector('.cltxt').value.trim();if(!txt)return;
+    const nums=tr.querySelectorAll('.clnum');
+    rsolo.push({txt,chk:tr.querySelector('input[type=checkbox]').checked,mins:nums[0].value,tempo:nums[1].value,set:nums[2].value});
+  });
+  document.querySelectorAll('#body-tsolo .clr:not(.cllabel)').forEach(tr=>{
+    const txt=tr.querySelector('.cltxt').value.trim();if(!txt)return;
+    const nums=tr.querySelectorAll('.clnum');
+    tsolo.push({txt,chk:tr.querySelector('input[type=checkbox]').checked,mins:nums[0].value,tempo:nums[1].value,set:nums[2].value});
+  });
+  try{localStorage.setItem(SOLO_KEY,JSON.stringify({rsolo,tsolo}));}catch(e){}
+}
+function loadSharedSoloDom(){
+  const data=loadSharedSolo();
+  document.getElementById('body-rsolo').innerHTML='';
+  document.getElementById('body-tsolo').innerHTML='';
+  data.rsolo.forEach(c=>addRow('rsolo',c.txt,c.chk,c.mins,c.tempo,c.set));
+  data.tsolo.forEach(c=>addRow('tsolo',c.txt,c.chk,c.mins,c.tempo,c.set));
+}
+function addSharedRow(cat,txt){
+  addRow(cat,txt);
+  saveSharedSolo();
 }
 // ──────────────────────────────────────────────────────────
 
@@ -1139,7 +1175,7 @@ function toggleRef(){
 // ──────────────────────────────────────────────────────────
 
 let asTimer;
-function as(){clearTimeout(asTimer);asTimer=setTimeout(()=>saveDayCL(currentDay),600);}
+function as(){clearTimeout(asTimer);asTimer=setTimeout(()=>{saveDayCL(currentDay);saveSharedSolo();},600);}
 function g(id){const el=document.getElementById(id);return el?el.value:'';}
 function s(id,v){const el=document.getElementById(id);if(el)el.value=v||'';}
 
@@ -1156,23 +1192,27 @@ function saveRec(){
   try{sketch=cv.toDataURL('image/png');}catch(e){}
   // 현재 활성화된 rhytag 저장
   const activeTags=[...document.querySelectorAll('.rhytag.on')].map(el=>el.querySelector?el.textContent:el.textContent);
+  const activeTecTags=[...document.querySelectorAll('.tectag.on')].map(el=>el.textContent);
   const rec={id:Date.now(),day:currentDay,dayName:DAYS[currentDay],
     date:g('dateInput'),loc:g('locationInput'),goal:g('goalInput'),
     lesson:g('lessonInput'),feel:g('feelInput'),feedback:g('feedbackInput'),
     change:g('changeInput'),
     tomorrow:g('tomorrowInput'),ptime:g('practiceTimeInput'),stars:sv,cl:getCL(),sketch,
-    rhytags:activeTags};
+    rhytags:activeTags, tectags:activeTecTags};
   const arr=dbGet();arr.unshift(rec);dbSet(arr);
   if(currentDay===6){
     // 일요일 체크리스트 초기화
     localStorage.removeItem(getDayCLKey(6));
     localStorage.removeItem(getRhyTagKey(6));
+    localStorage.removeItem(getTecTagKey(6));
     clearDayCLDom();
     document.querySelectorAll('.rhytag').forEach(el=>el.classList.remove('on'));
+    document.querySelectorAll('.tectag').forEach(el=>el.classList.remove('on'));
     // 월~토: 체크 표시 해제 + rhytag 초기화
     for(let d=0;d<6;d++){
-      // rhytag 초기화
+      // rhytag, tectag 초기화
       localStorage.removeItem(getRhyTagKey(d));
+      localStorage.removeItem(getTecTagKey(d));
       // 체크리스트 체크 해제 (항목은 유지, 체크만 false)
       const data=loadDayCL(d);
       if(data&&data.cl){
@@ -1221,11 +1261,11 @@ function renderHist(){
 
 function openM(id){
   const r=dbGet().find(x=>x.id===id);if(!r)return;
-  const CI={pad:'🥁',rhy:'🎵',tec:'⚡',ryt:'🎼',book:'📚',etc:'기타'};
-  const CN={pad:'패드',rhy:'리듬',tec:'테크닉',ryt:'리듬+테크닉',book:'교재',etc:'기타'};
+  const CI={pad:'🥁',rhy:'🎵',tec:'⚡',ryt:'🎼',rsolo:'🎵',tsolo:'⚡',book:'📚',etc:'기타'};
+  const CN={pad:'패드',rhy:'리듬',tec:'테크닉',ryt:'리듬+테크닉',rsolo:'리듬 솔로 아이디어',tsolo:'테크닉 솔로 아이디어',book:'교재',etc:'기타'};
   let clh='';
   if(r.cl&&r.cl.length){
-    ['pad','rhy','tec','ryt','book','etc'].forEach(c=>{
+    ['pad','rhy','tec','ryt','rsolo','tsolo','book','etc'].forEach(c=>{
       const items=r.cl.filter(x=>x.cat===c);if(!items.length)return;
       clh+=`<div style="font-size:.68rem;color:var(--text3);letter-spacing:1px;text-transform:uppercase;font-family:'Space Mono',monospace;margin:10px 0 3px">${CI[c]} ${CN[c]}</div>`;
       items.forEach(x=>{
@@ -1241,9 +1281,13 @@ function openM(id){
     {id:'rhytag-엇박',txt:'엇박'},{id:'rhytag-Double57',txt:'Double/5/7stroke'},
     {id:'rhytag-풋하이햇',txt:'풋 하이햇'},{id:'rhytag-스플래쉬',txt:'스플래쉬'},
     {id:'rhytag-하이햇위치변형',txt:'하이햇 위치변형'},{id:'rhytag-하이햇악센트변형',txt:'하이햇 악센트 변형'},
-    {id:'rhytag-킥위치변경',txt:'킥 위치 변경'},
+    {id:'rhytag-킥위치변경',txt:'킥 위치 변경'},{id:'rhytag-다이나믹',txt:'다이나믹'},
+    {id:'rhytag-사부작',txt:'사부작 리듬'},{id:'rhytag-사이드스틱',txt:'사이드 스틱'},
     {id:'rhytag-고스트',txt:'고스트'},{id:'rhytag-악센트',txt:'악센트'},
     {id:'rhytag-프레스',txt:'프레스'},{id:'rhytag-고스트더블',txt:'고스트(더블) 선명도'},
+    {id:'rhytag-레이백',txt:'레이백'},
+    {id:'rhytag-3그루핑',txt:'3그루핑'},{id:'rhytag-4그루핑',txt:'4그루핑'},
+    {id:'rhytag-5그루핑',txt:'5그루핑'},{id:'rhytag-6그루핑',txt:'6그루핑'},
   ];
   const activeSet=new Set(r.rhytags||[]);
   const rhytagHtml=ALL_RHYTAGS.map(t=>{
@@ -1251,10 +1295,26 @@ function openM(id){
     return `<span style="${on?'background:rgba(168,85,247,.35);border-color:var(--rhy);color:#fff;font-weight:600':'background:rgba(42,42,64,.4);border-color:var(--border);color:var(--text3)'};border:1px solid;border-radius:5px;padding:2px 8px;font-size:.73rem;display:inline-block;margin:2px">${t.txt}</span>`;
   }).join('');
 
-  document.getElementById('mtitle').textContent=`${r.dayName?r.dayName+'요일 · ':''}📅 ${r.date} 연습일지`;
+  const ALL_TECTAGS=[
+    {id:'tectag-오케스트레이션',txt:'오케스트레이션'},{id:'tectag-플램활용',txt:'플램 활용'},
+    {id:'tectag-32비트활용',txt:'32비트 활용'},{id:'tectag-쉼표활용',txt:'쉼표 활용'},
+    {id:'tectag-심벌활용',txt:'심벌 활용'},{id:'tectag-엇박활용',txt:'엇박 활용'},
+    {id:'tectag-스와핑활용',txt:'스와핑 활용'},{id:'tectag-킥밀기유니즌',txt:'킥 밀기·유니즌'},
+    {id:'tectag-손발치환',txt:'손발 치환'},{id:'tectag-다이나믹',txt:'다이나믹'},
+    {id:'tectag-4연음',txt:'4연음'},{id:'tectag-4연음3그루핑',txt:'4연음 3그루핑'},
+    {id:'tectag-4연음5그루핑',txt:'4연음 5그루핑'},{id:'tectag-4연음6그루핑',txt:'4연음 6그루핑'},
+    {id:'tectag-6연음',txt:'6연음'},{id:'tectag-6연음4그루핑',txt:'6연음 4그루핑'},
+    {id:'tectag-6연음5그루핑',txt:'6연음 5그루핑'},
+  ];
+  const activeTecSet=new Set(r.tectags||[]);
+  const tectagHtml=ALL_TECTAGS.map(t=>{
+    const on=activeTecSet.has(t.txt);
+    return `<span style="${on?'background:rgba(34,197,94,.3);border-color:var(--tec);color:#fff;font-weight:600':'background:rgba(42,42,64,.4);border-color:var(--border);color:var(--text3)'};border:1px solid;border-radius:5px;padding:2px 8px;font-size:.73rem;display:inline-block;margin:2px">${t.txt}</span>`;
+  }).join('');
   document.getElementById('mbody').innerHTML=`
     ${r.sketch&&r.sketch.length>100?`<div class="mr"><div class="ml">✍️ 아이디어 / 악보 메모</div><img src="${r.sketch}" style="width:100%;border-radius:9px;border:1px solid var(--border);margin-top:6px"></div>`:''}
     <div class="mr"><div class="ml">🎵 리듬 활용 / 스네어</div><div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px">${rhytagHtml}</div></div>
+    <div class="mr"><div class="ml">⚡ 테크닉 활용 / 연음·그루핑</div><div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px">${tectagHtml}</div></div>
     ${clh?`<div class="mr"><div class="ml">연습 체크리스트</div>${clh}</div>`:''}
     <div class="mr"><div class="ml">레슨 코멘트</div><div class="mv">${r.lesson||'-'}</div></div>
     <div class="mr"><div class="ml">순 연습시간</div><div class="mv">⏱ ${r.ptime||'-'}</div></div>
