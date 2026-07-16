@@ -162,22 +162,13 @@ textarea.inp{resize:vertical;line-height:1.7}
 <li>테크닉 리듬 하루 두개이상 연습완료하기</li>
 </ul>
 </div>
-</div><div class="card">
-<div class="ch"><span class="ci">🔧</span><span class="ct">문제점 / 고쳐야할점</span></div>
-<div class="cb">
-<ul class="nl">
-<li>필인 타임키핑</li>
-<li>인터플레이</li>
-<li>솔로 빌드업</li>
-<li>찹스 오래 유지하기</li>
-<li>타임키핑</li>
-<li>다이나믹 (강하게 치기만 함)</li>
-<li>찹스중 킥으로 공간만들때 전다</li>
-<li>시작 필인 다양하게 넣기</li>
-<li>킥으로만 끝내는 것 고치기</li>
-</ul>
 </div>
-</div></div>
+<div class="card">
+<div class="ch"><span class="ci">🎙️</span><span class="ct">레슨 코멘트 기록</span></div>
+<div class="cb"><textarea class="inp" id="lessonInput" oninput="as()" placeholder="ex) 스네어 고스트 노트 더 작게
+ex) 필인 끝에 탐 accent 더 강조하기" rows="7"></textarea></div>
+</div>
+</div>
 <!-- 날짜/장소 & 컨디션 -->
 </div>
 <!-- 목표 & 주의할점 -->
@@ -204,12 +195,12 @@ textarea.inp{resize:vertical;line-height:1.7}
 </div>
 <div class="cb" style="padding:13px 18px;display:flex;flex-direction:column;gap:20px">
 <div>
-<div class="cath pad">🥁 패드 / 스네어</div>
+<div class="cath pad">🥁 패드 / 스네어 <span style="font-size:.65rem;font-weight:400;opacity:.6">1시간</span></div>
 <table class="clt"><thead><tr><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">번호</th><th style="width:24px"></th></tr></thead><tbody id="body-pad"></tbody></table>
 <button class="addbtn" onclick="addRow('pad','')">+ 패드 항목 추가</button>
 </div>
 <div>
-<div class="cath rhy">🎵 리듬
+<div class="cath rhy">🎵 리듬 <span style="font-size:.65rem;font-weight:400;opacity:.6">2시간</span>
 <div style="font-size:.63rem;font-weight:400;margin-top:4px;line-height:2">
 <span style="color:var(--rhy);font-weight:600">활용 → </span><span id="rhytag-리니어" class="rhytag" onclick="toggleRhyTag('리니어')">리니어</span> · <span id="rhytag-오픈하이햇" class="rhytag" onclick="toggleRhyTag('오픈하이햇')">오픈 하이햇</span> · <span id="rhytag-쉼표" class="rhytag" onclick="toggleRhyTag('쉼표')">쉼표</span> · <span id="rhytag-32비트" class="rhytag" onclick="toggleRhyTag('32비트')">32비트</span> · <span id="rhytag-엇박" class="rhytag" onclick="toggleRhyTag('엇박')">엇박</span> · <span id="rhytag-Double57" class="rhytag" onclick="toggleRhyTag('Double57')">Double/5/7stroke</span> · <span id="rhytag-풋하이햇" class="rhytag" onclick="toggleRhyTag('풋하이햇')">풋 하이햇</span> · <span id="rhytag-스플래쉬" class="rhytag" onclick="toggleRhyTag('스플래쉬')">스플래쉬</span> · <span id="rhytag-하이햇위치변형" class="rhytag" onclick="toggleRhyTag('하이햇위치변형')">하이햇 위치변형</span> · <span id="rhytag-하이햇악센트변형" class="rhytag" onclick="toggleRhyTag('하이햇악센트변형')">하이햇 악센트 변형</span> · <span id="rhytag-킥위치변경" class="rhytag" onclick="toggleRhyTag('킥위치변경')">킥 위치 변경</span> · <span id="rhytag-다이나믹" class="rhytag" onclick="toggleRhyTag('다이나믹')">다이나믹</span> · <span id="rhytag-사부작" class="rhytag" onclick="toggleRhyTag('사부작')">사부작 리듬</span> · <span id="rhytag-사이드스틱" class="rhytag" onclick="toggleRhyTag('사이드스틱')">사이드 스틱</span> · <span id="rhytag-바운스" class="rhytag" onclick="toggleRhyTag('바운스')">바운스</span><br>
 <span style="color:var(--rhy);font-weight:600">스네어 → </span><span id="rhytag-고스트" class="rhytag" onclick="toggleRhyTag('고스트')">고스트</span> · <span id="rhytag-악센트" class="rhytag" onclick="toggleRhyTag('악센트')">악센트</span> · <span id="rhytag-프레스" class="rhytag" onclick="toggleRhyTag('프레스')">프레스</span> · <span id="rhytag-고스트더블" class="rhytag" onclick="toggleRhyTag('고스트더블')">고스트(더블) 선명도</span> · <span id="rhytag-레이백" class="rhytag" onclick="toggleRhyTag('레이백')">레이백</span><br>
@@ -220,7 +211,7 @@ textarea.inp{resize:vertical;line-height:1.7}
 <button class="addbtn" onclick="addRow('rhy','')">+ 리듬 항목 추가</button>
 </div>
 <div>
-<div class="cath tec">⚡ 테크닉
+<div class="cath tec">⚡ 테크닉 <span style="font-size:.65rem;font-weight:400;opacity:.6">2시간</span>
 <div style="font-size:.63rem;font-weight:400;margin-top:4px;line-height:2">
 <span style="color:var(--tec);font-weight:600">활용 → </span><span id="tectag-오케스트레이션" class="tectag" onclick="toggleTecTag('오케스트레이션')">오케스트레이션</span> · <span id="tectag-플램활용" class="tectag" onclick="toggleTecTag('플램활용')">플램 활용</span> · <span id="tectag-32비트활용" class="tectag" onclick="toggleTecTag('32비트활용')">32비트 활용</span> · <span id="tectag-쉼표활용" class="tectag" onclick="toggleTecTag('쉼표활용')">쉼표 활용</span> · <span id="tectag-심벌활용" class="tectag" onclick="toggleTecTag('심벌활용')">심벌 활용</span> · <span id="tectag-엇박활용" class="tectag" onclick="toggleTecTag('엇박활용')">엇박 활용</span> · <span id="tectag-스와핑활용" class="tectag" onclick="toggleTecTag('스와핑활용')">스와핑 활용</span> · <span id="tectag-킥밀기유니즌" class="tectag" onclick="toggleTecTag('킥밀기유니즌')">킥 밀기·유니즌</span> · <span id="tectag-손발치환" class="tectag" onclick="toggleTecTag('손발치환')">손발 치환</span> · <span id="tectag-다이나믹" class="tectag" onclick="toggleTecTag('다이나믹')">다이나믹</span><br>
 <span style="color:var(--tec);font-weight:600">연음·그루핑 → </span><span id="tectag-4연음" class="tectag" onclick="toggleTecTag('4연음')">4연음</span> · <span id="tectag-4연음3그루핑" class="tectag" onclick="toggleTecTag('4연음3그루핑')">4연음 3그루핑</span> · <span id="tectag-4연음5그루핑" class="tectag" onclick="toggleTecTag('4연음5그루핑')">4연음 5그루핑</span> · <span id="tectag-4연음6그루핑" class="tectag" onclick="toggleTecTag('4연음6그루핑')">4연음 6그루핑</span> · <span id="tectag-6연음" class="tectag" onclick="toggleTecTag('6연음')">6연음</span> · <span id="tectag-6연음4그루핑" class="tectag" onclick="toggleTecTag('6연음4그루핑')">6연음 4그루핑</span> · <span id="tectag-6연음5그루핑" class="tectag" onclick="toggleTecTag('6연음5그루핑')">6연음 5그루핑</span>
@@ -240,12 +231,12 @@ textarea.inp{resize:vertical;line-height:1.7}
 <button class="addbtn" onclick="addSharedRow('tsolo','')">+ 테크닉 솔로 아이디어 추가</button>
 </div>
 <div>
-<div class="cath ryt">🎼 리듬+테크닉</div>
+<div class="cath ryt">🎼 리듬+테크닉 <span style="font-size:.65rem;font-weight:400;opacity:.6">2시간</span></div>
 <table class="clt"><thead><tr><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">번호</th><th style="width:24px"></th></tr></thead><tbody id="body-ryt"></tbody></table>
 <button class="addbtn" onclick="addRow('ryt','')">+ 리듬+테크닉 항목 추가</button>
 </div>
 <div>
-<div class="cath" style="background:rgba(6,182,212,.13);color:#22d3ee;border-left:3px solid #22d3ee">📚 교재</div>
+<div class="cath" style="background:rgba(6,182,212,.13);color:#22d3ee;border-left:3px solid #22d3ee">📚 교재 <span style="font-size:.65rem;font-weight:400;opacity:.6">30분</span></div>
 <table class="clt"><thead><tr><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">번호</th><th style="width:24px"></th></tr></thead><tbody id="body-book"></tbody></table>
 <button class="addbtn" onclick="addRow('book','')">+ 교재 항목 추가</button>
 </div>
@@ -253,6 +244,11 @@ textarea.inp{resize:vertical;line-height:1.7}
 <div class="cath etc">기타</div>
 <table class="clt"><thead><tr><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">번호</th><th style="width:24px"></th></tr></thead><tbody id="body-etc"></tbody></table>
 <button class="addbtn" onclick="addRow('etc','')">+ 기타 항목 추가</button>
+</div>
+<div>
+<div class="cath" style="background:rgba(239,68,68,.13);color:#f87171;border-left:3px solid #ef4444">🔧 문제점 / 고쳐야할점</div>
+<table class="clt"><thead><tr><th style="width:24px"></th><th>항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">번호</th><th style="width:24px"></th></tr></thead><tbody id="body-prob"></tbody></table>
+<button class="addbtn" onclick="addRow('prob','')">+ 문제점 항목 추가</button>
 </div>
 </div>
 </div>
@@ -311,13 +307,8 @@ textarea.inp{resize:vertical;line-height:1.7}
 <div class="chint">IDEA / SCORE MEMO</div>
 </div>
 </div>
-<!-- 레슨 & 느낀점 -->
+<!-- 레슨 & 피드백 -->
 <div class="g2">
-<div class="card">
-<div class="ch"><span class="ci">🎙️</span><span class="ct">레슨 코멘트 기록</span></div>
-<div class="cb"><textarea class="inp" id="lessonInput" oninput="as()" placeholder="ex) 스네어 고스트 노트 더 작게
-ex) 필인 끝에 탐 accent 더 강조하기" rows="5"></textarea></div>
-</div>
 <div class="card"><div class="ch"><span class="ci">⭐</span><span class="ct">오늘 연습 피드백</span></div>
 <div class="cb">
 <label class="lbl">만족도</label>
@@ -326,12 +317,13 @@ ex) 필인 끝에 탐 accent 더 강조하기" rows="5"></textarea></div>
 </div>
 <label class="lbl" style="margin-top:12px">피드백</label>
 <textarea class="inp" id="feedbackInput" oninput="as()" rows="4"></textarea>
-</div></div></div>
+</div></div>
 <!-- 어제보다 달라진점 -->
 <div class="card">
 <div class="ch"><span class="ci">📈</span><span class="ct">어제보다 달라진점</span></div>
 <div class="cb"><textarea class="inp" id="changeInput" oninput="as()" placeholder="ex) 고스트 노트가 어제보다 일정해짐
-ex) 필인 후 타임이 더 안정적이었음" rows="4"></textarea></div>
+ex) 필인 후 타임이 더 안정적이었음" rows="5"></textarea></div>
+</div>
 </div>
 <!-- 피드백 & 내일 목표 -->
 <div class="g2">
@@ -657,7 +649,7 @@ function fromRef(cat,txt,idx){
 }
 function getCL(){
   const r=[];
-  ['pad','rhy','tec','ryt','book','etc'].forEach(c=>{
+  ['pad','rhy','tec','ryt','book','etc','prob'].forEach(c=>{
     document.querySelectorAll('#body-'+c+' .clr:not(.cllabel)').forEach(tr=>{
       const txt=tr.querySelector('.cltxt').value.trim(); if(!txt)return;
       const nums=tr.querySelectorAll('.clnum');
@@ -781,7 +773,7 @@ function loadDayCL(d){
   try{ const r=localStorage.getItem(getDayCLKey(d)); return r?JSON.parse(r):null; }catch(e){return null;}
 }
 function clearDayCLDom(){
-  ['pad','rhy','tec','ryt','book','etc'].forEach(c=>{
+  ['pad','rhy','tec','ryt','book','etc','prob'].forEach(c=>{
     const el=document.getElementById('body-'+c);
     if(el) el.innerHTML='';
   });
@@ -812,7 +804,7 @@ const MON_DEFAULT=[
   {cat:'pad',txt:'싱글 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'더블 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'트리플 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'싱글 더블 MIX',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'싱글 더블 트리플 MIX',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'모울러 테크닉',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'3/6연음',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'스틱 컨트롤, 아메리칸 드럼 솔로',chk:false,mins:'',tempo:'',set:''},
@@ -820,7 +812,6 @@ const MON_DEFAULT=[
   // 리듬
   {cat:'rhy',txt:'8비트 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'16비트 리듬',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'폴리리듬',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
   {cat:'tec',txt:'콤비네이션',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'스틱킹',chk:false,mins:'',tempo:'',set:''},
@@ -858,7 +849,7 @@ const TUE_DEFAULT=[
   {cat:'pad',txt:'싱글 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'더블 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'핑거링 (양손)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'싱글 더블 MIX',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'싱글 더블 핑거 MIX',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'임용훈 스트로크',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'루디먼트',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'스틱 컨트롤, 아메리칸 드럼 솔로',chk:false,mins:'',tempo:'',set:''},
@@ -903,14 +894,15 @@ const WED_DEFAULT=[
   {cat:'pad',txt:'싱글 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'더블 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'트리플 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'싱글 더블 MIX',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'싱글 더블 트리플 MIX',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'모울러 테크닉',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'3/6연음',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'스틱 컨트롤, 아메리칸 드럼 솔로',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'자유 스틱킹(악센트, 루디먼트)',chk:false,mins:'',tempo:'',set:''},
   // 리듬
   {cat:'rhy',txt:'루디먼트 리듬',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'엇박 리듬',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'폴리리듬',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'메트릭 모듈레이션',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
   {cat:'tec',txt:'콤비네이션',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'스틱킹',chk:false,mins:'',tempo:'',set:''},
@@ -948,7 +940,7 @@ const THU_DEFAULT=[
   {cat:'pad',txt:'싱글 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'더블 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'핑거링 (양손)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'싱글 더블 MIX',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'싱글 더블 핑거 MIX',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'임용훈 스트로크',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'루디먼트',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'스틱 컨트롤, 아메리칸 드럼 솔로',chk:false,mins:'',tempo:'',set:''},
@@ -990,7 +982,7 @@ const FRI_DEFAULT=[
   {cat:'pad',txt:'싱글 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'더블 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'트리플 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'싱글 더블 MIX',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'싱글 더블 트리플 MIX',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'모울러 테크닉',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'3/6연음',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'스틱 컨트롤, 아메리칸 드럼 솔로',chk:false,mins:'',tempo:'',set:''},
@@ -998,7 +990,6 @@ const FRI_DEFAULT=[
   // 리듬
   {cat:'rhy',txt:'셔플',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'변박',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'메트릭 모듈레이션',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
   {cat:'tec',txt:'콤비네이션',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'스틱킹',chk:false,mins:'',tempo:'',set:''},
@@ -1029,7 +1020,7 @@ const FRI_DEFAULT=[
   {cat:'book',txt:'뉴 브리드 교재',chk:false,mins:'',tempo:'',set:''},
 ];
 const DAY_DEFAULTS=[MON_DEFAULT,TUE_DEFAULT,WED_DEFAULT,THU_DEFAULT,FRI_DEFAULT,null,null];
-const DEFAULT_VERSION='v10.2'; // 기본값 바뀌면 이 숫자 올리기
+const DEFAULT_VERSION='v10.5'; // 기본값 바뀌면 이 숫자 올리기
 const DEFAULT_VER_KEY='drum_default_ver';
 
 function loadDefaultCL(list){
@@ -1120,7 +1111,7 @@ function loadSharedSolo(){
   try{return JSON.parse(localStorage.getItem(SOLO_KEY))||{rsolo:[],tsolo:[]};}catch{return{rsolo:[],tsolo:[]};}
 }
 function saveSharedSolo(){
-  const rsolo=[],tsolo=[];
+  const rsolo=[],tsolo=[],prob=[];
   document.querySelectorAll('#body-rsolo .clr:not(.cllabel)').forEach(tr=>{
     const txt=tr.querySelector('.cltxt').value.trim();if(!txt)return;
     const nums=tr.querySelectorAll('.clnum');
@@ -1131,14 +1122,32 @@ function saveSharedSolo(){
     const nums=tr.querySelectorAll('.clnum');
     tsolo.push({txt,chk:tr.querySelector('input[type=checkbox]').checked,mins:nums[0].value,tempo:nums[1].value,set:nums[2].value});
   });
-  try{localStorage.setItem(SOLO_KEY,JSON.stringify({rsolo,tsolo}));}catch(e){}
+  document.querySelectorAll('#body-prob .clr:not(.cllabel)').forEach(tr=>{
+    const txt=tr.querySelector('.cltxt').value.trim();if(!txt)return;
+    const nums=tr.querySelectorAll('.clnum');
+    prob.push({txt,chk:tr.querySelector('input[type=checkbox]').checked,mins:nums[0].value,tempo:nums[1].value,set:nums[2].value});
+  });
+  try{localStorage.setItem(SOLO_KEY,JSON.stringify({rsolo,tsolo,prob}));}catch(e){}
 }
 function loadSharedSoloDom(){
   const data=loadSharedSolo();
   document.getElementById('body-rsolo').innerHTML='';
   document.getElementById('body-tsolo').innerHTML='';
+  document.getElementById('body-prob').innerHTML='';
   data.rsolo.forEach(c=>addRow('rsolo',c.txt,c.chk,c.mins,c.tempo,c.set));
   data.tsolo.forEach(c=>addRow('tsolo',c.txt,c.chk,c.mins,c.tempo,c.set));
+  const probList=data.prob&&data.prob.length?data.prob:[
+    {txt:'필인 타임키핑',chk:false,mins:'',tempo:'',set:''},
+    {txt:'인터플레이',chk:false,mins:'',tempo:'',set:''},
+    {txt:'솔로 빌드업',chk:false,mins:'',tempo:'',set:''},
+    {txt:'찹스 오래 유지하기',chk:false,mins:'',tempo:'',set:''},
+    {txt:'타임키핑',chk:false,mins:'',tempo:'',set:''},
+    {txt:'다이나믹 (강하게 치기만 함)',chk:false,mins:'',tempo:'',set:''},
+    {txt:'찹스중 킥으로 공간만들때 전다',chk:false,mins:'',tempo:'',set:''},
+    {txt:'시작 필인 다양하게 넣기',chk:false,mins:'',tempo:'',set:''},
+    {txt:'킥으로만 끝내는 것 고치기',chk:false,mins:'',tempo:'',set:''},
+  ];
+  probList.forEach(c=>addRow('prob',c.txt,c.chk,c.mins,c.tempo,c.set));
 }
 function addSharedRow(cat,txt){
   addRow(cat,txt);
@@ -1261,11 +1270,11 @@ function renderHist(){
 
 function openM(id){
   const r=dbGet().find(x=>x.id===id);if(!r)return;
-  const CI={pad:'🥁',rhy:'🎵',tec:'⚡',ryt:'🎼',rsolo:'🎵',tsolo:'⚡',book:'📚',etc:'기타'};
-  const CN={pad:'패드',rhy:'리듬',tec:'테크닉',ryt:'리듬+테크닉',rsolo:'리듬 솔로 아이디어',tsolo:'테크닉 솔로 아이디어',book:'교재',etc:'기타'};
+  const CI={pad:'🥁',rhy:'🎵',tec:'⚡',ryt:'🎼',rsolo:'🎵',tsolo:'⚡',book:'📚',etc:'기타',prob:'🔧'};
+  const CN={pad:'패드',rhy:'리듬',tec:'테크닉',ryt:'리듬+테크닉',rsolo:'리듬 솔로 아이디어',tsolo:'테크닉 솔로 아이디어',book:'교재',etc:'기타',prob:'문제점/고쳐야할점'};
   let clh='';
   if(r.cl&&r.cl.length){
-    ['pad','rhy','tec','ryt','rsolo','tsolo','book','etc'].forEach(c=>{
+    ['pad','rhy','tec','ryt','rsolo','tsolo','book','etc','prob'].forEach(c=>{
       const items=r.cl.filter(x=>x.cat===c);if(!items.length)return;
       clh+=`<div style="font-size:.68rem;color:var(--text3);letter-spacing:1px;text-transform:uppercase;font-family:'Space Mono',monospace;margin:10px 0 3px">${CI[c]} ${CN[c]}</div>`;
       items.forEach(x=>{
