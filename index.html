@@ -237,11 +237,6 @@ ex) 필인 끝에 탐 accent 더 강조하기" rows="7"></textarea></div>
 <button class="addbtn" onclick="addRow('rhy','')">+ 장르 항목 추가</button>
 </div>
 <div>
-<div class="cath" style="background:rgba(244,63,94,.13);color:#fb7185;border-left:3px solid #f43f5e">🎤 카피 <input type="text" class="cattime" id="cattime-misc" placeholder="연습시간 입력(분)" oninput="as()"></div>
-<table class="clt"><thead><tr><th style="width:22px" title="우선순위">★</th><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">번호</th><th style="width:24px"></th></tr></thead><tbody id="body-misc"></tbody></table>
-<button class="addbtn" onclick="addRow('misc','')">+ 카피 항목 추가</button>
-</div>
-<div>
 <div class="cath tec">⚡ 테크닉 <input type="text" class="cattime" id="cattime-tec" placeholder="연습시간 입력(분)" oninput="as()">
 <div style="font-size:.63rem;font-weight:400;margin-top:4px;line-height:2">
 <span style="color:var(--tec);font-weight:600">활용 → </span><span id="tectag-오케스트레이션" class="tectag" onclick="toggleTecTag('오케스트레이션')">오케스트레이션</span> · <span id="tectag-플램활용" class="tectag" onclick="toggleTecTag('플램활용')">플램 활용</span> · <span id="tectag-32비트활용" class="tectag" onclick="toggleTecTag('32비트활용')">32비트 활용</span> · <span id="tectag-쉼표활용" class="tectag" onclick="toggleTecTag('쉼표활용')">쉼표 활용</span> · <span id="tectag-심벌활용" class="tectag" onclick="toggleTecTag('심벌활용')">심벌 활용</span> · <span id="tectag-엇박활용" class="tectag" onclick="toggleTecTag('엇박활용')">엇박 활용</span> · <span id="tectag-스와핑활용" class="tectag" onclick="toggleTecTag('스와핑활용')">스와핑 활용</span> · <span id="tectag-킥밀기유니즌" class="tectag" onclick="toggleTecTag('킥밀기유니즌')">킥 밀기·유니즌</span> · <span id="tectag-손발치환" class="tectag" onclick="toggleTecTag('손발치환')">손발 치환</span> · <span id="tectag-다이나믹" class="tectag" onclick="toggleTecTag('다이나믹')">다이나믹 (pp~ff)</span><br>
@@ -250,6 +245,11 @@ ex) 필인 끝에 탐 accent 더 강조하기" rows="7"></textarea></div>
 </div>
 <table class="clt"><thead><tr><th style="width:22px" title="우선순위">★</th><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">번호</th><th style="width:24px"></th></tr></thead><tbody id="body-tec"></tbody></table>
 <button class="addbtn" onclick="addRow('tec','')">+ 테크닉 항목 추가</button>
+</div>
+<div>
+<div class="cath" style="background:rgba(244,63,94,.13);color:#fb7185;border-left:3px solid #f43f5e">🎤 카피 <input type="text" class="cattime" id="cattime-misc" placeholder="연습시간 입력(분)" oninput="as()"></div>
+<table class="clt"><thead><tr><th style="width:22px" title="우선순위">★</th><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">번호</th><th style="width:24px"></th></tr></thead><tbody id="body-misc"></tbody></table>
+<button class="addbtn" onclick="addRow('misc','')">+ 카피 항목 추가</button>
 </div>
 <div>
 <div class="cath" style="background:rgba(6,182,212,.13);color:#22d3ee;border-left:3px solid #22d3ee">📚 교재 <input type="text" class="cattime" id="cattime-book" placeholder="연습시간 입력(분)" oninput="as()"></div>
@@ -261,6 +261,11 @@ ex) 필인 끝에 탐 accent 더 강조하기" rows="7"></textarea></div>
 <table class="clt"><thead><tr><th style="width:22px" title="우선순위">★</th><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">번호</th><th style="width:24px"></th></tr></thead><tbody id="body-etc"></tbody></table>
 <button class="addbtn" onclick="addRow('etc','')">+ 음악성 항목 추가</button>
 </div>
+<div style="display:flex;align-items:center;gap:8px;padding:9px 12px;background:rgba(20,184,166,.08);border:1px dashed rgba(20,184,166,.35);border-radius:8px;cursor:pointer;-webkit-tap-highlight-color:transparent" onclick="toggleExtra()">
+<span style="font-size:.75rem;color:#2dd4bf;font-weight:700;letter-spacing:1px;font-family:'Space Mono',monospace">⏳ 남은 시간에 할 것들</span>
+<span id="extraToggleIcon" style="margin-left:auto;font-size:.7rem;color:var(--text3);font-family:'Space Mono',monospace">▼ 펼치기</span>
+</div>
+<div id="extraBody" style="display:none;flex-direction:column;gap:20px">
 <div>
 <div class="cath" style="background:rgba(20,184,166,.13);color:#2dd4bf;border-left:3px solid #14b8a6">🥁 기타 연습 <input type="text" class="cattime" id="cattime-misc2" placeholder="연습시간 입력(분)" oninput="as()"></div>
 <table class="clt"><thead><tr><th style="width:22px" title="우선순위">★</th><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">번호</th><th style="width:24px"></th></tr></thead><tbody id="body-misc2"></tbody></table>
@@ -270,6 +275,7 @@ ex) 필인 끝에 탐 accent 더 강조하기" rows="7"></textarea></div>
 <div class="cath" style="background:rgba(239,68,68,.13);color:#f87171;border-left:3px solid #ef4444">🔧 문제점 / 고쳐야할점 <input type="text" class="cattime" id="cattime-prob" placeholder="연습시간 입력(분)" oninput="as()"></div>
 <table class="clt"><thead><tr><th style="width:22px" title="우선순위">★</th><th style="width:24px"></th><th>항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">번호</th><th style="width:24px"></th></tr></thead><tbody id="body-prob"></tbody></table>
 <button class="addbtn" onclick="addRow('prob','')">+ 문제점 항목 추가</button>
+</div>
 </div>
 </div>
 </div>
@@ -774,14 +780,15 @@ const MON_DEFAULT=[
   {cat:'misc',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'카피 (하루 4마디이상 카피후 연습)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'misc',txt:'카피 릭 익을때까지 연습후 응용하기',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'릭 하나 정해서 단어 만들기',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
+  {cat:'tec',txt:'플램 아이디어(오케스트레이션, 플램 피지컬)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'엇박 아이디어 (엇박 펄스감 연습, 정박 쉼표, 엇박 악센트, 5·7연음)',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'콤비네이션',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'스틱킹',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'콤비네이션, 스틱킹 MIX',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'플램 아이디어(오케스트레이션, 플램 피지컬)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'엇박 아이디어 (엇박 펄스감 연습, 정박 쉼표, 엇박 악센트, 5·7연음)',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'제한하기 - 왼손먼저 시작',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'피지컬 - 탐돌리기',chk:false,mins:'',tempo:'',set:''},
   // 입시
@@ -792,6 +799,7 @@ const MON_DEFAULT=[
   {cat:'exam',txt:'섹션 초견',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'화성학',chk:false,mins:'',tempo:'',set:''},
   // 음악성
+  {cat:'etc',txt:'톤 연구',chk:false,mins:'',tempo:'',set:''},
   {cat:'etc',txt:'화성학 공부',chk:false,mins:'',tempo:'',set:''},
   {cat:'etc',txt:'녹음',chk:false,mins:'',tempo:'',set:''},
   // 교재
@@ -826,13 +834,14 @@ const TUE_DEFAULT=[
   {cat:'misc',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'카피 (하루 4마디이상 카피후 연습)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'misc',txt:'카피 릭 익을때까지 연습후 응용하기',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
+  {cat:'tec',txt:'32비트 아이디어 (1e&a에 넣기, 3·6연음 중 사용, 더블, (더블)킥으로, 콤비네이션 + 더블킥 32비트)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스와핑 아이디어 (멀리 빠르게 이동, 왼손 오른손 밸런스, 팔 사용, 양손으로 스와핑할손 빠르게 돌리기)',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'콤비네이션',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'스틱킹',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'콤비네이션·스틱킹 MIX',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'32비트 아이디어 (1e&a에 넣기, 3·6연음 중 사용, 더블, (더블)킥으로, 콤비네이션 + 더블킥 32비트)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스와핑 아이디어 (멀리 빠르게 이동, 왼손 오른손 밸런스, 팔 사용, 양손으로 스와핑할손 빠르게 돌리기)',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'제한하기 - 왼손 악센트',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'피지컬 - 손발손발',chk:false,mins:'',tempo:'',set:''},
   // 입시
@@ -843,6 +852,7 @@ const TUE_DEFAULT=[
   {cat:'exam',txt:'섹션 초견',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'화성학',chk:false,mins:'',tempo:'',set:''},
   // 음악성
+  {cat:'etc',txt:'톤 연구',chk:false,mins:'',tempo:'',set:''},
   {cat:'etc',txt:'화성학 공부',chk:false,mins:'',tempo:'',set:''},
   {cat:'etc',txt:'녹음',chk:false,mins:'',tempo:'',set:''},
   // 교재
@@ -879,14 +889,15 @@ const WED_DEFAULT=[
   {cat:'misc',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'카피 (하루 4마디이상 카피후 연습)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'misc',txt:'카피 릭 익을때까지 연습후 응용하기',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'릭 하나 정해서 단어 만들기',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
+  {cat:'tec',txt:'쉼표 아이디어 (쉼표 자리에 풋하이햇)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'엇박 아이디어 (엇박 펄스감 연습, 정박 쉼표, 엇박 악센트, 5·7연음)',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'콤비네이션',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'스틱킹',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'콤비네이션·스틱킹 MIX',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'쉼표 아이디어 (쉼표 자리에 풋하이햇)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'엇박 아이디어 (엇박 펄스감 연습, 정박 쉼표, 엇박 악센트, 5·7연음)',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'제한하기 - 1 e & a 섹션 or 필 고정',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'피지컬 - 싱글킥, 더블킥',chk:false,mins:'',tempo:'',set:''},
   // 입시
@@ -897,6 +908,7 @@ const WED_DEFAULT=[
   {cat:'exam',txt:'섹션 초견',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'화성학',chk:false,mins:'',tempo:'',set:''},
   // 음악성
+  {cat:'etc',txt:'톤 연구',chk:false,mins:'',tempo:'',set:''},
   {cat:'etc',txt:'화성학 공부',chk:false,mins:'',tempo:'',set:''},
   {cat:'etc',txt:'녹음',chk:false,mins:'',tempo:'',set:''},
   // 교재
@@ -931,13 +943,14 @@ const THU_DEFAULT=[
   {cat:'misc',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'카피 (하루 4마디이상 카피후 연습)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'misc',txt:'카피 릭 익을때까지 연습후 응용하기',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
+  {cat:'tec',txt:'심벌 아이디어 (스플래쉬, 심벌, 라이드 벨, 오픈 하이햇, 스와핑+스플래쉬)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스와핑 아이디어 (멀리 빠르게 이동, 왼손 오른손 밸런스, 팔 사용, 양손으로 스와핑할손 빠르게 돌리기)',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'콤비네이션',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'스틱킹',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'콤비네이션·스틱킹 MIX',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'심벌 아이디어 (스플래쉬, 심벌, 라이드 벨, 오픈 하이햇, 스와핑+스플래쉬)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스와핑 아이디어 (멀리 빠르게 이동, 왼손 오른손 밸런스, 팔 사용, 양손으로 스와핑할손 빠르게 돌리기)',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'제한하기 - 하이햇 사용 금지',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'피지컬 - RLK다운업',chk:false,mins:'',tempo:'',set:''},
   // 입시
@@ -948,6 +961,7 @@ const THU_DEFAULT=[
   {cat:'exam',txt:'섹션 초견',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'화성학',chk:false,mins:'',tempo:'',set:''},
   // 음악성
+  {cat:'etc',txt:'톤 연구',chk:false,mins:'',tempo:'',set:''},
   {cat:'etc',txt:'화성학 공부',chk:false,mins:'',tempo:'',set:''},
   {cat:'etc',txt:'녹음',chk:false,mins:'',tempo:'',set:''},
   // 교재
@@ -983,14 +997,15 @@ const FRI_DEFAULT=[
   {cat:'misc',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'카피 (하루 4마디이상 카피후 연습)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'misc',txt:'카피 릭 익을때까지 연습후 응용하기',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'릭 하나 정해서 단어 만들기',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
+  {cat:'tec',txt:'쉼표 아이디어 (쉼표 자리에 풋하이햇)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'엇박 아이디어 (엇박 펄스감 연습, 정박 쉼표, 엇박 악센트, 5·7연음)',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'콤비네이션',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'스틱킹',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'콤비네이션·스틱킹 MIX',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'쉼표 아이디어 (쉼표 자리에 풋하이햇)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'엇박 아이디어 (엇박 펄스감 연습, 정박 쉼표, 엇박 악센트, 5·7연음)',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'제한하기 - 탐 금지',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'피지컬 - 탐돌리기',chk:false,mins:'',tempo:'',set:''},
   // 입시
@@ -1001,6 +1016,7 @@ const FRI_DEFAULT=[
   {cat:'exam',txt:'섹션 초견',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'화성학',chk:false,mins:'',tempo:'',set:''},
   // 음악성
+  {cat:'etc',txt:'톤 연구',chk:false,mins:'',tempo:'',set:''},
   {cat:'etc',txt:'화성학 공부',chk:false,mins:'',tempo:'',set:''},
   {cat:'etc',txt:'녹음',chk:false,mins:'',tempo:'',set:''},
   // 교재
@@ -1013,7 +1029,7 @@ const FRI_DEFAULT=[
   {cat:'misc2',txt:'리니어 리듬',chk:false,mins:'',tempo:'',set:''},
 ];
 const DAY_DEFAULTS=[MON_DEFAULT,TUE_DEFAULT,WED_DEFAULT,THU_DEFAULT,FRI_DEFAULT,null,null];
-const DEFAULT_VERSION='v15.2'; // 기본값 바뀌면 이 숫자 올리기
+const DEFAULT_VERSION='v15.5'; // 기본값 바뀌면 이 숫자 올리기
 const DEFAULT_VER_KEY='drum_default_ver';
 
 function loadDefaultCL(list){
@@ -1163,6 +1179,29 @@ function toggleRef(){
   refVisible=!refVisible;
   document.getElementById('refBody').style.display=refVisible?'':'none';
   document.getElementById('refToggleBtn').textContent=refVisible?'🙈 숨기기':'👁 보이기';
+}
+// ──────────────────────────────────────────────────────────
+
+// ── 남은 시간에 할 것들 토글 ─────────────────────────────
+const EXTRA_KEY='drum_extra_visible_v1';
+function getExtraVisible(){
+  try{return localStorage.getItem(EXTRA_KEY)==='1';}catch(e){return false;}
+}
+function toggleExtra(){
+  const body=document.getElementById('extraBody');
+  const icon=document.getElementById('extraToggleIcon');
+  const visible=body.style.display==='flex';
+  body.style.display=visible?'none':'flex';
+  icon.textContent=visible?'▼ 펼치기':'▲ 접기';
+  try{localStorage.setItem(EXTRA_KEY,visible?'0':'1');}catch(e){}
+}
+function initExtraToggle(){
+  const body=document.getElementById('extraBody');
+  const icon=document.getElementById('extraToggleIcon');
+  if(!body||!icon)return;
+  const visible=getExtraVisible();
+  body.style.display=visible?'flex':'none';
+  icon.textContent=visible?'▲ 접기':'▼ 펼치기';
 }
 // ──────────────────────────────────────────────────────────
 
@@ -1480,6 +1519,7 @@ function cdInit(){
 window.addEventListener('load',()=>{
   swInit();
   cdInit();
+  initExtraToggle();
   if(!g('dateInput')){
     const n=new Date();
     s('dateInput',`${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`);
