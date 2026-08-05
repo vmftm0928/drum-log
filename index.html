@@ -347,7 +347,7 @@ ex) 필인 후 타임이 더 안정적이었음" rows="5"></textarea></div>
 </div>
 </div>
 <script>
-const PAD=['싱글 스트로크 (양손)','더블 스트로크 (양손)','트리플 스트로크 (양손)','핑거링 (양손)','모울러 테크닉','3/6연음','루디먼트','스틱 컨트롤, 아메리칸 드럼 솔로','자유 스틱킹(악센트, 루디먼트)','임용훈 스트로크','싱글 더블 MIX'];
+const PAD=['싱글 스트로크 (양손)','더블 스트로크 (양손)','트리플 스트로크 (양손)','핑거링 (양손)','모울러 테크닉','3/6연음','루디먼트','스틱 컨트롤, 아메리칸 드럼 솔로','임용훈 스트로크'];
 
 const RHY_TREE=[
   {parent:'킥 위치 변경', children:[]},
@@ -382,7 +382,6 @@ const TEC_TREE=[
   {parent:'쉼표 아이디어', children:['쉼표 자리에 풋하이햇']},
   {parent:'심벌 아이디어', children:['스플래쉬','심벌','라이드 벨','오픈 하이햇','스와핑+스플래쉬']},
   {parent:'엇박 아이디어', children:['엇박 펄스감 연습','정박 쉼표','엇박 악센트','5·7연음']},
-  {parent:'변형 · 응용 아이디어', children:['릭 하나 정해서 단어 만들기']},
   {parent:'제한하기', children:['왼손만 시작','왼손 악센트','2번 연속 같은 곳 치기 X','2번 연속 같은 단어 X','1 e & a 섹션 or 필 고정','더블킥 X','콤비네이션만 사용','스틱킹만 사용','탐 금지','하이햇 사용 금지']},
   {parent:'노래 섹션 연구 및 연습', children:[]},
   {parent:'찹스 다이나믹', children:['악센트 위치 ex) Rll, RLl, RlL, RLKK, RlKK, rLKK']},
@@ -761,11 +760,9 @@ const MON_DEFAULT=[
   {cat:'pad',txt:'싱글 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'더블 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'트리플 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'싱글 더블 트리플 MIX',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'모울러 테크닉',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'3/6연음',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'스틱 컨트롤, 아메리칸 드럼 솔로',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'자유 스틱킹(악센트, 루디먼트)',chk:false,mins:'',tempo:'',set:''},
   // 장르
   {cat:'rhy',txt:'MR 연습 - Ballad · R&B · Neo Soul',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'8비트 리듬',chk:false,mins:'',tempo:'',set:''},
@@ -779,9 +776,7 @@ const MON_DEFAULT=[
   {cat:'misc',txt:'귀카피 연주 연습하기',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'misc',txt:'카피 (하루 4마디이상 카피후 연습)',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'카피 릭 익을때까지 연습후 응용하기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'misc',txt:'릭 하나 정해서 단어 만들기',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
   {cat:'tec',txt:'플램 아이디어(오케스트레이션, 플램 피지컬)',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'엇박 아이디어 (엇박 펄스감 연습, 정박 쉼표, 엇박 악센트, 5·7연음)',chk:false,mins:'',tempo:'',set:''},
@@ -817,15 +812,14 @@ const TUE_DEFAULT=[
   {cat:'pad',txt:'싱글 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'더블 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'핑거링 (양손)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'싱글 더블 핑거 MIX',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'임용훈 스트로크',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'루디먼트',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'스틱 컨트롤, 아메리칸 드럼 솔로',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'자유 스틱킹(악센트, 루디먼트)',chk:false,mins:'',tempo:'',set:''},
   // 장르
   {cat:'rhy',txt:'MR 연습 - Hip Hop · Jazz Hip Hop',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'레이백',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'6연음 리듬',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'8연음 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'솔로 전개 연습',chk:false,mins:'',tempo:'',set:''},
   // 기타
@@ -833,7 +827,6 @@ const TUE_DEFAULT=[
   {cat:'misc',txt:'귀카피 연주 연습하기',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'misc',txt:'카피 (하루 4마디이상 카피후 연습)',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'카피 릭 익을때까지 연습후 응용하기',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
   {cat:'tec',txt:'32비트 아이디어 (1e&a에 넣기, 3·6연음 중 사용, 더블, (더블)킥으로, 콤비네이션 + 더블킥 32비트)',chk:false,mins:'',tempo:'',set:''},
@@ -869,16 +862,16 @@ const WED_DEFAULT=[
   {cat:'pad',txt:'싱글 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'더블 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'트리플 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'싱글 더블 트리플 MIX',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'모울러 테크닉',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'3/6연음',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'스틱 컨트롤, 아메리칸 드럼 솔로',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'자유 스틱킹(악센트, 루디먼트)',chk:false,mins:'',tempo:'',set:''},
   // 장르
   {cat:'rhy',txt:'MR 연습 - Funk · Gospel · Shuffle',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'8비트 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'16비트 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'셔플 리듬',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'6연음 리듬',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'8연음 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'바운스 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'레이백',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
@@ -888,9 +881,7 @@ const WED_DEFAULT=[
   {cat:'misc',txt:'귀카피 연주 연습하기',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'misc',txt:'카피 (하루 4마디이상 카피후 연습)',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'카피 릭 익을때까지 연습후 응용하기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'misc',txt:'릭 하나 정해서 단어 만들기',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
   {cat:'tec',txt:'쉼표 아이디어 (쉼표 자리에 풋하이햇)',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'엇박 아이디어 (엇박 펄스감 연습, 정박 쉼표, 엇박 악센트, 5·7연음)',chk:false,mins:'',tempo:'',set:''},
@@ -925,11 +916,9 @@ const THU_DEFAULT=[
   {cat:'pad',txt:'싱글 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'더블 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'핑거링 (양손)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'싱글 더블 핑거 MIX',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'임용훈 스트로크',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'루디먼트',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'스틱 컨트롤, 아메리칸 드럼 솔로',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'자유 스틱킹(악센트, 루디먼트)',chk:false,mins:'',tempo:'',set:''},
   // 장르
   {cat:'rhy',txt:'MR 연습 - Jazz · Fusion Jazz · Latin',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'스윙 리듬',chk:false,mins:'',tempo:'',set:''},
@@ -942,7 +931,6 @@ const THU_DEFAULT=[
   {cat:'misc',txt:'귀카피 연주 연습하기',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'misc',txt:'카피 (하루 4마디이상 카피후 연습)',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'카피 릭 익을때까지 연습후 응용하기',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
   {cat:'tec',txt:'심벌 아이디어 (스플래쉬, 심벌, 라이드 벨, 오픈 하이햇, 스와핑+스플래쉬)',chk:false,mins:'',tempo:'',set:''},
@@ -977,16 +965,16 @@ const FRI_DEFAULT=[
   {cat:'pad',txt:'싱글 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'더블 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'트리플 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'싱글 더블 트리플 MIX',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'모울러 테크닉',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'3/6연음',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'스틱 컨트롤, 아메리칸 드럼 솔로',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'자유 스틱킹(악센트, 루디먼트)',chk:false,mins:'',tempo:'',set:''},
   // 장르
   {cat:'rhy',txt:'MR 연습 - Funk · Gospel · Shuffle',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'8비트 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'16비트 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'셔플 리듬',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'6연음 리듬',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'8연음 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'바운스 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'레이백',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
@@ -996,9 +984,7 @@ const FRI_DEFAULT=[
   {cat:'misc',txt:'귀카피 연주 연습하기',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'misc',txt:'카피 (하루 4마디이상 카피후 연습)',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'카피 릭 익을때까지 연습후 응용하기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'misc',txt:'릭 하나 정해서 단어 만들기',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
   {cat:'tec',txt:'쉼표 아이디어 (쉼표 자리에 풋하이햇)',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'엇박 아이디어 (엇박 펄스감 연습, 정박 쉼표, 엇박 악센트, 5·7연음)',chk:false,mins:'',tempo:'',set:''},
@@ -1029,7 +1015,7 @@ const FRI_DEFAULT=[
   {cat:'misc2',txt:'리니어 리듬',chk:false,mins:'',tempo:'',set:''},
 ];
 const DAY_DEFAULTS=[MON_DEFAULT,TUE_DEFAULT,WED_DEFAULT,THU_DEFAULT,FRI_DEFAULT,null,null];
-const DEFAULT_VERSION='v15.5'; // 기본값 바뀌면 이 숫자 올리기
+const DEFAULT_VERSION='v16.0'; // 기본값 바뀌면 이 숫자 올리기
 const DEFAULT_VER_KEY='drum_default_ver';
 
 function loadDefaultCL(list){
