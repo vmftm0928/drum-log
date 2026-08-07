@@ -122,6 +122,20 @@ textarea.inp{resize:vertical;line-height:1.7}
 .toast{position:fixed;bottom:28px;right:28px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-radius:10px;padding:11px 16px;font-size:.8rem;font-family:'Noto Sans KR',sans-serif;box-shadow:0 4px 18px rgba(124,58,237,.5);opacity:0;transform:translateY(8px);transition:all .3s;pointer-events:none;z-index:9999}
 .toast.show{opacity:1;transform:translateY(0)}
 @media(max-width:700px){.g2{grid-template-columns:1fr}.hdr{padding:14px 16px}.hdr-title{font-size:1.7rem}.main{padding:14px 12px}}
+
+.prev-hint {
+  display: block;
+  font-size: .72rem;
+  color: var(--text2, #bbb);
+  line-height: 1.2;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+  opacity: 1;
+  font-weight: 600;
+}
 </style>
 </head>
 <body>
@@ -216,9 +230,9 @@ ex) 필인 끝에 탐 accent 더 강조하기" rows="7"></textarea></div>
 </div>
 <div class="cb" style="padding:13px 18px;display:flex;flex-direction:column;gap:20px">
 <div>
-<div class="cath pad">🥁 패드 / 스네어 <input type="text" class="cattime" id="cattime-pad" placeholder="연습시간 입력(분)" oninput="as()"></div>
+<div class="cath pad">🥁 기본기 및 피지컬 <input type="text" class="cattime" id="cattime-pad" placeholder="연습시간 입력(분)" oninput="as()"></div>
 <table class="clt"><thead><tr><th style="width:22px" title="우선순위">★</th><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">번호</th><th style="width:24px"></th></tr></thead><tbody id="body-pad"></tbody></table>
-<button class="addbtn" onclick="addRow('pad','')">+ 패드 항목 추가</button>
+<button class="addbtn" onclick="addRow('pad','')">+ 기본기 및 피지컬 항목 추가</button>
 </div>
 <div>
 <div class="cath" style="background:rgba(245,158,11,.13);color:#fbbf24;border-left:3px solid #f59e0b">🏆 입시 <input type="text" class="cattime" id="cattime-exam" placeholder="연습시간 입력(분)" oninput="as()"></div>
@@ -239,8 +253,8 @@ ex) 필인 끝에 탐 accent 더 강조하기" rows="7"></textarea></div>
 <div>
 <div class="cath tec">⚡ 테크닉 <input type="text" class="cattime" id="cattime-tec" placeholder="연습시간 입력(분)" oninput="as()">
 <div style="font-size:.63rem;font-weight:400;margin-top:4px;line-height:2">
-<span style="color:var(--tec);font-weight:600">활용 → </span><span id="tectag-오케스트레이션" class="tectag" onclick="toggleTecTag('오케스트레이션')">오케스트레이션</span> · <span id="tectag-플램활용" class="tectag" onclick="toggleTecTag('플램활용')">플램 활용</span> · <span id="tectag-32비트활용" class="tectag" onclick="toggleTecTag('32비트활용')">32비트 활용</span> · <span id="tectag-쉼표활용" class="tectag" onclick="toggleTecTag('쉼표활용')">쉼표 활용</span> · <span id="tectag-심벌활용" class="tectag" onclick="toggleTecTag('심벌활용')">심벌 활용</span> · <span id="tectag-엇박활용" class="tectag" onclick="toggleTecTag('엇박활용')">엇박 활용</span> · <span id="tectag-스와핑활용" class="tectag" onclick="toggleTecTag('스와핑활용')">스와핑 활용</span> · <span id="tectag-킥밀기유니즌" class="tectag" onclick="toggleTecTag('킥밀기유니즌')">킥 밀기·유니즌</span> · <span id="tectag-손발치환" class="tectag" onclick="toggleTecTag('손발치환')">손발 치환</span> · <span id="tectag-다이나믹" class="tectag" onclick="toggleTecTag('다이나믹')">다이나믹 (pp~ff)</span><br>
-<span style="color:var(--tec);font-weight:600">연음·그루핑 → </span><span id="tectag-4연음" class="tectag" onclick="toggleTecTag('4연음')">4연음</span> · <span id="tectag-4연음3그루핑" class="tectag" onclick="toggleTecTag('4연음3그루핑')">4연음 3그루핑</span> · <span id="tectag-4연음5그루핑" class="tectag" onclick="toggleTecTag('4연음5그루핑')">4연음 5그루핑</span> · <span id="tectag-4연음6그루핑" class="tectag" onclick="toggleTecTag('4연음6그루핑')">4연음 6그루핑</span> · <span id="tectag-6연음" class="tectag" onclick="toggleTecTag('6연음')">6연음</span> · <span id="tectag-6연음4그루핑" class="tectag" onclick="toggleTecTag('6연음4그루핑')">6연음 4그루핑</span> · <span id="tectag-6연음5그루핑" class="tectag" onclick="toggleTecTag('6연음5그루핑')">6연음 5그루핑</span>
+<span style="color:var(--tec);font-weight:600">활용 → </span><span id="tectag-오케스트레이션" class="tectag" onclick="toggleTecTag('오케스트레이션')">오케스트레이션</span> · <span id="tectag-플램활용" class="tectag" onclick="toggleTecTag('플램활용')">플램 활용</span> · <span id="tectag-32비트활용" class="tectag" onclick="toggleTecTag('32비트활용')">32비트 활용</span> · <span id="tectag-쉼표활용" class="tectag" onclick="toggleTecTag('쉼표활용')">쉼표 활용</span> · <span id="tectag-심벌활용" class="tectag" onclick="toggleTecTag('심벌활용')">심벌 활용</span> · <span id="tectag-엇박활용" class="tectag" onclick="toggleTecTag('엇박활용')">엇박 활용</span> · <span id="tectag-스와핑활용" class="tectag" onclick="toggleTecTag('스와핑활용')">스와핑 활용</span> · <span id="tectag-킥밀기유니즌" class="tectag" onclick="toggleTecTag('킥밀기유니즌')">킥 밀기·유니즌</span> · <span id="tectag-다이나믹" class="tectag" onclick="toggleTecTag('다이나믹')">다이나믹 (pp~ff)</span><br>
+<span style="color:var(--tec);font-weight:600">연음·그루핑 → </span><span id="tectag-4연음" class="tectag" onclick="toggleTecTag('4연음')">4연음</span> · <span id="tectag-4연음5그루핑" class="tectag" onclick="toggleTecTag('4연음5그루핑')">4연음 5그루핑</span> · <span id="tectag-6연음" class="tectag" onclick="toggleTecTag('6연음')">6연음</span> · <span id="tectag-6연음4그루핑" class="tectag" onclick="toggleTecTag('6연음4그루핑')">6연음 4그루핑</span> · <span id="tectag-6연음5그루핑" class="tectag" onclick="toggleTecTag('6연음5그루핑')">6연음 5그루핑</span>
 </div>
 </div>
 <table class="clt"><thead><tr><th style="width:22px" title="우선순위">★</th><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">번호</th><th style="width:24px"></th></tr></thead><tbody id="body-tec"></tbody></table>
@@ -290,7 +304,7 @@ ex) 필인 끝에 탐 accent 더 강조하기" rows="7"></textarea></div>
 <div class="rw">
 <table class="rt">
 <thead><tr>
-<th>패드 <span class="hint">클릭하여 추가</span></th>
+<th>기본기 및 피지컬 <span class="hint">클릭하여 추가</span></th>
 <th>장르 <span class="hint">클릭하여 추가</span></th>
 <th>테크닉 <span class="hint">클릭하여 추가</span></th>
 </tr></thead>
@@ -347,7 +361,7 @@ ex) 필인 후 타임이 더 안정적이었음" rows="5"></textarea></div>
 </div>
 </div>
 <script>
-const PAD=['싱글 스트로크 (양손)','더블 스트로크 (양손)','트리플 스트로크 (양손)','핑거링 (양손)','모울러 테크닉','3/6연음','루디먼트','스틱 컨트롤, 아메리칸 드럼 솔로','임용훈 스트로크'];
+const PAD=['싱글 스트로크 (양손)','더블 스트로크 (양손)','트리플 스트로크 (양손)','핑거링 (양손)','모울러 테크닉','4·6연음 스틱킹 및 악센트','루디먼트','임용훈 스트로크'];
 
 const RHY_TREE=[
   {parent:'킥 위치 변경', children:[]},
@@ -365,7 +379,7 @@ const RHY_TREE=[
 const TEC_TREE=[
   {parent:'콤비네이션', children:['오케스트레이션','플램 활용','32비트 활용','쉼표 활용','심벌 활용','엇박 활용','스와핑 활용','3·4·6연음','4연음 3·5·6 그루핑','6연음 3·4·5 그루핑']},
   {parent:'스틱킹', children:['오케스트레이션','플램 활용','32비트 활용','쉼표 활용','심벌 활용','엇박 활용','스와핑 활용','킥 밀기','킥 유니즌','손 발 치환','3·4·6연음','4연음 3·5·6 그루핑','6연음 3·4·5 그루핑']},
-  {parent:'콤비네이션·스틱킹 MIX', children:[]},
+  {parent:'응용 찹스', children:[]},
   {
   parent:'스틱컨트롤, 루디먼트 세트 응용',
   children:[
@@ -623,7 +637,24 @@ buildEtcRef();
 buildRytecRef();
 
 function addRow(cat,txt,chk,mins,tempo,set,pri){
-  if(cat==='ryt') cat='rhy'; // 구 리듬+테크닉 카테고리 → 장르(리듬)로 통합
+  if(cat==='ryt') cat='rhy';
+  // 이전 요일 저장값 조회 (분/템포/번호 힌트용)
+  let prevMins='', prevTempo='', prevSet='';
+  if(!mins && !tempo && !set) {
+    // 직전 요일(현재 요일 -1, 순환)에서 같은 항목 찾기
+    const prevDay = (currentDay + 6) % 7;
+    try {
+      const prevData = loadDayCL(prevDay);
+      if(prevData && prevData.cl) {
+        const match = prevData.cl.find(c => c.txt === txt);
+        if(match) {
+          prevMins = match.mins || '';
+          prevTempo = match.tempo || '';
+          prevSet = match.set || '';
+        }
+      }
+    } catch(e) {}
+  } // 구 리듬+테크닉 카테고리 → 장르(리듬)로 통합
   const tb=document.getElementById('body-'+cat);
   if(!tb) return;
   // 패드에서 싱글/더블/핑거링/트리플 스트로크는 세트, 나머지는 번호
@@ -633,9 +664,9 @@ function addRow(cat,txt,chk,mins,tempo,set,pri){
   tr.innerHTML=`<td style="text-align:center"><button class="pribtn${pri?' on':''}" onclick="togglePri(this)" title="우선순위">★</button></td>
     <td><input type="checkbox" ${chk?'checked':''}></td>
     <td><input type="text" class="cltxt" value="${txt||''}" placeholder="연습 항목 입력" oninput="as()"></td>
-    <td style="text-align:center"><input type="text" class="clnum" value="${mins||''}" placeholder="분" oninput="as()"></td>
-    <td style="text-align:center"><input type="text" class="clnum" value="${tempo||''}" placeholder="BPM" oninput="as()"></td>
-    <td style="text-align:center"><input type="text" class="clnum" value="${set||''}" placeholder="${setLabel}" oninput="as()"></td>
+    <td style="text-align:center"><input type="text" class="clnum" value="${mins||''}" placeholder="분" oninput="as()">${prevMins?`<span class='prev-hint'>${prevMins}분</span>`:''}</td>
+    <td style="text-align:center"><input type="text" class="clnum" value="${tempo||''}" placeholder="BPM" oninput="as()">${prevTempo?`<span class='prev-hint'>${prevTempo}</span>`:''}</td>
+    <td style="text-align:center"><input type="text" class="clnum" value="${set||''}" placeholder="${setLabel}" oninput="as()">${prevSet?`<span class='prev-hint'>${prevSet}</span>`:''}</td>
     <td><button class="delbtn" onclick="this.closest('tr').remove();as()">✕</button></td>`;
   tr.querySelector('input[type=checkbox]').addEventListener('change',as);
   tb.appendChild(tr);
@@ -761,14 +792,16 @@ const MON_DEFAULT=[
   {cat:'pad',txt:'더블 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'트리플 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'모울러 테크닉',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'3/6연음',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'스틱 컨트롤, 아메리칸 드럼 솔로',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'4·6연음 스틱킹 및 악센트',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'피지컬 - 플로어탐 싱글 더블 · 탐돌리기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'스와핑 피지컬',chk:false,mins:'',tempo:'',set:''},
   // 장르
   {cat:'rhy',txt:'MR 연습 - Ballad · R&B · Neo Soul',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'8비트 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'16비트 리듬',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'6연음 리듬',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'8연음 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'바운스 리듬',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'레이백',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'리니어 리듬',chk:false,mins:'',tempo:'',set:''},
   // 기타
@@ -778,14 +811,14 @@ const MON_DEFAULT=[
   {cat:'misc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'카피 릭 익을때까지 연습후 응용하기',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
-  {cat:'tec',txt:'플램 아이디어(오케스트레이션, 플램 피지컬)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'엇박 아이디어 (엇박 펄스감 연습, 정박 쉼표, 엇박 악센트, 5·7연음)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콤비네이션',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱킹',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콤비네이션, 스틱킹 MIX',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스와핑 아이디어 (멀리 빠르게 이동, 왼손 오른손 밸런스, 팔 사용, 양손으로 스와핑할손 빠르게 돌리기)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'유니즌 (콤비네이션 킥에 손, 킥 만있는것에 손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'제한하기 - 왼손먼저 시작',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'피지컬 - 탐돌리기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'5그루핑 (콤비네이션 · 스틱킹)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'콤비네이션',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스틱킹',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'응용 찹스',chk:false,mins:'',tempo:'',set:''},
   // 입시
   {cat:'exam',txt:'입시곡',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'질문',chk:false,mins:'',tempo:'',set:''},
@@ -814,14 +847,14 @@ const TUE_DEFAULT=[
   {cat:'pad',txt:'핑거링 (양손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'임용훈 스트로크',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'루디먼트',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'스틱 컨트롤, 아메리칸 드럼 솔로',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'피지컬 - 손발손발 · RLK다운업',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'플램 피지컬',chk:false,mins:'',tempo:'',set:''},
   // 장르
   {cat:'rhy',txt:'MR 연습 - Hip Hop · Jazz Hip Hop',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'레이백',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'6연음 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'8연음 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'솔로 전개 연습',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'솔로 전개 연습 (선그리고 다이나믹 표현, 리듬부터 솔로)',chk:false,mins:'',tempo:'',set:''},
   // 기타
   {cat:'misc',txt:'입으로 소리내고 표현하기',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'귀카피 연주 연습하기',chk:false,mins:'',tempo:'',set:''},
@@ -829,14 +862,15 @@ const TUE_DEFAULT=[
   {cat:'misc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'카피 릭 익을때까지 연습후 응용하기',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
+  {cat:'tec',txt:'엇박 아이디어 (엇박 펄스감 연습, 정박 쉼표, 엇박 악센트, 5·7연음)',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'32비트 아이디어 (1e&a에 넣기, 3·6연음 중 사용, 더블, (더블)킥으로, 콤비네이션 + 더블킥 32비트)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스와핑 아이디어 (멀리 빠르게 이동, 왼손 오른손 밸런스, 팔 사용, 양손으로 스와핑할손 빠르게 돌리기)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콤비네이션',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱킹',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콤비네이션·스틱킹 MIX',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'유니즌 (콤비네이션 킥에 손, 킥 만있는것에 손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'제한하기 - 왼손 악센트',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'피지컬 - 손발손발',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'5그루핑 (콤비네이션 · 스틱킹)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'콤비네이션',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스틱킹',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'응용 찹스',chk:false,mins:'',tempo:'',set:''},
   // 입시
   {cat:'exam',txt:'입시곡',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'질문',chk:false,mins:'',tempo:'',set:''},
@@ -863,8 +897,9 @@ const WED_DEFAULT=[
   {cat:'pad',txt:'더블 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'트리플 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'모울러 테크닉',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'3/6연음',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'스틱 컨트롤, 아메리칸 드럼 솔로',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'4·6연음 스틱킹 및 악센트',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'피지컬 - 플로어탐 싱글 더블 · 싱글킥, 더블킥',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'스와핑 피지컬',chk:false,mins:'',tempo:'',set:''},
   // 장르
   {cat:'rhy',txt:'MR 연습 - Funk · Gospel · Shuffle',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'8비트 리듬',chk:false,mins:'',tempo:'',set:''},
@@ -873,9 +908,8 @@ const WED_DEFAULT=[
   {cat:'rhy',txt:'6연음 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'8연음 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'바운스 리듬',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'레이백',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'솔로 전개 연습',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'솔로 전개 연습 (선그리고 다이나믹 표현, 리듬부터 솔로)',chk:false,mins:'',tempo:'',set:''},
   // 기타
   {cat:'misc',txt:'입으로 소리내고 표현하기',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'귀카피 연주 연습하기',chk:false,mins:'',tempo:'',set:''},
@@ -883,14 +917,14 @@ const WED_DEFAULT=[
   {cat:'misc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'카피 릭 익을때까지 연습후 응용하기',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
-  {cat:'tec',txt:'쉼표 아이디어 (쉼표 자리에 풋하이햇)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'엇박 아이디어 (엇박 펄스감 연습, 정박 쉼표, 엇박 악센트, 5·7연음)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콤비네이션',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱킹',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콤비네이션·스틱킹 MIX',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스와핑 아이디어 (멀리 빠르게 이동, 왼손 오른손 밸런스, 팔 사용, 양손으로 스와핑할손 빠르게 돌리기)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'유니즌 (콤비네이션 킥에 손, 킥 만있는것에 손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'제한하기 - 1 e & a 섹션 or 필 고정',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'피지컬 - 싱글킥, 더블킥',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'5그루핑 (콤비네이션 · 스틱킹)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'콤비네이션',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스틱킹',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'응용 찹스',chk:false,mins:'',tempo:'',set:''},
   // 입시
   {cat:'exam',txt:'입시곡',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'질문',chk:false,mins:'',tempo:'',set:''},
@@ -918,13 +952,16 @@ const THU_DEFAULT=[
   {cat:'pad',txt:'핑거링 (양손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'임용훈 스트로크',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'루디먼트',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'스틱 컨트롤, 아메리칸 드럼 솔로',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'피지컬 - 손발손발 · RLK다운업',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'플램 피지컬',chk:false,mins:'',tempo:'',set:''},
   // 장르
   {cat:'rhy',txt:'MR 연습 - Jazz · Fusion Jazz · Latin',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'스윙 리듬',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'라틴 리듬',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'송고 리듬',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'삼바 리듬',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'보사노바 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'솔로 전개 연습',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'솔로 전개 연습 (선그리고 다이나믹 표현, 리듬부터 솔로)',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'드럼으로 멜로디 연주 · 멜로디 따라가기',chk:false,mins:'',tempo:'',set:''},
   // 기타
   {cat:'misc',txt:'입으로 소리내고 표현하기',chk:false,mins:'',tempo:'',set:''},
@@ -933,14 +970,15 @@ const THU_DEFAULT=[
   {cat:'misc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'카피 릭 익을때까지 연습후 응용하기',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
-  {cat:'tec',txt:'심벌 아이디어 (스플래쉬, 심벌, 라이드 벨, 오픈 하이햇, 스와핑+스플래쉬)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스와핑 아이디어 (멀리 빠르게 이동, 왼손 오른손 밸런스, 팔 사용, 양손으로 스와핑할손 빠르게 돌리기)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콤비네이션',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱킹',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콤비네이션·스틱킹 MIX',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'엇박 아이디어 (엇박 펄스감 연습, 정박 쉼표, 엇박 악센트, 5·7연음)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'32비트 아이디어 (1e&a에 넣기, 3·6연음 중 사용, 더블, (더블)킥으로, 콤비네이션 + 더블킥 32비트)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'유니즌 (콤비네이션 킥에 손, 킥 만있는것에 손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'제한하기 - 하이햇 사용 금지',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'피지컬 - RLK다운업',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'5그루핑 (콤비네이션 · 스틱킹)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'콤비네이션',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스틱킹',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'응용 찹스',chk:false,mins:'',tempo:'',set:''},
   // 입시
   {cat:'exam',txt:'입시곡',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'질문',chk:false,mins:'',tempo:'',set:''},
@@ -966,8 +1004,9 @@ const FRI_DEFAULT=[
   {cat:'pad',txt:'더블 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'트리플 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'모울러 테크닉',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'3/6연음',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'스틱 컨트롤, 아메리칸 드럼 솔로',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'4·6연음 스틱킹 및 악센트',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'피지컬 - 플로어탐 싱글 더블 · 탐돌리기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'스와핑 피지컬',chk:false,mins:'',tempo:'',set:''},
   // 장르
   {cat:'rhy',txt:'MR 연습 - Funk · Gospel · Shuffle',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'8비트 리듬',chk:false,mins:'',tempo:'',set:''},
@@ -976,9 +1015,8 @@ const FRI_DEFAULT=[
   {cat:'rhy',txt:'6연음 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'8연음 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'바운스 리듬',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'레이백',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'솔로 전개 연습',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'솔로 전개 연습 (선그리고 다이나믹 표현, 리듬부터 솔로)',chk:false,mins:'',tempo:'',set:''},
   // 기타
   {cat:'misc',txt:'입으로 소리내고 표현하기',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'귀카피 연주 연습하기',chk:false,mins:'',tempo:'',set:''},
@@ -986,14 +1024,14 @@ const FRI_DEFAULT=[
   {cat:'misc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc',txt:'카피 릭 익을때까지 연습후 응용하기',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
-  {cat:'tec',txt:'쉼표 아이디어 (쉼표 자리에 풋하이햇)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'엇박 아이디어 (엇박 펄스감 연습, 정박 쉼표, 엇박 악센트, 5·7연음)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콤비네이션',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱킹',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콤비네이션·스틱킹 MIX',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스와핑 아이디어 (멀리 빠르게 이동, 왼손 오른손 밸런스, 팔 사용, 양손으로 스와핑할손 빠르게 돌리기)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'유니즌 (콤비네이션 킥에 손, 킥 만있는것에 손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'제한하기 - 탐 금지',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'피지컬 - 탐돌리기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'5그루핑 (콤비네이션 · 스틱킹)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'콤비네이션',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'스틱킹',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'응용 찹스',chk:false,mins:'',tempo:'',set:''},
   // 입시
   {cat:'exam',txt:'입시곡',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'질문',chk:false,mins:'',tempo:'',set:''},
@@ -1015,7 +1053,7 @@ const FRI_DEFAULT=[
   {cat:'misc2',txt:'리니어 리듬',chk:false,mins:'',tempo:'',set:''},
 ];
 const DAY_DEFAULTS=[MON_DEFAULT,TUE_DEFAULT,WED_DEFAULT,THU_DEFAULT,FRI_DEFAULT,null,null];
-const DEFAULT_VERSION='v16.0'; // 기본값 바뀌면 이 숫자 올리기
+const DEFAULT_VERSION='v17.7'; // 기본값 바뀌면 이 숫자 올리기
 const DEFAULT_VER_KEY='drum_default_ver';
 
 function loadDefaultCL(list){
@@ -1278,7 +1316,7 @@ function renderHist(){
 function openM(id){
   const r=dbGet().find(x=>x.id===id);if(!r)return;
   const CI={pad:'🥁',rhy:'🎵',misc:'🎤',tec:'⚡',book:'📚',exam:'🏆',etc:'🎼',misc2:'🥁',prob:'🔧'};
-  const CN={pad:'패드',rhy:'장르',misc:'카피',tec:'테크닉',book:'교재',exam:'입시',etc:'음악성',misc2:'기타 연습',prob:'문제점/고쳐야할점'};
+  const CN={pad:'기본기 및 피지컬',rhy:'장르',misc:'카피',tec:'테크닉',book:'교재',exam:'입시',etc:'음악성',misc2:'기타 연습',prob:'문제점/고쳐야할점'};
   let clh='';
   if(r.cl&&r.cl.length){
     ['pad','rhy','misc','tec','book','exam','etc','misc2','prob'].forEach(c=>{
@@ -1323,9 +1361,9 @@ function openM(id){
     {id:'tectag-32비트활용',txt:'32비트 활용'},{id:'tectag-쉼표활용',txt:'쉼표 활용'},
     {id:'tectag-심벌활용',txt:'심벌 활용'},{id:'tectag-엇박활용',txt:'엇박 활용'},
     {id:'tectag-스와핑활용',txt:'스와핑 활용'},{id:'tectag-킥밀기유니즌',txt:'킥 밀기·유니즌'},
-    {id:'tectag-손발치환',txt:'손발 치환'},{id:'tectag-다이나믹',txt:'다이나믹 (pp~ff)'},
-    {id:'tectag-4연음',txt:'4연음'},{id:'tectag-4연음3그루핑',txt:'4연음 3그루핑'},
-    {id:'tectag-4연음5그루핑',txt:'4연음 5그루핑'},{id:'tectag-4연음6그루핑',txt:'4연음 6그루핑'},
+    {id:'tectag-다이나믹',txt:'다이나믹 (pp~ff)'},
+    {id:'tectag-4연음',txt:'4연음'},
+    {id:'tectag-4연음5그루핑',txt:'4연음 5그루핑'},
     {id:'tectag-6연음',txt:'6연음'},{id:'tectag-6연음4그루핑',txt:'6연음 4그루핑'},
     {id:'tectag-6연음5그루핑',txt:'6연음 5그루핑'},
   ];
