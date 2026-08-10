@@ -132,9 +132,18 @@ textarea.inp{resize:vertical;line-height:1.7}
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  pointer-events: none;
+  cursor: pointer;
   opacity: 1;
   font-weight: 600;
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
+}
+.prev-hint:hover {
+  color: var(--accent, #a78bfa);
+  opacity: .85;
+}
+.prev-hint:active {
+  opacity: .6;
 }
 </style>
 </head>
@@ -631,6 +640,12 @@ buildTecRef();
 buildEtcRef();
 buildRytecRef();
 
+function fillPrev(el){
+  const input = el.previousElementSibling;
+  if(!input) return;
+  input.value = el.dataset.prev || '';
+  as();
+}
 function addRow(cat,txt,chk,mins,tempo,set,pri){
   if(cat==='ryt') cat='rhy';
   // 이전 요일 저장값 조회 (분/템포/번호 힌트용)
@@ -653,15 +668,15 @@ function addRow(cat,txt,chk,mins,tempo,set,pri){
   const tb=document.getElementById('body-'+cat);
   if(!tb) return;
   // 패드에서 싱글/더블/핑거링/트리플 스트로크는 세트, 나머지는 번호
-  const padSetItems=['싱글 스트로크 (양손)','더블 스트로크 (양손)','핑거링 (양손)','트리플 스트로크 (양손)'];
+  const padSetItems=['싱글 스트로크 (양손)','더블 스트로크 (양손)','핑거링 (양손)','트리플 스트로크 (양손)','모울러 테크닉','임용훈 스트로크','플램 피지컬','스와핑 피지컬'];
   const setLabel = (cat==='pad' && padSetItems.some(s=>txt&&txt.includes(s.split(' ')[0]))) ? '세트' : '번호';
   const tr=document.createElement('tr'); tr.className='clr'+(pri?' pri':'');
   tr.innerHTML=`<td style="text-align:center"><button class="pribtn${pri?' on':''}" onclick="togglePri(this)" title="우선순위">★</button></td>
     <td><input type="checkbox" ${chk?'checked':''}></td>
     <td><input type="text" class="cltxt" value="${txt||''}" placeholder="연습 항목 입력" oninput="as()"></td>
-    <td style="text-align:center"><input type="text" class="clnum" value="${mins||''}" placeholder="분" oninput="as()">${prevMins?`<span class='prev-hint'>${prevMins}분</span>`:''}</td>
-    <td style="text-align:center"><input type="text" class="clnum" value="${tempo||''}" placeholder="BPM" oninput="as()">${prevTempo?`<span class='prev-hint'>${prevTempo}</span>`:''}</td>
-    <td style="text-align:center"><input type="text" class="clnum" value="${set||''}" placeholder="${setLabel}" oninput="as()">${prevSet?`<span class='prev-hint'>${prevSet}</span>`:''}</td>
+    <td style="text-align:center"><input type="text" class="clnum" value="${mins||''}" placeholder="분" oninput="as()">${prevMins?`<span class='prev-hint' data-prev="${prevMins}" onclick="fillPrev(this)">${prevMins}분</span>`:''}</td>
+    <td style="text-align:center"><input type="text" class="clnum" value="${tempo||''}" placeholder="BPM" oninput="as()">${prevTempo?`<span class='prev-hint' data-prev="${prevTempo}" onclick="fillPrev(this)">${prevTempo}</span>`:''}</td>
+    <td style="text-align:center"><input type="text" class="clnum" value="${set||''}" placeholder="${setLabel}" oninput="as()">${prevSet?`<span class='prev-hint' data-prev="${prevSet}" onclick="fillPrev(this)">${prevSet}</span>`:''}</td>
     <td><button class="delbtn" onclick="this.closest('tr').remove();as()">✕</button></td>`;
   tr.querySelector('input[type=checkbox]').addEventListener('change',as);
   tb.appendChild(tr);
