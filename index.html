@@ -123,6 +123,34 @@ textarea.inp{resize:vertical;line-height:1.7}
 .toast.show{opacity:1;transform:translateY(0)}
 @media(max-width:700px){.g2{grid-template-columns:1fr}.hdr{padding:14px 16px}.hdr-title{font-size:1.7rem}.main{padding:14px 12px}}
 
+.setstep {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+.stepbtns {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.stepbtn {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text2);
+  font-size: .55rem;
+  line-height: 1;
+  padding: 1px 4px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+.stepbtn:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.stepbtn:active {
+  opacity: .7;
+}
 .prev-hint {
   display: block;
   font-size: .72rem;
@@ -640,6 +668,16 @@ buildTecRef();
 buildEtcRef();
 buildRytecRef();
 
+function stepSet(btn, delta){
+  const wrap = btn.closest('.setstep');
+  if(!wrap) return;
+  const input = wrap.querySelector('input');
+  let v = parseInt(input.value, 10);
+  if(isNaN(v)) v = 0;
+  v = Math.max(0, v + delta);
+  input.value = v;
+  as();
+}
 function fillPrev(el){
   const input = el.previousElementSibling;
   if(!input) return;
@@ -676,7 +714,7 @@ function addRow(cat,txt,chk,mins,tempo,set,pri){
     <td><input type="text" class="cltxt" value="${txt||''}" placeholder="연습 항목 입력" oninput="as()"></td>
     <td style="text-align:center"><input type="text" class="clnum" value="${mins||''}" placeholder="분" oninput="as()">${prevMins?`<span class='prev-hint' data-prev="${prevMins}" onclick="fillPrev(this)">${prevMins}분</span>`:''}</td>
     <td style="text-align:center"><input type="text" class="clnum" value="${tempo||''}" placeholder="BPM" oninput="as()">${prevTempo?`<span class='prev-hint' data-prev="${prevTempo}" onclick="fillPrev(this)">${prevTempo}</span>`:''}</td>
-    <td style="text-align:center"><input type="text" class="clnum" value="${set||''}" placeholder="${setLabel}" oninput="as()">${prevSet?`<span class='prev-hint' data-prev="${prevSet}" onclick="fillPrev(this)">${prevSet}</span>`:''}</td>
+    <td style="text-align:center">${setLabel==='세트'?`<div class="setstep"><input type="text" class="clnum" value="${set||''}" placeholder="${setLabel}" oninput="as()"><span class="stepbtns"><button type="button" class="stepbtn" onclick="stepSet(this,1)">▲</button><button type="button" class="stepbtn" onclick="stepSet(this,-1)">▼</button></span></div>`:`<input type="text" class="clnum" value="${set||''}" placeholder="${setLabel}" oninput="as()">`}${prevSet?`<span class='prev-hint' data-prev="${prevSet}" onclick="fillPrev(this)">${prevSet}</span>`:''}</td>
     <td><button class="delbtn" onclick="this.closest('tr').remove();as()">✕</button></td>`;
   tr.querySelector('input[type=checkbox]').addEventListener('change',as);
   tb.appendChild(tr);
