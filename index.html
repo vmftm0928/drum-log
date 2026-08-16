@@ -58,6 +58,11 @@ textarea.inp{resize:vertical;line-height:1.7}
 .cattime{background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.72rem;padding:3px 9px;width:118px;margin-left:10px;outline:none;font-family:'Space Mono',monospace;vertical-align:middle}
 .cattime:focus{border-color:var(--accent)}
 .cattime::placeholder{color:var(--text3)}
+.cattime-sw{display:inline-flex;align-items:center;gap:6px;margin-left:10px;vertical-align:middle;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:3px 6px}
+.cattime-disp{font-family:'Space Mono',monospace;font-size:.72rem;color:var(--text);letter-spacing:1px;min-width:44px;text-align:center}
+.cattime-btn{background:rgba(124,58,237,.25);border:1px solid var(--accent);border-radius:5px;color:#fff;font-size:.65rem;padding:2px 7px;cursor:pointer;font-family:'Space Mono',monospace;line-height:1.4}
+.cattime-btn.reset{background:rgba(42,42,64,.6);border-color:var(--border);color:var(--text2)}
+.cattime-btn:active{opacity:.7}
 .delbtn{background:none;border:none;color:var(--text3);cursor:pointer;font-size:.85rem;padding:2px 4px;border-radius:4px}
 .pribtn{background:none;border:none;color:var(--text3);cursor:pointer;font-size:.9rem;padding:2px;opacity:.4;transition:all .15s}
 .pribtn:hover{opacity:.8}
@@ -231,24 +236,20 @@ ex) 필인 끝에 탐 accent 더 강조하기" rows="7"></textarea></div>
 <!-- 타이머 -->
 <div style="padding:12px 16px;background:rgba(10,10,15,.8);border-bottom:1px solid var(--border)">
   <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-    <!-- 스톱워치 -->
+    <!-- 스톱워치: 카테고리 합산 -->
     <div style="flex:1;min-width:180px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 14px">
-      <div style="font-size:.6rem;color:var(--accent3);font-family:'Space Mono',monospace;letter-spacing:1px;margin-bottom:4px">⏱ 스톱워치</div>
+      <div style="font-size:.6rem;color:var(--accent3);font-family:'Space Mono',monospace;letter-spacing:1px;margin-bottom:4px">⏱ 카테고리 합산 시간</div>
       <div id="swDisplay" style="font-size:1.6rem;font-family:'Space Mono',monospace;color:#fff;letter-spacing:2px">00:00:00</div>
-      <div style="display:flex;gap:6px;margin-top:8px">
-        <button onclick="swToggle()" id="swBtn" style="background:rgba(124,58,237,.3);border:1px solid var(--accent);border-radius:7px;color:#fff;padding:5px 14px;font-size:.75rem;cursor:pointer;font-family:'Space Mono',monospace">▶ 시작</button>
-        <button onclick="swReset()" style="background:rgba(42,42,64,.6);border:1px solid var(--border);border-radius:7px;color:var(--text2);padding:5px 10px;font-size:.75rem;cursor:pointer;font-family:'Space Mono',monospace">↺ 초기화</button>
-      </div>
+      <div style="font-size:.6rem;color:var(--text3);font-family:'Space Mono',monospace;margin-top:5px">실행 중인 카테고리 타이머 합계</div>
     </div>
-    <!-- 카운트다운 -->
-    <div style="flex:1;min-width:180px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 14px">
-      <div style="font-size:.6rem;color:var(--gold);font-family:'Space Mono',monospace;letter-spacing:1px;margin-bottom:4px">⏳ 카운트다운</div>
-      <div id="cdDisplay" style="font-size:1.6rem;font-family:'Space Mono',monospace;color:#fff;letter-spacing:2px">00:00:00</div>
-      <div style="display:flex;gap:6px;margin-top:8px;align-items:center;flex-wrap:wrap">
-        <input id="cdInput" type="text" placeholder="분 입력 ex)30" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:4px 8px;font-size:.75rem;width:110px;font-family:'Space Mono',monospace;outline:none">
-        <button onclick="cdSet()" style="background:rgba(245,158,11,.25);border:1px solid var(--gold);border-radius:7px;color:var(--gold);padding:5px 10px;font-size:.75rem;cursor:pointer;font-family:'Space Mono',monospace">설정</button>
-        <button onclick="cdToggle()" id="cdBtn" style="background:rgba(245,158,11,.25);border:1px solid var(--gold);border-radius:7px;color:var(--gold);padding:5px 10px;font-size:.75rem;cursor:pointer;font-family:'Space Mono',monospace">▶</button>
-        <button onclick="cdReset()" style="background:rgba(42,42,64,.6);border:1px solid var(--border);border-radius:7px;color:var(--text2);padding:5px 10px;font-size:.75rem;cursor:pointer;font-family:'Space Mono',monospace">↺</button>
+    <!-- 연습 전체 타이머 -->
+    <div style="flex:1;min-width:200px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 14px">
+      <div style="font-size:.6rem;color:var(--gold);font-family:'Space Mono',monospace;letter-spacing:1px;margin-bottom:4px">⏳ 연습 전체 시간</div>
+      <div id="practiceDisplay" style="font-size:1.6rem;font-family:'Space Mono',monospace;color:#fff;letter-spacing:2px">00:00:00</div>
+      <div style="font-size:.6rem;color:var(--text3);font-family:'Space Mono',monospace;margin-top:3px" id="practiceStartLabel"></div>
+      <div style="display:flex;gap:6px;margin-top:8px">
+        <button onclick="practiceToggle()" id="practiceBtn" style="background:rgba(245,158,11,.25);border:1px solid var(--gold);border-radius:7px;color:var(--gold);padding:5px 14px;font-size:.75rem;cursor:pointer;font-family:'Space Mono',monospace">▶ 시작</button>
+        <button onclick="practiceReset()" style="background:rgba(42,42,64,.6);border:1px solid var(--border);border-radius:7px;color:var(--text2);padding:5px 10px;font-size:.75rem;cursor:pointer;font-family:'Space Mono',monospace">↺</button>
       </div>
     </div>
   </div>
@@ -267,19 +268,19 @@ ex) 필인 끝에 탐 accent 더 강조하기" rows="7"></textarea></div>
 </div>
 <div class="cb" style="padding:13px 18px;display:flex;flex-direction:column;gap:20px">
 <div>
-<div class="cath pad">🥁 기본기 및 피지컬 <input type="text" class="cattime" id="cattime-pad" placeholder="연습시간 입력(분)" oninput="as()"></div>
+<div class="cath pad">🥁 기본기 및 피지컬 <input type="hidden" class="cattime" id="cattime-pad"><span class="cattime-sw"><span class="cattime-disp" id="cattime-disp-pad">00:00</span><button type="button" class="cattime-btn" id="cattime-btn-pad" onclick="catSwToggle('pad')">▶</button><button type="button" class="cattime-btn reset" onclick="catSwReset('pad')">↺</button></span></div>
 <table class="clt"><thead><tr><th style="width:22px" title="우선순위">★</th><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">번호</th><th style="width:24px"></th></tr></thead><tbody id="body-pad"></tbody></table>
 <button class="addbtn" onclick="addRow('pad','')">+ 기본기 및 피지컬 항목 추가</button>
 </div>
 <div>
-<div class="cath" style="background:rgba(245,158,11,.13);color:#fbbf24;border-left:3px solid #f59e0b">🏆 입시 <input type="text" class="cattime" id="cattime-exam" placeholder="연습시간 입력(분)" oninput="as()"></div>
+<div class="cath" style="background:rgba(245,158,11,.13);color:#fbbf24;border-left:3px solid #f59e0b">🏆 입시 <input type="hidden" class="cattime" id="cattime-exam"><span class="cattime-sw"><span class="cattime-disp" id="cattime-disp-exam">00:00</span><button type="button" class="cattime-btn" id="cattime-btn-exam" onclick="catSwToggle('exam')">▶</button><button type="button" class="cattime-btn reset" onclick="catSwReset('exam')">↺</button></span></div>
 <table class="clt"><thead><tr><th style="width:22px" title="우선순위">★</th><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">번호</th><th style="width:24px"></th></tr></thead><tbody id="body-exam"></tbody></table>
 <button class="addbtn" onclick="addRow('exam','')">+ 입시 항목 추가</button>
 </div>
 <div>
-<div class="cath rhy">🎵 장르 <input type="text" class="cattime" id="cattime-rhy" placeholder="연습시간 입력(분)" oninput="as()">
+<div class="cath rhy">🎵 장르 <input type="hidden" class="cattime" id="cattime-rhy"><span class="cattime-sw"><span class="cattime-disp" id="cattime-disp-rhy">00:00</span><button type="button" class="cattime-btn" id="cattime-btn-rhy" onclick="catSwToggle('rhy')">▶</button><button type="button" class="cattime-btn reset" onclick="catSwReset('rhy')">↺</button></span>
 <div style="font-size:.63rem;font-weight:400;margin-top:4px;line-height:2">
-<span style="color:var(--rhy);font-weight:600">활용 → </span><span id="rhytag-오픈하이햇" class="rhytag" onclick="toggleRhyTag('오픈하이햇')">오픈 하이햇</span> · <span id="rhytag-쉼표" class="rhytag" onclick="toggleRhyTag('쉼표')">쉼표</span> · <span id="rhytag-32비트" class="rhytag" onclick="toggleRhyTag('32비트')">32비트</span> · <span id="rhytag-엇박" class="rhytag" onclick="toggleRhyTag('엇박')">엇박</span> · <span id="rhytag-Double57" class="rhytag" onclick="toggleRhyTag('Double57')">Double/5/7stroke</span> · <span id="rhytag-풋하이햇" class="rhytag" onclick="toggleRhyTag('풋하이햇')">풋 하이햇</span> · <span id="rhytag-스플래쉬" class="rhytag" onclick="toggleRhyTag('스플래쉬')">스플래쉬</span> · <span id="rhytag-하이햇위치변형" class="rhytag" onclick="toggleRhyTag('하이햇위치변형')">하이햇 위치변형</span> · <span id="rhytag-하이햇악센트변형" class="rhytag" onclick="toggleRhyTag('하이햇악센트변형')">하이햇 악센트 변형</span> · <span id="rhytag-킥위치변경" class="rhytag" onclick="toggleRhyTag('킥위치변경')">킥 위치 변경</span> · <span id="rhytag-다이나믹" class="rhytag" onclick="toggleRhyTag('다이나믹')">다이나믹 (pp~ff)</span> · <span id="rhytag-사부작" class="rhytag" onclick="toggleRhyTag('사부작')">사부작 리듬</span> · <span id="rhytag-사이드스틱" class="rhytag" onclick="toggleRhyTag('사이드스틱')">사이드 스틱</span><br>
+<span style="color:var(--rhy);font-weight:600">활용 → </span><span id="rhytag-오픈하이햇" class="rhytag" onclick="toggleRhyTag('오픈하이햇')">오픈 하이햇</span> · <span id="rhytag-쉼표" class="rhytag" onclick="toggleRhyTag('쉼표')">쉼표</span> · <span id="rhytag-32비트" class="rhytag" onclick="toggleRhyTag('32비트')">32비트</span> · <span id="rhytag-엇박" class="rhytag" onclick="toggleRhyTag('엇박')">엇박</span> · <span id="rhytag-Double57" class="rhytag" onclick="toggleRhyTag('Double57')">Double/5/7stroke</span> · <span id="rhytag-스플래쉬" class="rhytag" onclick="toggleRhyTag('스플래쉬')">스플래쉬</span> · <span id="rhytag-하이햇위치변형" class="rhytag" onclick="toggleRhyTag('하이햇위치변형')">하이햇 위치변형</span> · <span id="rhytag-하이햇악센트변형" class="rhytag" onclick="toggleRhyTag('하이햇악센트변형')">하이햇 악센트 변형</span> · <span id="rhytag-킥위치변경" class="rhytag" onclick="toggleRhyTag('킥위치변경')">킥 위치 변경</span> · <span id="rhytag-다이나믹" class="rhytag" onclick="toggleRhyTag('다이나믹')">다이나믹 (pp~ff)</span> · <span id="rhytag-사이드스틱" class="rhytag" onclick="toggleRhyTag('사이드스틱')">사이드 스틱</span><br>
 <span style="color:var(--rhy);font-weight:600">스네어 → </span><span id="rhytag-고스트" class="rhytag" onclick="toggleRhyTag('고스트')">고스트</span> · <span id="rhytag-악센트" class="rhytag" onclick="toggleRhyTag('악센트')">악센트</span> · <span id="rhytag-프레스" class="rhytag" onclick="toggleRhyTag('프레스')">프레스</span> · <span id="rhytag-고스트더블" class="rhytag" onclick="toggleRhyTag('고스트더블')">고스트(더블) 선명도</span> · <span id="rhytag-레이백" class="rhytag" onclick="toggleRhyTag('레이백')">레이백</span><br>
 <span style="color:var(--rhy);font-weight:600">그루핑 → </span><span id="rhytag-3그루핑" class="rhytag" onclick="toggleRhyTag('3그루핑')">3그루핑</span> · <span id="rhytag-4그루핑" class="rhytag" onclick="toggleRhyTag('4그루핑')">4그루핑</span> · <span id="rhytag-5그루핑" class="rhytag" onclick="toggleRhyTag('5그루핑')">5그루핑</span> · <span id="rhytag-6그루핑" class="rhytag" onclick="toggleRhyTag('6그루핑')">6그루핑</span>
 </div>
@@ -288,7 +289,7 @@ ex) 필인 끝에 탐 accent 더 강조하기" rows="7"></textarea></div>
 <button class="addbtn" onclick="addRow('rhy','')">+ 장르 항목 추가</button>
 </div>
 <div>
-<div class="cath tec">⚡ 테크닉 <input type="text" class="cattime" id="cattime-tec" placeholder="연습시간 입력(분)" oninput="as()">
+<div class="cath tec">⚡ 테크닉 <input type="hidden" class="cattime" id="cattime-tec"><span class="cattime-sw"><span class="cattime-disp" id="cattime-disp-tec">00:00</span><button type="button" class="cattime-btn" id="cattime-btn-tec" onclick="catSwToggle('tec')">▶</button><button type="button" class="cattime-btn reset" onclick="catSwReset('tec')">↺</button></span>
 <div style="font-size:.63rem;font-weight:400;margin-top:4px;line-height:2">
 <span style="color:var(--tec);font-weight:600">활용 → </span><span id="tectag-오케스트레이션" class="tectag" onclick="toggleTecTag('오케스트레이션')">오케스트레이션</span> · <span id="tectag-플램활용" class="tectag" onclick="toggleTecTag('플램활용')">플램 활용</span> · <span id="tectag-32비트활용" class="tectag" onclick="toggleTecTag('32비트활용')">32비트 활용</span> · <span id="tectag-쉼표활용" class="tectag" onclick="toggleTecTag('쉼표활용')">쉼표 활용</span> · <span id="tectag-심벌활용" class="tectag" onclick="toggleTecTag('심벌활용')">심벌 활용</span> · <span id="tectag-엇박활용" class="tectag" onclick="toggleTecTag('엇박활용')">엇박 활용</span> · <span id="tectag-스와핑활용" class="tectag" onclick="toggleTecTag('스와핑활용')">스와핑 활용</span> · <span id="tectag-킥밀기유니즌" class="tectag" onclick="toggleTecTag('킥밀기유니즌')">킥 밀기·유니즌</span> · <span id="tectag-다이나믹" class="tectag" onclick="toggleTecTag('다이나믹')">다이나믹 (pp~ff)</span><br>
 <span style="color:var(--tec);font-weight:600">연음·그루핑 → </span><span id="tectag-4연음" class="tectag" onclick="toggleTecTag('4연음')">4연음</span> · <span id="tectag-4연음5그루핑" class="tectag" onclick="toggleTecTag('4연음5그루핑')">4연음 5그루핑</span> · <span id="tectag-6연음" class="tectag" onclick="toggleTecTag('6연음')">6연음</span> · <span id="tectag-6연음4그루핑" class="tectag" onclick="toggleTecTag('6연음4그루핑')">6연음 4그루핑</span> · <span id="tectag-6연음5그루핑" class="tectag" onclick="toggleTecTag('6연음5그루핑')">6연음 5그루핑</span>
@@ -298,12 +299,12 @@ ex) 필인 끝에 탐 accent 더 강조하기" rows="7"></textarea></div>
 <button class="addbtn" onclick="addRow('tec','')">+ 테크닉 항목 추가</button>
 </div>
 <div>
-<div class="cath" style="background:rgba(6,182,212,.13);color:#22d3ee;border-left:3px solid #22d3ee">📚 교재 <input type="text" class="cattime" id="cattime-book" placeholder="연습시간 입력(분)" oninput="as()"></div>
+<div class="cath" style="background:rgba(6,182,212,.13);color:#22d3ee;border-left:3px solid #22d3ee">📚 교재 <input type="hidden" class="cattime" id="cattime-book"><span class="cattime-sw"><span class="cattime-disp" id="cattime-disp-book">00:00</span><button type="button" class="cattime-btn" id="cattime-btn-book" onclick="catSwToggle('book')">▶</button><button type="button" class="cattime-btn reset" onclick="catSwReset('book')">↺</button></span></div>
 <table class="clt"><thead><tr><th style="width:22px" title="우선순위">★</th><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">번호</th><th style="width:24px"></th></tr></thead><tbody id="body-book"></tbody></table>
 <button class="addbtn" onclick="addRow('book','')">+ 교재 항목 추가</button>
 </div>
 <div>
-<div class="cath etc">음악성 <input type="text" class="cattime" id="cattime-etc" placeholder="연습시간 입력(분)" oninput="as()"></div>
+<div class="cath etc">음악성 <input type="hidden" class="cattime" id="cattime-etc"><span class="cattime-sw"><span class="cattime-disp" id="cattime-disp-etc">00:00</span><button type="button" class="cattime-btn" id="cattime-btn-etc" onclick="catSwToggle('etc')">▶</button><button type="button" class="cattime-btn reset" onclick="catSwReset('etc')">↺</button></span></div>
 <table class="clt"><thead><tr><th style="width:22px" title="우선순위">★</th><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">번호</th><th style="width:24px"></th></tr></thead><tbody id="body-etc"></tbody></table>
 <button class="addbtn" onclick="addRow('etc','')">+ 음악성 항목 추가</button>
 </div>
@@ -313,12 +314,12 @@ ex) 필인 끝에 탐 accent 더 강조하기" rows="7"></textarea></div>
 </div>
 <div id="extraBody" style="display:none;flex-direction:column;gap:20px">
 <div>
-<div class="cath" style="background:rgba(20,184,166,.13);color:#2dd4bf;border-left:3px solid #14b8a6">🥁 기타 연습 <input type="text" class="cattime" id="cattime-misc2" placeholder="연습시간 입력(분)" oninput="as()"></div>
+<div class="cath" style="background:rgba(20,184,166,.13);color:#2dd4bf;border-left:3px solid #14b8a6">🥁 기타 연습 <input type="hidden" class="cattime" id="cattime-misc2"><span class="cattime-sw"><span class="cattime-disp" id="cattime-disp-misc2">00:00</span><button type="button" class="cattime-btn" id="cattime-btn-misc2" onclick="catSwToggle('misc2')">▶</button><button type="button" class="cattime-btn reset" onclick="catSwReset('misc2')">↺</button></span></div>
 <table class="clt"><thead><tr><th style="width:22px" title="우선순위">★</th><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">번호</th><th style="width:24px"></th></tr></thead><tbody id="body-misc2"></tbody></table>
 <button class="addbtn" onclick="addRow('misc2','')">+ 기타 연습 항목 추가</button>
 </div>
 <div>
-<div class="cath" style="background:rgba(239,68,68,.13);color:#f87171;border-left:3px solid #ef4444">🔧 문제점 / 고쳐야할점 <input type="text" class="cattime" id="cattime-prob" placeholder="연습시간 입력(분)" oninput="as()"></div>
+<div class="cath" style="background:rgba(239,68,68,.13);color:#f87171;border-left:3px solid #ef4444">🔧 문제점 / 고쳐야할점 <input type="hidden" class="cattime" id="cattime-prob"><span class="cattime-sw"><span class="cattime-disp" id="cattime-disp-prob">00:00</span><button type="button" class="cattime-btn" id="cattime-btn-prob" onclick="catSwToggle('prob')">▶</button><button type="button" class="cattime-btn reset" onclick="catSwReset('prob')">↺</button></span></div>
 <table class="clt"><thead><tr><th style="width:22px" title="우선순위">★</th><th style="width:24px"></th><th>항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">번호</th><th style="width:24px"></th></tr></thead><tbody id="body-prob"></tbody></table>
 <button class="addbtn" onclick="addRow('prob','')">+ 문제점 항목 추가</button>
 </div>
@@ -393,12 +394,12 @@ ex) 필인 후 타임이 더 안정적이었음" rows="5"></textarea></div>
 </div>
 </div>
 <script>
-const PAD=['싱글 스트로크 (양손)','더블 스트로크 (양손)','트리플 스트로크 (양손)','핑거링 (양손)','모울러 테크닉','4·6연음 스틱킹 및 악센트','루디먼트','임용훈 스트로크'];
+const PAD=['싱글 스트로크','더블 스트로크','트리플 스트로크','핑거링','모울러 테크닉','4·6연음 스틱킹 및 악센트','루디먼트','임용훈 스트로크'];
 
 const RHY_TREE=[
   {parent:'킥 위치 변경', children:[]},
   {parent:'스네어', children:['고스트 위치 변형','악센트 위치 변형','프레스 위치 변형','고스트(더블) 선명도']},
-  {parent:'활용', children:['오픈 하이햇 활용','쉼표 활용','32비트 활용','엇박 활용','Duble stroke, 5 stroke, 7stroke 활용','풋 하이햇 활용','스플래쉬 활용','하이햇 위치변형','하이햇 악센트 변형']},
+  {parent:'활용', children:['오픈 하이햇 활용','쉼표 활용','32비트 활용','엇박 활용','Duble stroke, 5 stroke, 7stroke 활용','스플래쉬 활용','하이햇 위치변형','하이햇 악센트 변형']},
   {parent:'그루브 연구 및 아이디어', children:['8비트 리듬','16비트 리듬','3연음 리듬','6연음 리듬','셔플','하프 타임','더블타임','크로스 스틱','라이드 리듬','루디먼트 리듬','엇박 리듬','변박','폴리리듬','메트릭 모듈레이션','리니어','쉼표 · 비우기','리듬 그루핑','쪼개기','레이백','핑거링 리듬','가벼운(사부작) 사운드','1을 n 으로 생각하며 연주하기']},
   {parent:'리듬 다이나믹(팔 높이, 힘, 오픈 하이햇만 악센트)', children:[]},
   {parent:'리듬 · 그루브 변화', children:['4마디마다 변화 ex) 8비트→16비트→연음','기본 리듬→하프타임','기본 리듬→더블타임','킥으로 공간 만들기']},
@@ -672,10 +673,23 @@ function stepSet(btn, delta){
   const wrap = btn.closest('.setstep');
   if(!wrap) return;
   const input = wrap.querySelector('input');
-  let v = parseInt(input.value, 10);
-  if(isNaN(v)) v = 0;
-  v = Math.max(0, v + delta);
-  input.value = v;
+  const val = (input.value || '').trim();
+  if(val.includes('/')){
+    const parts = val.split('/');
+    let target = parseInt(parts[0], 10);
+    let current = parseInt(parts[1], 10);
+    if(isNaN(target)) target = null;
+    if(isNaN(current)) current = 0;
+    current += delta;
+    if(current < 0) current = 0;
+    if(target !== null && current > target) current = target;
+    input.value = (target !== null ? target : '') + '/' + current;
+  } else {
+    let v = parseInt(val, 10);
+    if(isNaN(v)) v = 0;
+    v = Math.max(0, v + delta);
+    input.value = v;
+  }
   as();
 }
 function fillPrev(el){
@@ -706,15 +720,17 @@ function addRow(cat,txt,chk,mins,tempo,set,pri){
   const tb=document.getElementById('body-'+cat);
   if(!tb) return;
   // 패드에서 싱글/더블/핑거링/트리플 스트로크는 세트, 나머지는 번호
-  const padSetItems=['싱글 스트로크 (양손)','더블 스트로크 (양손)','핑거링 (양손)','트리플 스트로크 (양손)','모울러 테크닉','임용훈 스트로크','플램 피지컬','스와핑 피지컬'];
+  const padSetItems=['싱글 스트로크','더블 스트로크','핑거링','트리플 스트로크','모울러 테크닉','임용훈 스트로크','피지컬'];
   const setLabel = (cat==='pad' && padSetItems.some(s=>txt&&txt.includes(s.split(' ')[0]))) ? '세트' : '번호';
+  const minsVal = mins || (setLabel==='세트' ? '1' : '');
+  const setVal = set || (setLabel==='세트' ? '3/0' : '');
   const tr=document.createElement('tr'); tr.className='clr'+(pri?' pri':'');
   tr.innerHTML=`<td style="text-align:center"><button class="pribtn${pri?' on':''}" onclick="togglePri(this)" title="우선순위">★</button></td>
     <td><input type="checkbox" ${chk?'checked':''}></td>
     <td><input type="text" class="cltxt" value="${txt||''}" placeholder="연습 항목 입력" oninput="as()"></td>
-    <td style="text-align:center"><input type="text" class="clnum" value="${mins||''}" placeholder="분" oninput="as()">${prevMins?`<span class='prev-hint' data-prev="${prevMins}" onclick="fillPrev(this)">${prevMins}분</span>`:''}</td>
+    <td style="text-align:center"><input type="text" class="clnum" value="${minsVal}" placeholder="분" oninput="as()">${prevMins?`<span class='prev-hint' data-prev="${prevMins}" onclick="fillPrev(this)">${prevMins}분</span>`:''}</td>
     <td style="text-align:center"><input type="text" class="clnum" value="${tempo||''}" placeholder="BPM" oninput="as()">${prevTempo?`<span class='prev-hint' data-prev="${prevTempo}" onclick="fillPrev(this)">${prevTempo}</span>`:''}</td>
-    <td style="text-align:center">${setLabel==='세트'?`<div class="setstep"><input type="text" class="clnum" value="${set||''}" placeholder="${setLabel}" oninput="as()"><span class="stepbtns"><button type="button" class="stepbtn" onclick="stepSet(this,1)">▲</button><button type="button" class="stepbtn" onclick="stepSet(this,-1)">▼</button></span></div>`:`<input type="text" class="clnum" value="${set||''}" placeholder="${setLabel}" oninput="as()">`}${prevSet?`<span class='prev-hint' data-prev="${prevSet}" onclick="fillPrev(this)">${prevSet}</span>`:''}</td>
+    <td style="text-align:center">${setLabel==='세트'?`<div class="setstep"><input type="text" class="clnum" value="${setVal}" placeholder="${setLabel}" oninput="as()"><span class="stepbtns"><button type="button" class="stepbtn" onclick="stepSet(this,1)">▲</button><button type="button" class="stepbtn" onclick="stepSet(this,-1)">▼</button></span></div>`:`<input type="text" class="clnum" value="${set||''}" placeholder="${setLabel}" oninput="as()">`}${prevSet?`<span class='prev-hint' data-prev="${prevSet}" onclick="fillPrev(this)">${prevSet}</span>`:''}</td>
     <td><button class="delbtn" onclick="this.closest('tr').remove();as()">✕</button></td>`;
   tr.querySelector('input[type=checkbox]').addEventListener('change',as);
   tb.appendChild(tr);
@@ -798,6 +814,152 @@ function getCatTimes(){
 }
 function setCatTimes(times){
   document.querySelectorAll('.cattime').forEach(el=>{ el.value = (times && times[el.id]) || ''; });
+  ['pad','exam','rhy','tec','book','etc','misc2','prob'].forEach(catSwSyncFromInput);
+}
+const catSwState={};
+const SW_PERSIST_KEY='drum_sw_state';
+
+function catSwFormat(ms){
+  const totalSec=Math.max(0,Math.floor(ms/1000));
+  const m=String(Math.floor(totalSec/60)).padStart(2,'0');
+  const s=String(totalSec%60).padStart(2,'0');
+  return m+':'+s;
+}
+
+// 현재 실제 경과시간 계산 (백그라운드에서도 startTs 기준으로 정확하게)
+function catSwGetElapsed(cat){
+  const st=catSwState[cat];
+  if(!st) return 0;
+  return st.running ? st.elapsed+(Date.now()-st.startTs) : st.elapsed;
+}
+
+// localStorage에 실행중인 스톱워치 상태 저장
+function catSwPersist(){
+  try{
+    const save={};
+    Object.keys(catSwState).forEach(cat=>{
+      const st=catSwState[cat];
+      if(st) save[cat]={running:st.running, startTs:st.startTs, elapsed:st.elapsed};
+    });
+    localStorage.setItem(SW_PERSIST_KEY, JSON.stringify(save));
+  }catch(e){}
+}
+
+// localStorage에서 복원 (탭 복귀 / 페이지 로드 시)
+function catSwRestore(){
+  try{
+    const raw=localStorage.getItem(SW_PERSIST_KEY);
+    if(!raw) return;
+    const save=JSON.parse(raw);
+    Object.keys(save).forEach(cat=>{
+      const s=save[cat];
+      if(!catSwState[cat]) catSwState[cat]={running:false,startTs:0,elapsed:0,timerId:null};
+      const st=catSwState[cat];
+      // 이미 running 중이면 건드리지 않음
+      if(st.running) return;
+      st.elapsed=s.elapsed;
+      st.startTs=s.startTs;
+      if(s.running){
+        // 백그라운드에 있던 시간 반영: elapsed에 누락된 시간 보정
+        st.elapsed=s.elapsed+(Date.now()-s.startTs);
+        st.startTs=Date.now();
+        st.running=true;
+        const btn=document.getElementById('cattime-btn-'+cat);
+        if(btn) btn.textContent='⏸';
+        clearInterval(st.timerId);
+        st.timerId=setInterval(()=>catSwTick(cat),500);
+      }
+      const disp=document.getElementById('cattime-disp-'+cat);
+      if(disp) disp.textContent=catSwFormat(catSwGetElapsed(cat));
+    });
+  }catch(e){}
+}
+
+function catSwTick(cat){
+  const st=catSwState[cat];
+  if(!st||!st.running) return;
+  const elapsed=catSwGetElapsed(cat);
+  const disp=document.getElementById('cattime-disp-'+cat);
+  if(disp) disp.textContent=catSwFormat(elapsed);
+}
+
+function catSwToggle(cat){
+  if(!catSwState[cat]) catSwState[cat]={running:false,startTs:0,elapsed:0,timerId:null};
+  const st=catSwState[cat];
+  const btn=document.getElementById('cattime-btn-'+cat);
+  if(st.running){
+    st.elapsed+=Date.now()-st.startTs;
+    st.running=false;
+    clearInterval(st.timerId);
+    if(btn) btn.textContent='▶';
+    const input=document.getElementById('cattime-'+cat);
+    if(input){
+      const mins=Math.round((st.elapsed/60000)*10)/10;
+      input.value=mins>0?String(mins):'';
+      as();
+    }
+    swUpdateDisplay();
+    catSwPersist();
+  } else {
+    st.startTs=Date.now();
+    st.running=true;
+    if(btn) btn.textContent='⏸';
+    clearInterval(st.timerId);
+    st.timerId=setInterval(()=>catSwTick(cat),500);
+    catSwTick(cat);
+    swUpdateDisplay();
+    swStartSumTimer();
+    catSwPersist();
+  }
+}
+
+// 탭 전환 감지: 복귀 시 즉시 시간 보정
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState==='visible'){
+    catSwRestore();
+    // 연습 타이머 복원
+    const ps=ptGetState();
+    if(ps.running){
+      ptUpdateDisplay();
+      ptUpdateLabel();
+    }
+  } else {
+    catSwPersist();
+    ptSaveState(ptGetState());
+  }
+});
+
+// 페이지 닫히기 직전 저장
+window.addEventListener('pagehide', catSwPersist);
+window.addEventListener('beforeunload', catSwPersist);
+function catSwReset(cat){
+  const st=catSwState[cat];
+  if(st){
+    if(st.timerId) clearInterval(st.timerId);
+    st.running=false;
+    st.elapsed=0;
+    st.startTs=0;
+  }
+  const disp=document.getElementById('cattime-disp-'+cat);
+  if(disp) disp.textContent='00:00';
+  const btn=document.getElementById('cattime-btn-'+cat);
+  if(btn) btn.textContent='▶';
+  const input=document.getElementById('cattime-'+cat);
+  if(input){ input.value=''; as(); }
+  catSwPersist();
+}
+function catSwSyncFromInput(cat){
+  const input=document.getElementById('cattime-'+cat);
+  const disp=document.getElementById('cattime-disp-'+cat);
+  if(!input||!disp) return;
+  const mins=parseFloat(input.value);
+  if(!isNaN(mins)&&mins>0){
+    if(!catSwState[cat]) catSwState[cat]={running:false,startTs:0,elapsed:0,timerId:null};
+    catSwState[cat].elapsed=mins*60000;
+    disp.textContent=catSwFormat(catSwState[cat].elapsed);
+  } else {
+    disp.textContent='00:00';
+  }
 }
 function saveDayCL(d){
   try{ localStorage.setItem(getDayCLKey(d), JSON.stringify({cl:getCL(), catTimes:getCatTimes()})); }catch(e){}
@@ -811,7 +973,38 @@ function clearDayCLDom(){
     if(el) el.innerHTML='';
   });
 }
+function flushCatSw(){
+  ['pad','exam','rhy','tec','book','etc','misc2','prob'].forEach(cat=>{
+    const st=catSwState[cat];
+    if(st&&st.running){
+      const liveElapsed=st.elapsed+(Date.now()-st.startTs);
+      const input=document.getElementById('cattime-'+cat);
+      if(input){
+        const mins=Math.round((liveElapsed/60000)*10)/10;
+        input.value=mins>0?String(mins):'';
+      }
+    }
+  });
+}
+function stopAllCatSw(){
+  ['pad','exam','rhy','tec','book','etc','misc2','prob'].forEach(cat=>{
+    const st=catSwState[cat];
+    if(st&&st.running){
+      st.elapsed+=Date.now()-st.startTs;
+      const input=document.getElementById('cattime-'+cat);
+      if(input){
+        const mins=Math.round((st.elapsed/60000)*10)/10;
+        input.value=mins>0?String(mins):'';
+      }
+    }
+    if(st&&st.timerId){ clearInterval(st.timerId); }
+    catSwState[cat]={running:false,startTs:0,elapsed:0,timerId:null};
+    const btn=document.getElementById('cattime-btn-'+cat);
+    if(btn) btn.textContent='▶';
+  });
+}
 function switchDay(d){
+  stopAllCatSw();
   saveDayCL(currentDay);
   saveRhyTags(currentDay);
   saveTecTags(currentDay);
@@ -836,12 +1029,12 @@ function switchDay(d){
 }
 const MON_DEFAULT=[
   // 패드
-  {cat:'pad',txt:'싱글 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'더블 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'트리플 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'모울러 테크닉',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'싱글 스트로크 · 임용훈 스트로크',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'더블 스트로크',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'트리플 스트로크',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'4·6연음 스틱킹 및 악센트',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'피지컬 - 플로어탐 싱글 더블 · 탐돌리기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'피지컬 - 플로어탐 더블',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'피지컬 - 탐돌리기',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'스와핑 피지컬',chk:false,mins:'',tempo:'',set:''},
   // 장르
   {cat:'rhy',txt:'MR 연습 - Ballad · R&B · Neo Soul',chk:false,mins:'',tempo:'',set:''},
@@ -849,32 +1042,33 @@ const MON_DEFAULT=[
   {cat:'rhy',txt:'16비트 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'6연음 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'8연음 리듬',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'바운스 리듬',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'브로큰 비트',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'리니어 리듬',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'멜로디 리듬 꾸미기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'톤 연구',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
-  {cat:'tec',txt:'스와핑 아이디어 (멀리 빠르게 이동, 왼손 오른손 밸런스, 팔 사용, 양손으로 스와핑할손 빠르게 돌리기)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'유니즌 (콤비네이션 킥에 손, 킥 만있는것에 손)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'카피 사용 · 응용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'5그루핑(콤비네이션 스틱킹)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'제한하기 - 왼손먼저 시작 · 왼손 악센트',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'입으로 소리내고 표현하기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'귀카피 연주 연습하기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'카피 릭 익을때까지 연습후 응용하기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'제한하기 - 왼손먼저 시작',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'5그루핑 (콤비네이션 · 스틱킹)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콤비네이션',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱킹',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'엇박 아이디어',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'6연음 콤비네이션',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'6연음 스틱킹',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'루디먼트 응용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'유니즌 (콤비네이션 킥에 손, 킥 만있는것에 손)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'톤',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'응용 찹스',chk:false,mins:'',tempo:'',set:''},
   // 입시
   {cat:'exam',txt:'입시곡',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'질문',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'스네어 초견',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'스윙 초견',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'섹션 초견',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'아메리칸 솔로 초견',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'모던 리딩 텍스트 초견',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'스윙 컴핑 · 섹션 초견',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'화성학',chk:false,mins:'',tempo:'',set:''},
   // 음악성
   {cat:'etc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'etc',txt:'톤 연구',chk:false,mins:'',tempo:'',set:''},
   {cat:'etc',txt:'화성학 공부',chk:false,mins:'',tempo:'',set:''},
   {cat:'etc',txt:'녹음',chk:false,mins:'',tempo:'',set:''},
   // 교재
@@ -884,48 +1078,49 @@ const MON_DEFAULT=[
   // 기타 연습
   {cat:'misc2',txt:'폴리리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'misc2',txt:'메트릭 모듈레이션',chk:false,mins:'',tempo:'',set:''},
-  {cat:'misc2',txt:'리니어 리듬',chk:false,mins:'',tempo:'',set:''},
 ];
 // 화~금은 사진 받는 대로 채울 예정 — 지금은 월요일과 동일하게 임시 설정
 const TUE_DEFAULT=[
   // 패드
-  {cat:'pad',txt:'싱글 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'더블 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'핑거링 (양손)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'임용훈 스트로크',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'싱글 스트로크 · 임용훈 스트로크',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'더블 스트로크',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'핑거링',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'루디먼트',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'피지컬 - 손발손발 · RLK다운업',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'피지컬 - 손발손발',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'피지컬 - RLK 다운업',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'플램 피지컬',chk:false,mins:'',tempo:'',set:''},
   // 장르
-  {cat:'rhy',txt:'MR 연습 - Hip Hop · Jazz Hip Hop',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'MR 연습 - Hip Hop · Jazz Hip Hop · Jungle',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'6연음 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'8연음 리듬',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'브로큰 비트',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'정글 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'멜로디 리듬 꾸미기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'톤 연구',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'솔로 전개 연습 (선그리고 다이나믹 표현, 리듬부터 솔로)',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
-  {cat:'tec',txt:'엇박 아이디어 (엇박 펄스감 연습, 정박 쉼표, 엇박 악센트, 5·7연음)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'32비트 아이디어 (1e&a에 넣기, 3·6연음 중 사용, 더블, (더블)킥으로, 콤비네이션 + 더블킥 32비트)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'유니즌 (콤비네이션 킥에 손, 킥 만있는것에 손)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'카피 사용 · 응용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'5그루핑(콤비네이션 스틱킹)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'제한하기 - 1 e & a 섹션 or 필 고정',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'입으로 소리내고 표현하기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'귀카피 연주 연습하기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'카피 릭 익을때까지 연습후 응용하기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'제한하기 - 왼손 악센트',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'5그루핑 (콤비네이션 · 스틱킹)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콤비네이션',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱킹',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'32비트 아이디어',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'4연음 콤비네이션',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'4연음 스틱킹',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'유니즌 (콤비네이션 킥에 손, 킥 만있는것에 손, 스틱킹에 킥 밀기)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'루디먼트 응용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'톤',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'응용 찹스',chk:false,mins:'',tempo:'',set:''},
   // 입시
   {cat:'exam',txt:'입시곡',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'질문',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'스네어 초견',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'스윙 초견',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'섹션 초견',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'아메리칸 솔로 초견',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'모던 리딩 텍스트 초견',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'스윙 컴핑 · 섹션 초견',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'화성학',chk:false,mins:'',tempo:'',set:''},
   // 음악성
   {cat:'etc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'etc',txt:'톤 연구',chk:false,mins:'',tempo:'',set:''},
   {cat:'etc',txt:'화성학 공부',chk:false,mins:'',tempo:'',set:''},
   {cat:'etc',txt:'녹음',chk:false,mins:'',tempo:'',set:''},
   // 교재
@@ -939,46 +1134,49 @@ const TUE_DEFAULT=[
 ];
 const WED_DEFAULT=[
   // 패드
-  {cat:'pad',txt:'싱글 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'더블 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'트리플 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'모울러 테크닉',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'싱글 스트로크 · 임용훈 스트로크',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'더블 스트로크',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'트리플 스트로크',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'4·6연음 스틱킹 및 악센트',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'피지컬 - 플로어탐 싱글 더블 · 싱글킥, 더블킥',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'피지컬 - 플로어탐 더블',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'피지컬 - 싱글킥',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'피지컬 - 더블킥',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'스와핑 피지컬',chk:false,mins:'',tempo:'',set:''},
   // 장르
-  {cat:'rhy',txt:'MR 연습 - Funk · Gospel · Shuffle',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'MR 연습 - Funk · Gospel · Shuffle · Blues',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'8비트 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'16비트 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'셔플 리듬',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'블루스(셔플) 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'6연음 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'8연음 리듬',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'바운스 리듬',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'브로큰 비트',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'멜로디 리듬 꾸미기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'톤 연구',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'솔로 전개 연습 (선그리고 다이나믹 표현, 리듬부터 솔로)',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
-  {cat:'tec',txt:'스와핑 아이디어 (멀리 빠르게 이동, 왼손 오른손 밸런스, 팔 사용, 양손으로 스와핑할손 빠르게 돌리기)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'유니즌 (콤비네이션 킥에 손, 킥 만있는것에 손)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'카피 사용 · 응용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'5그루핑(콤비네이션 스틱킹)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'제한하기 - 이동 위치 제한하기 (하이햇 금지, 탐 금지)',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'입으로 소리내고 표현하기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'귀카피 연주 연습하기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'카피 릭 익을때까지 연습후 응용하기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'제한하기 - 1 e & a 섹션 or 필 고정',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'5그루핑 (콤비네이션 · 스틱킹)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콤비네이션',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱킹',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'엇박 아이디어',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'6연음 콤비네이션',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'6연음 스틱킹',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'루디먼트 응용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'유니즌 (콤비네이션 킥에 손, 킥 만있는것에 손, 스틱킹에 킥 밀기)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'톤',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'응용 찹스',chk:false,mins:'',tempo:'',set:''},
   // 입시
   {cat:'exam',txt:'입시곡',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'질문',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'스네어 초견',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'스윙 초견',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'섹션 초견',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'아메리칸 솔로 초견',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'모던 리딩 텍스트 초견',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'스윙 컴핑 · 섹션 초견',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'화성학',chk:false,mins:'',tempo:'',set:''},
   // 음악성
   {cat:'etc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'etc',txt:'톤 연구',chk:false,mins:'',tempo:'',set:''},
   {cat:'etc',txt:'화성학 공부',chk:false,mins:'',tempo:'',set:''},
   {cat:'etc',txt:'녹음',chk:false,mins:'',tempo:'',set:''},
   // 교재
@@ -992,12 +1190,12 @@ const WED_DEFAULT=[
 ];
 const THU_DEFAULT=[
   // 패드
-  {cat:'pad',txt:'싱글 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'더블 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'핑거링 (양손)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'임용훈 스트로크',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'싱글 스트로크 · 임용훈 스트로크',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'더블 스트로크',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'핑거링',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'루디먼트',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'피지컬 - 손발손발 · RLK다운업',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'피지컬 - 손발손발',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'피지컬 - RLK 다운업',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'플램 피지컬',chk:false,mins:'',tempo:'',set:''},
   // 장르
   {cat:'rhy',txt:'MR 연습 - Jazz · Fusion Jazz · Latin',chk:false,mins:'',tempo:'',set:''},
@@ -1006,32 +1204,31 @@ const THU_DEFAULT=[
   {cat:'rhy',txt:'삼바 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'보사노바 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'톤 연구',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'솔로 전개 연습 (선그리고 다이나믹 표현, 리듬부터 솔로)',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'드럼으로 멜로디 연주 · 멜로디 따라가기',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
-  {cat:'tec',txt:'엇박 아이디어 (엇박 펄스감 연습, 정박 쉼표, 엇박 악센트, 5·7연음)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'32비트 아이디어 (1e&a에 넣기, 3·6연음 중 사용, 더블, (더블)킥으로, 콤비네이션 + 더블킥 32비트)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'유니즌 (콤비네이션 킥에 손, 킥 만있는것에 손)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'카피 사용 · 응용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'5그루핑(콤비네이션 스틱킹)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'제한하기 - 1 e & a 에 들어가기',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'입으로 소리내고 표현하기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'귀카피 연주 연습하기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'카피 릭 익을때까지 연습후 응용하기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'제한하기 - 하이햇 사용 금지',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'5그루핑 (콤비네이션 · 스틱킹)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콤비네이션',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱킹',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'32비트 아이디어',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'4연음 콤비네이션',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'4연음 스틱킹',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'유니즌 (콤비네이션 킥에 손, 킥 만있는것에 손, 스틱킹에 킥 밀기)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'루디먼트 응용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'톤',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'응용 찹스',chk:false,mins:'',tempo:'',set:''},
   // 입시
   {cat:'exam',txt:'입시곡',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'질문',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'스네어 초견',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'스윙 초견',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'섹션 초견',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'아메리칸 솔로 초견',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'모던 리딩 텍스트 초견',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'스윙 컴핑 · 섹션 초견',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'화성학',chk:false,mins:'',tempo:'',set:''},
   // 음악성
   {cat:'etc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'etc',txt:'톤 연구',chk:false,mins:'',tempo:'',set:''},
   {cat:'etc',txt:'화성학 공부',chk:false,mins:'',tempo:'',set:''},
   {cat:'etc',txt:'녹음',chk:false,mins:'',tempo:'',set:''},
   // 교재
@@ -1044,46 +1241,47 @@ const THU_DEFAULT=[
 ];
 const FRI_DEFAULT=[
   // 패드
-  {cat:'pad',txt:'싱글 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'더블 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'트리플 스트로크 (양손)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'모울러 테크닉',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'싱글 스트로크 · 임용훈 스트로크',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'더블 스트로크',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'트리플 스트로크',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'4·6연음 스틱킹 및 악센트',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'피지컬 - 플로어탐 싱글 더블 · 탐돌리기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'피지컬 - 플로어탐 더블',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'피지컬 - 탐돌리기',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'스와핑 피지컬',chk:false,mins:'',tempo:'',set:''},
   // 장르
-  {cat:'rhy',txt:'MR 연습 - Funk · Gospel · Shuffle',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'MR 연습 - Funk · Gospel · Shuffle · Blues',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'8비트 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'16비트 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'셔플 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'6연음 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'8연음 리듬',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'바운스 리듬',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'브로큰 비트',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'멜로디 리듬 꾸미기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'톤 연구',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'솔로 전개 연습 (선그리고 다이나믹 표현, 리듬부터 솔로)',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
-  {cat:'tec',txt:'스와핑 아이디어 (멀리 빠르게 이동, 왼손 오른손 밸런스, 팔 사용, 양손으로 스와핑할손 빠르게 돌리기)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'유니즌 (콤비네이션 킥에 손, 킥 만있는것에 손)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'카피 사용 · 응용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'5그루핑(콤비네이션 스틱킹)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'제한하기 - 1 e & a 섹션 or 필 고정',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'입으로 소리내고 표현하기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'귀카피 연주 연습하기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'카피 릭 익을때까지 연습후 응용하기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱컨트롤, 루디먼트 세트 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'제한하기 - 탐 금지',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'5그루핑 (콤비네이션 · 스틱킹)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콤비네이션',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'스틱킹',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'엇박 아이디어',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'6연음 콤비네이션',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'6연음 스틱킹',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'루디먼트 응용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'유니즌 (콤비네이션 킥에 손, 킥 만있는것에 손, 스틱킹에 킥 밀기)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'톤',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'응용 찹스',chk:false,mins:'',tempo:'',set:''},
   // 입시
   {cat:'exam',txt:'입시곡',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'질문',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'스네어 초견',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'스윙 초견',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'섹션 초견',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'아메리칸 솔로 초견',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'모던 리딩 텍스트 초견',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'스윙 컴핑 · 섹션 초견',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'화성학',chk:false,mins:'',tempo:'',set:''},
   // 음악성
   {cat:'etc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'etc',txt:'톤 연구',chk:false,mins:'',tempo:'',set:''},
   {cat:'etc',txt:'화성학 공부',chk:false,mins:'',tempo:'',set:''},
   {cat:'etc',txt:'녹음',chk:false,mins:'',tempo:'',set:''},
   // 교재
@@ -1096,7 +1294,7 @@ const FRI_DEFAULT=[
   {cat:'misc2',txt:'리니어 리듬',chk:false,mins:'',tempo:'',set:''},
 ];
 const DAY_DEFAULTS=[MON_DEFAULT,TUE_DEFAULT,WED_DEFAULT,THU_DEFAULT,FRI_DEFAULT,null,null];
-const DEFAULT_VERSION='v18.1'; // 기본값 바뀌면 이 숫자 올리기
+const DEFAULT_VERSION='v19.9'; // 기본값 바뀌면 이 숫자 올리기
 const DEFAULT_VER_KEY='drum_default_ver';
 
 function loadDefaultCL(list){
@@ -1285,6 +1483,7 @@ function clearForm(){
 }
 
 function saveRec(){
+  flushCatSw();
   // 현재 활성화된 rhytag 저장
   const activeTags=[...document.querySelectorAll('.rhytag.on')].map(el=>el.querySelector?el.textContent:el.textContent);
   const activeTecTags=[...document.querySelectorAll('.tectag.on')].map(el=>el.textContent);
@@ -1383,10 +1582,10 @@ function openM(id){
     {id:'rhytag-오픈하이햇',txt:'오픈 하이햇'},
     {id:'rhytag-쉼표',txt:'쉼표'},{id:'rhytag-32비트',txt:'32비트'},
     {id:'rhytag-엇박',txt:'엇박'},{id:'rhytag-Double57',txt:'Double/5/7stroke'},
-    {id:'rhytag-풋하이햇',txt:'풋 하이햇'},{id:'rhytag-스플래쉬',txt:'스플래쉬'},
+    {id:'rhytag-스플래쉬',txt:'스플래쉬'},
     {id:'rhytag-하이햇위치변형',txt:'하이햇 위치변형'},{id:'rhytag-하이햇악센트변형',txt:'하이햇 악센트 변형'},
     {id:'rhytag-킥위치변경',txt:'킥 위치 변경'},{id:'rhytag-다이나믹',txt:'다이나믹 (pp~ff)'},
-    {id:'rhytag-사부작',txt:'사부작 리듬'},{id:'rhytag-사이드스틱',txt:'사이드 스틱'},
+    {id:'rhytag-사이드스틱',txt:'사이드 스틱'},
     {id:'rhytag-고스트',txt:'고스트'},{id:'rhytag-악센트',txt:'악센트'},
     {id:'rhytag-프레스',txt:'프레스'},{id:'rhytag-고스트더블',txt:'고스트(더블) 선명도'},
     {id:'rhytag-레이백',txt:'레이백'},
@@ -1433,153 +1632,119 @@ let tt;
 function toast(msg){const t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2400);}
 
 // ── 타이머 ────────────────────────────────────────────────
-// 스톱워치
-const SW_KEY='drum_sw_v1';
-let swInterval=null;
+// 스톱워치: 카테고리 타이머 합산
+const SW_CATS=['pad','exam','rhy','tec','book','etc','misc2','prob'];
+let swSumInterval=null;
 
-function swGetState(){
-  try{return JSON.parse(localStorage.getItem(SW_KEY))||{running:false,elapsed:0,startedAt:null};}
-  catch{return{running:false,elapsed:0,startedAt:null};}
-}
-function swSaveState(s){try{localStorage.setItem(SW_KEY,JSON.stringify(s));}catch(e){}}
-function swGetElapsed(){
-  const s=swGetState();
-  if(s.running&&s.startedAt) return s.elapsed+(Date.now()-s.startedAt);
-  return s.elapsed;
-}
 function swFormat(ms){
-  const t=Math.floor(ms/1000);
-  const h=String(Math.floor(t/3600)).padStart(2,'0');
-  const m=String(Math.floor((t%3600)/60)).padStart(2,'0');
-  const sc=String(t%60).padStart(2,'0');
-  return `${h}:${m}:${sc}`;
-}
-function swUpdateDisplay(){
-  const el=document.getElementById('swDisplay');
-  if(el) el.textContent=swFormat(swGetElapsed());
-}
-function swToggle(){
-  const s=swGetState();
-  if(s.running){
-    s.elapsed+=Date.now()-s.startedAt;
-    s.running=false;s.startedAt=null;
-    clearInterval(swInterval);swInterval=null;
-    document.getElementById('swBtn').textContent='▶ 시작';
-    document.getElementById('swBtn').style.background='rgba(124,58,237,.3)';
-  } else {
-    s.running=true;s.startedAt=Date.now();
-    document.getElementById('swBtn').textContent='⏸ 일시정지';
-    document.getElementById('swBtn').style.background='rgba(239,68,68,.3)';
-    swInterval=setInterval(swUpdateDisplay,500);
-  }
-  swSaveState(s);swUpdateDisplay();
-}
-function swReset(){
-  clearInterval(swInterval);swInterval=null;
-  swSaveState({running:false,elapsed:0,startedAt:null});
-  swUpdateDisplay();
-  const btn=document.getElementById('swBtn');
-  if(btn){btn.textContent='▶ 시작';btn.style.background='rgba(124,58,237,.3)';}
-}
-function swInit(){
-  const s=swGetState();
-  if(s.running){
-    const btn=document.getElementById('swBtn');
-    if(btn){btn.textContent='⏸ 일시정지';btn.style.background='rgba(239,68,68,.3)';}
-    swInterval=setInterval(swUpdateDisplay,500);
-  }
-  swUpdateDisplay();
-}
-
-// 카운트다운
-const CD_KEY='drum_cd_v1';
-let cdInterval=null;
-
-function cdGetState(){
-  try{return JSON.parse(localStorage.getItem(CD_KEY))||{running:false,remaining:0,startedAt:null};}
-  catch{return{running:false,remaining:0,startedAt:null};}
-}
-function cdSaveState(s){try{localStorage.setItem(CD_KEY,JSON.stringify(s));}catch(e){}}
-function cdGetRemaining(){
-  const s=cdGetState();
-  if(s.running&&s.startedAt){
-    const r=s.remaining-(Date.now()-s.startedAt);
-    return Math.max(0,r);
-  }
-  return Math.max(0,s.remaining);
-}
-function cdFormat(ms){
   const t=Math.max(0,Math.floor(ms/1000));
   const h=String(Math.floor(t/3600)).padStart(2,'0');
   const m=String(Math.floor((t%3600)/60)).padStart(2,'0');
   const sc=String(t%60).padStart(2,'0');
   return `${h}:${m}:${sc}`;
 }
-function cdUpdateDisplay(){
-  const rem=cdGetRemaining();
-  const el=document.getElementById('cdDisplay');
-  if(el){
-    el.textContent=cdFormat(rem);
-    el.style.color=rem<60000?'#ef4444':rem<300000?'#f59e0b':'#fff';
-  }
-  if(rem<=0){
-    cdStop();
-    toast('⏰ 카운트다운 종료!');
-  }
+function swGetTotalElapsed(){
+  return SW_CATS.reduce((sum,cat)=>{
+    const st=catSwState[cat];
+    if(!st) return sum;
+    return sum+(st.running ? st.elapsed+(Date.now()-st.startTs) : st.elapsed);
+  },0);
 }
-function cdStop(){
-  clearInterval(cdInterval);cdInterval=null;
-  const s=cdGetState();
-  s.remaining=0;s.running=false;s.startedAt=null;
-  cdSaveState(s);
-  const btn=document.getElementById('cdBtn');
-  if(btn){btn.textContent='▶';btn.style.background='rgba(245,158,11,.25)';}
+function swUpdateDisplay(){
+  const el=document.getElementById('swDisplay');
+  if(el) el.textContent=swFormat(swGetTotalElapsed());
 }
-function cdSet(){
-  const inp=document.getElementById('cdInput');
-  const mins=parseFloat(inp?inp.value:0)||0;
-  if(mins<=0){toast('⚠️ 분을 입력해주세요');return;}
-  clearInterval(cdInterval);cdInterval=null;
-  const s={running:false,remaining:mins*60*1000,startedAt:null};
-  cdSaveState(s);
-  cdUpdateDisplay();
-  const btn=document.getElementById('cdBtn');
-  if(btn){btn.textContent='▶';btn.style.background='rgba(245,158,11,.25)';}
-  toast(`⏳ ${mins}분 설정됨`);
+function swStartSumTimer(){
+  if(swSumInterval) return;
+  swSumInterval=setInterval(swUpdateDisplay,500);
 }
-function cdToggle(){
-  const s=cdGetState();
-  if(s.remaining<=0){toast('⚠️ 먼저 시간을 설정해주세요');return;}
+function swStopSumTimer(){
+  // 아직 실행 중인 카테고리 타이머가 있으면 유지
+  const anyRunning=SW_CATS.some(c=>catSwState[c]&&catSwState[c].running);
+  if(!anyRunning){ clearInterval(swSumInterval); swSumInterval=null; }
+}
+function swInit(){ swStartSumTimer(); swUpdateDisplay(); }
+
+// 연습 전체 타이머
+const PT_KEY='drum_practice_timer_v1';
+let ptInterval=null;
+
+function ptGetState(){
+  try{ return JSON.parse(localStorage.getItem(PT_KEY))||{running:false,elapsed:0,startedAt:null,startTime:null}; }
+  catch{ return {running:false,elapsed:0,startedAt:null,startTime:null}; }
+}
+function ptSaveState(s){ try{ localStorage.setItem(PT_KEY,JSON.stringify(s)); }catch(e){} }
+function ptGetElapsed(){
+  const s=ptGetState();
+  if(s.running&&s.startedAt) return s.elapsed+(Date.now()-s.startedAt);
+  return s.elapsed;
+}
+function ptFormat(ms){
+  const t=Math.max(0,Math.floor(ms/1000));
+  const h=String(Math.floor(t/3600)).padStart(2,'0');
+  const m=String(Math.floor((t%3600)/60)).padStart(2,'0');
+  const sc=String(t%60).padStart(2,'0');
+  return `${h}:${m}:${sc}`;
+}
+function ptUpdateDisplay(){
+  const el=document.getElementById('practiceDisplay');
+  if(el) el.textContent=ptFormat(ptGetElapsed());
+}
+function practiceToggle(){
+  const s=ptGetState();
+  const btn=document.getElementById('practiceBtn');
   if(s.running){
-    s.remaining=cdGetRemaining();
-    s.running=false;s.startedAt=null;
-    clearInterval(cdInterval);cdInterval=null;
-    document.getElementById('cdBtn').textContent='▶';
-    document.getElementById('cdBtn').style.background='rgba(245,158,11,.25)';
+    s.elapsed+=Date.now()-s.startedAt;
+    s.running=false; s.startedAt=null;
+    clearInterval(ptInterval); ptInterval=null;
+    if(btn){ btn.textContent='▶ 시작'; btn.style.background='rgba(245,158,11,.25)'; }
   } else {
-    s.running=true;s.startedAt=Date.now();
-    document.getElementById('cdBtn').textContent='⏸';
-    document.getElementById('cdBtn').style.background='rgba(239,68,68,.3)';
-    cdInterval=setInterval(cdUpdateDisplay,500);
+    if(!s.startTime){
+      // 처음 시작: 현재 시각 기록
+      const now=new Date();
+      const hh=String(now.getHours()).padStart(2,'0');
+      const mm=String(now.getMinutes()).padStart(2,'0');
+      s.startTime=`${hh}:${mm}`;
+    }
+    s.running=true; s.startedAt=Date.now();
+    if(btn){ btn.textContent='⏸ 일시정지'; btn.style.background='rgba(239,68,68,.3)'; }
+    ptInterval=setInterval(ptUpdateDisplay,500);
   }
-  cdSaveState(s);cdUpdateDisplay();
+  ptSaveState(s);
+  ptUpdateDisplay();
+  ptUpdateLabel();
 }
-function cdReset(){
-  clearInterval(cdInterval);cdInterval=null;
-  cdSaveState({running:false,remaining:0,startedAt:null});
-  const el=document.getElementById('cdDisplay');
-  if(el){el.textContent='00:00:00';el.style.color='#fff';}
-  const btn=document.getElementById('cdBtn');
-  if(btn){btn.textContent='▶';btn.style.background='rgba(245,158,11,.25)';}
+function practiceReset(){
+  clearInterval(ptInterval); ptInterval=null;
+  ptSaveState({running:false,elapsed:0,startedAt:null,startTime:null});
+  ptUpdateDisplay();
+  ptUpdateLabel();
+  const btn=document.getElementById('practiceBtn');
+  if(btn){ btn.textContent='▶ 시작'; btn.style.background='rgba(245,158,11,.25)'; }
+}
+function ptUpdateLabel(){
+  const s=ptGetState();
+  const el=document.getElementById('practiceStartLabel');
+  if(!el) return;
+  if(s.startTime){
+    const elapsed=ptGetElapsed();
+    const endDate=new Date(Date.now());
+    const eh=String(endDate.getHours()).padStart(2,'0');
+    const em=String(endDate.getMinutes()).padStart(2,'0');
+    el.textContent=s.running ? `${s.startTime} 시작` : `${s.startTime} ~ ${eh}:${em}`;
+  } else {
+    el.textContent='';
+  }
 }
 function cdInit(){
-  const s=cdGetState();
+  const s=ptGetState();
   if(s.running){
-    document.getElementById('cdBtn').textContent='⏸';
-    document.getElementById('cdBtn').style.background='rgba(239,68,68,.3)';
-    cdInterval=setInterval(cdUpdateDisplay,500);
+    const btn=document.getElementById('practiceBtn');
+    if(btn){ btn.textContent='⏸ 일시정지'; btn.style.background='rgba(239,68,68,.3)'; }
+    ptInterval=setInterval(ptUpdateDisplay,500);
   }
-  cdUpdateDisplay();
+  ptUpdateDisplay();
+  ptUpdateLabel();
 }
 // ──────────────────────────────────────────────────────────
 
