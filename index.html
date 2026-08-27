@@ -72,17 +72,17 @@ textarea.inp{resize:vertical;line-height:1.7}
 .delbtn:hover{color:var(--red)}
 .addbtn{background:none;border:1px dashed var(--text3);border-radius:8px;color:var(--text3);font-size:.76rem;padding:7px;width:100%;cursor:pointer;margin-top:5px;font-family:'Noto Sans KR',sans-serif}
 .cl-item-row{display:flex;align-items:center;gap:4px}
-.subtoggle{background:none;border:none;color:var(--text3);cursor:pointer;font-size:.6rem;padding:2px;width:14px;flex:none;transition:transform .15s}
+.subtoggle{background:none;border:none;color:var(--accent3);cursor:pointer;font-size:.7rem;font-weight:700;padding:2px;width:14px;flex:none;transition:transform .15s}
 .subtoggle:hover{color:var(--accent3)}
 .subtoggle.open{transform:rotate(90deg);color:var(--accent3)}
-.sublist-wrap{display:none;margin:5px 0 2px 18px;padding-left:8px;border-left:2px solid rgba(124,58,237,.25)}
+.sublist-wrap{display:none;margin:6px 0 4px 18px;padding:6px 10px;border-left:3px solid var(--accent);background:rgba(124,58,237,.1);border-radius:0 6px 6px 0}
 .sublist-wrap.open{display:block}
-.subitem{display:flex;align-items:center;gap:5px;padding:2px 0}
-.subitem input[type=checkbox]{width:13px;height:13px;accent-color:var(--accent3);cursor:pointer;flex:none}
-.subtxt{background:transparent;border:none;color:var(--text2);font-size:.74rem;width:100%;outline:none;font-family:'Noto Sans KR',sans-serif}
+.subitem{display:flex;align-items:center;gap:5px;padding:3px 0}
+.subitem input[type=checkbox]{width:15px;height:15px;accent-color:var(--accent2);cursor:pointer;flex:none}
+.subtxt{background:transparent;border:none;color:var(--text);font-size:.8rem;font-weight:600;width:100%;outline:none;font-family:'Noto Sans KR',sans-serif}
 .subdel{background:none;border:none;color:var(--text3);cursor:pointer;font-size:.7rem;padding:1px 3px;flex:none}
 .subdel:hover{color:var(--red)}
-.subadd{background:none;border:none;color:var(--accent3);cursor:pointer;font-size:.68rem;padding:3px 0;font-family:'Noto Sans KR',sans-serif;opacity:.75}
+.subadd{background:none;border:none;color:var(--accent3);cursor:pointer;font-size:.72rem;font-weight:700;padding:4px 0;font-family:'Noto Sans KR',sans-serif;opacity:1}
 .subadd:hover{opacity:1}
 .addbtn:hover{border-color:var(--accent);color:var(--accent3)}
 .rw{overflow-x:auto}
@@ -732,6 +732,10 @@ function fillPrev(el){
 }
 function addRow(cat,txt,chk,mins,tempo,set,pri,sub){
   if(cat==='ryt') cat='rhy';
+  if(cat==='tec' && txt==='아이디어'){
+    const shared=loadSharedTecIdea();
+    chk=shared.chk; mins=shared.mins; tempo=shared.tempo; set=shared.set; sub=shared.sub;
+  }
   // 이전 요일 저장값 조회 (분/템포/번호 힌트용)
   let prevMins='', prevTempo='', prevSet='';
   if(!mins && !tempo && !set) {
@@ -757,7 +761,7 @@ function addRow(cat,txt,chk,mins,tempo,set,pri,sub){
   const minsVal = mins || (setLabel==='세트' ? '1' : '');
   const setVal = set || (setLabel==='세트' ? '3/0' : '');
   const hasSub = Array.isArray(sub) && sub.length>0;
-  const allowSub = cat==='rhy' && (txt==='리듬 카피' || txt==='드럼 카피' || txt==='드러머 카피' || txt==='아이디어');
+  const allowSub = (cat==='rhy' && (txt==='리듬 카피' || txt==='드럼 카피' || txt==='드러머 카피' || txt==='아이디어')) || (cat==='tec' && txt==='아이디어');
   const hideBpmSet = cat==='etc' || cat==='rhy' || (cat==='exam' && ['입시곡','질문','화성학'].includes(txt));
   const subItemsHtml = (sub||[]).map(s=>`<div class="subitem"><input type="checkbox" ${s.chk?'checked':''} onchange="as()"><input type="text" class="subtxt" value="${(s.txt||'').replace(/"/g,'&quot;')}" placeholder="하위 항목" oninput="as()"></div>`).join('');
   const tr=document.createElement('tr'); tr.className='clr'+(pri?' pri':'');
@@ -1091,6 +1095,7 @@ function switchDay(d){
   saveDayCL(currentDay);
   saveRhyTags(currentDay);
   saveTecTags(currentDay);
+  saveSharedTecIdea();
   currentDay=d;
   clearDayCLDom();
   setCatTimes({});
@@ -1123,24 +1128,23 @@ const MON_DEFAULT=[
   {cat:'rhy',txt:'MR 연습 - Ballad · R&B · Neo Soul',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'리듬 카피',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'아이디어',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'6연음',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'8연음',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'톤 연구',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'멜로디 리듬 꾸미기',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
-  {cat:'tec',txt:'카피 사용 · 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'5그루핑(콤비네이션 스틱킹)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'제한하기 - 왼손먼저 시작 · 왼손 악센트',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'카피 연습',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'카피 응용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'제한하기',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'입으로 소리내고 표현하기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'엇박 아이디어',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'하이햇 컨트롤',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'6연음 5그루핑',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'6연음 4그루핑',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'6연음 콤비네이션',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'6연음 스틱킹',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'쉼표',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'루디먼트 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'유니즌 (콤비네이션 킥에 손, 킥 만있는것에 손)',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'톤',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'응용 찹스',chk:false,mins:'',tempo:'',set:''},
   // 입시
   {cat:'exam',txt:'입시곡',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'질문',chk:false,mins:'',tempo:'',set:''},
@@ -1174,26 +1178,23 @@ const TUE_DEFAULT=[
   {cat:'rhy',txt:'MR 연습 - Hip Hop · Jazz Hip Hop · Jungle',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'드럼 카피',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'아이디어',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'6연음 리듬',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'8연음 리듬',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'정글 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'톤 연구',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'멜로디 리듬 꾸미기',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'솔로 전개 연습',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
-  {cat:'tec',txt:'카피 사용 · 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'5그루핑(콤비네이션 스틱킹)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'제한하기 - 1 e & a 섹션 or 필 고정',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'카피 연습',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'카피 응용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'제한하기',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'입으로 소리내고 표현하기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'32비트 아이디어',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'하이햇 컨트롤',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'4연음 5그루핑',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'4연음 콤비네이션',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'4연음 스틱킹',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'유니즌 (콤비네이션 킥에 손, 킥 만있는것에 손, 스틱킹에 킥 밀기)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'4연음 쉼표',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'루디먼트 응용',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'톤',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'응용 찹스',chk:false,mins:'',tempo:'',set:''},
   // 입시
   {cat:'exam',txt:'입시곡',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'질문',chk:false,mins:'',tempo:'',set:''},
@@ -1230,26 +1231,24 @@ const WED_DEFAULT=[
   {cat:'rhy',txt:'아이디어',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'셔플 · 하프타임셔플',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'블루스(셔플) 리듬',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'6연음 리듬',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'8연음 리듬',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'브로큰 비트',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'톤 연구',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'멜로디 리듬 꾸미기',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'솔로 전개 연습 (선그리고 다이나믹 표현, 리듬부터 솔로)',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
-  {cat:'tec',txt:'카피 사용 · 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'5그루핑(콤비네이션 스틱킹)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'제한하기 - 이동 위치 제한하기 (하이햇 금지, 탐 금지)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'카피 연습',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'카피 응용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'제한하기',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'입으로 소리내고 표현하기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'엇박 아이디어',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'하이햇 컨트롤',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'6연음 5그루핑',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'6연음 4그루핑',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'6연음 콤비네이션',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'6연음 스틱킹',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'쉼표',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'루디먼트 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'유니즌 (콤비네이션 킥에 손, 킥 만있는것에 손, 스틱킹에 킥 밀기)',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'톤',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'응용 찹스',chk:false,mins:'',tempo:'',set:''},
   // 입시
   {cat:'exam',txt:'입시곡',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'질문',chk:false,mins:'',tempo:'',set:''},
@@ -1291,17 +1290,17 @@ const THU_DEFAULT=[
   {cat:'rhy',txt:'솔로 전개 연습 (선그리고 다이나믹 표현, 리듬부터 솔로)',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
-  {cat:'tec',txt:'카피 사용 · 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'5그루핑(콤비네이션 스틱킹)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'제한하기 - 1 e & a 에 들어가기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'카피 연습',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'카피 응용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'제한하기',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'입으로 소리내고 표현하기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'32비트 아이디어',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'하이햇 컨트롤',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'4연음 5그루핑',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'4연음 콤비네이션',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'4연음 스틱킹',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'유니즌 (콤비네이션 킥에 손, 킥 만있는것에 손, 스틱킹에 킥 밀기)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'4연음 쉼표',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'루디먼트 응용',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'톤',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'응용 찹스',chk:false,mins:'',tempo:'',set:''},
   // 입시
   {cat:'exam',txt:'입시곡',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'질문',chk:false,mins:'',tempo:'',set:''},
@@ -1336,8 +1335,6 @@ const FRI_DEFAULT=[
   {cat:'rhy',txt:'아이디어',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'셔플 · 하프타임셔플',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'블루스(셔플) 리듬',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'6연음 리듬',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'8연음 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'브로큰 비트',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'톤 연구',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'멜로디 리듬 꾸미기',chk:false,mins:'',tempo:'',set:''},
@@ -1345,17 +1342,18 @@ const FRI_DEFAULT=[
   {cat:'rhy',txt:'솔로 전개 연습 (선그리고 다이나믹 표현, 리듬부터 솔로)',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
-  {cat:'tec',txt:'카피 사용 · 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'5그루핑(콤비네이션 스틱킹)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'제한하기 - 1 e & a 섹션 or 필 고정',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'카피 연습',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'카피 응용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'제한하기',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'입으로 소리내고 표현하기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'엇박 아이디어',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'하이햇 컨트롤',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'6연음 5그루핑',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'6연음 4그루핑',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'6연음 콤비네이션',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'6연음 스틱킹',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'6연음 쉼표',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'루디먼트 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'유니즌 (콤비네이션 킥에 손, 킥 만있는것에 손, 스틱킹에 킥 밀기)',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'톤',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'응용 찹스',chk:false,mins:'',tempo:'',set:''},
   // 입시
   {cat:'exam',txt:'입시곡',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'질문',chk:false,mins:'',tempo:'',set:''},
@@ -1377,7 +1375,7 @@ const FRI_DEFAULT=[
   {cat:'misc2',txt:'리니어 리듬',chk:false,mins:'',tempo:'',set:''},
 ];
 const DAY_DEFAULTS=[MON_DEFAULT,TUE_DEFAULT,WED_DEFAULT,THU_DEFAULT,FRI_DEFAULT,null,null];
-const DEFAULT_VERSION='v20.3'; // 기본값 바뀌면 이 숫자 올리기
+const DEFAULT_VERSION='v20.9'; // 기본값 바뀌면 이 숫자 올리기
 const DEFAULT_VER_KEY='drum_default_ver';
 
 function loadDefaultCL(list){
@@ -1502,6 +1500,21 @@ function loadSharedSoloDom(){
 }
 // ──────────────────────────────────────────────────────────
 
+// ── 테크닉 "아이디어" 항목 (요일 무관 공유) ─────────────────
+const TEC_IDEA_KEY='drum_tec_idea_shared_v1';
+function loadSharedTecIdea(){
+  try{return JSON.parse(localStorage.getItem(TEC_IDEA_KEY))||{chk:false,mins:'',tempo:'',set:'',sub:[]};}catch{return{chk:false,mins:'',tempo:'',set:'',sub:[]};}
+}
+function saveSharedTecIdea(){
+  const tr=[...document.querySelectorAll('#body-tec .clr:not(.cllabel)')].find(r=>r.querySelector('.cltxt')?.value.trim()==='아이디어');
+  if(!tr) return;
+  const nums=tr.querySelectorAll('.clnum');
+  const sub=[...tr.querySelectorAll('.subitem')].map(si=>({txt:si.querySelector('.subtxt').value.trim(),chk:si.querySelector('input[type=checkbox]').checked})).filter(s=>s.txt);
+  const data={chk:tr.querySelector('input[type=checkbox]').checked,mins:nums[0]?.value||'',tempo:nums[1]?.value||'',set:nums[2]?.value||'',sub};
+  try{localStorage.setItem(TEC_IDEA_KEY,JSON.stringify(data));}catch(e){}
+}
+// ──────────────────────────────────────────────────────────
+
 function moveTodoToSunday(){
   saveDayCL(currentDay);
   const sunData=loadDayCL(6);
@@ -1554,7 +1567,7 @@ function initExtraToggle(){
 // ──────────────────────────────────────────────────────────
 
 let asTimer;
-function as(){clearTimeout(asTimer);asTimer=setTimeout(()=>{saveDayCL(currentDay);saveSharedSolo();},600);}
+function as(){clearTimeout(asTimer);asTimer=setTimeout(()=>{saveDayCL(currentDay);saveSharedSolo();saveSharedTecIdea();},600);}
 function g(id){const el=document.getElementById(id);return el?el.value:'';}
 function s(id,v){const el=document.getElementById(id);if(el)el.value=v||'';}
 
