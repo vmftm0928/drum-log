@@ -301,19 +301,19 @@ ex) 필인 끝에 탐 accent 더 강조하기" rows="7"></textarea></div>
 </div>
 <div class="cb" style="padding:13px 18px;display:flex;flex-direction:column;gap:20px">
 <div>
-<div class="cath pad">🥁 기본기 및 피지컬 <input type="hidden" class="cattime" id="cattime-pad"><span class="cattime-sw"><span class="cattime-disp" id="cattime-disp-pad">00:00</span><button type="button" class="cattime-btn" id="cattime-btn-pad" onclick="catSwToggle('pad')">▶</button><button type="button" class="cattime-btn reset" onclick="catSwReset('pad')">↺</button></span></div>
+<div class="cath pad">🥁 기본기 및 피지컬 <input type="hidden" class="cattime" id="cattime-pad"><span class="cattime-sw"><span class="cattime-disp" id="cattime-disp-pad">00:00/60:00</span><button type="button" class="cattime-btn" id="cattime-btn-pad" onclick="catSwToggle('pad')">▶</button><button type="button" class="cattime-btn reset" onclick="catSwReset('pad')">↺</button></span></div>
 <table class="clt"><thead><tr><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">번호</th></tr></thead><tbody id="body-pad"></tbody></table>
 <button class="addbtn" onclick="addRow('pad','')">+ 기본기 및 피지컬 항목 추가</button>
 </div>
 <div>
-<div class="cath" style="background:rgba(245,158,11,.13);color:#fbbf24;border-left:3px solid #f59e0b">🏆 입시 <input type="hidden" class="cattime" id="cattime-exam"><span class="cattime-sw"><span class="cattime-disp" id="cattime-disp-exam">00:00</span><button type="button" class="cattime-btn" id="cattime-btn-exam" onclick="catSwToggle('exam')">▶</button><button type="button" class="cattime-btn reset" onclick="catSwReset('exam')">↺</button></span></div>
+<div class="cath" style="background:rgba(245,158,11,.13);color:#fbbf24;border-left:3px solid #f59e0b">🏆 입시 <input type="hidden" class="cattime" id="cattime-exam"><span class="cattime-sw"><span class="cattime-disp" id="cattime-disp-exam">00:00/120:00</span><button type="button" class="cattime-btn" id="cattime-btn-exam" onclick="catSwToggle('exam')">▶</button><button type="button" class="cattime-btn reset" onclick="catSwReset('exam')">↺</button></span></div>
 <table class="clt"><thead><tr><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">번호</th></tr></thead><tbody id="body-exam"></tbody></table>
 <button class="addbtn" onclick="addRow('exam','')">+ 입시 항목 추가</button>
 </div>
 <div>
-<div class="cath rhy">🎵 장르 <input type="hidden" class="cattime" id="cattime-rhy"><span class="cattime-sw"><span class="cattime-disp" id="cattime-disp-rhy">00:00</span><button type="button" class="cattime-btn" id="cattime-btn-rhy" onclick="catSwToggle('rhy')">▶</button><button type="button" class="cattime-btn reset" onclick="catSwReset('rhy')">↺</button></span>
+<div class="cath rhy">🎵 장르 <input type="hidden" class="cattime" id="cattime-rhy"><span class="cattime-sw"><span class="cattime-disp" id="cattime-disp-rhy">00:00/180:00</span><button type="button" class="cattime-btn" id="cattime-btn-rhy" onclick="catSwToggle('rhy')">▶</button><button type="button" class="cattime-btn reset" onclick="catSwReset('rhy')">↺</button></span>
 <div style="font-size:.63rem;font-weight:400;margin-top:4px;line-height:2">
-<span style="color:var(--rhy);font-weight:600">스네어 → </span><span id="rhytag-고스트" class="rhytag" onclick="toggleRhyTag('고스트')">고스트</span> · <span id="rhytag-악센트" class="rhytag" onclick="toggleRhyTag('악센트')">악센트</span> · <span id="rhytag-프레스" class="rhytag" onclick="toggleRhyTag('프레스')">프레스</span> · <span id="rhytag-고스트더블" class="rhytag" onclick="toggleRhyTag('고스트더블')">고스트(더블) 선명도</span> · <span id="rhytag-레이백" class="rhytag" onclick="toggleRhyTag('레이백')">레이백</span><br>
+<span style="color:var(--rhy);font-weight:600">리듬 → </span><span id="rhytag-8비트리듬" class="rhytag" onclick="toggleRhyTag('8비트리듬')">8비트 리듬</span> · <span id="rhytag-16비트리듬" class="rhytag" onclick="toggleRhyTag('16비트리듬')">16비트 리듬</span> · <span id="rhytag-3연음리듬" class="rhytag" onclick="toggleRhyTag('3연음리듬')">3연음 리듬</span> · <span id="rhytag-6연음리듬" class="rhytag" onclick="toggleRhyTag('6연음리듬')">6연음 리듬</span> · <span id="rhytag-8연음리듬" class="rhytag" onclick="toggleRhyTag('8연음리듬')">8연음 리듬</span> · <span id="rhytag-셔플리듬" class="rhytag" onclick="toggleRhyTag('셔플리듬')">셔플 리듬</span> · <span id="rhytag-하프타임셔플" class="rhytag" onclick="toggleRhyTag('하프타임셔플')">하프타임 셔플</span> · <span id="rhytag-블루스셔플리듬" class="rhytag" onclick="toggleRhyTag('블루스셔플리듬')">블루스 셔플 리듬</span> · <span id="rhytag-스윙" class="rhytag" onclick="toggleRhyTag('스윙')">스윙</span> · <span id="rhytag-보사노바" class="rhytag" onclick="toggleRhyTag('보사노바')">보사노바</span> · <span id="rhytag-쌈바" class="rhytag" onclick="toggleRhyTag('쌈바')">쌈바</span> · <span id="rhytag-송고" class="rhytag" onclick="toggleRhyTag('송고')">송고</span> · <span id="rhytag-루디먼트리듬" class="rhytag" onclick="toggleRhyTag('루디먼트리듬')">루디먼트 리듬</span> · <span id="rhytag-정글리듬" class="rhytag" onclick="toggleRhyTag('정글리듬')">정글 리듬</span> · <span id="rhytag-바운스리듬" class="rhytag" onclick="toggleRhyTag('바운스리듬')">바운스 리듬</span><br>
 <span style="color:var(--rhy);font-weight:600">그루핑 → </span><span id="rhytag-3그루핑" class="rhytag" onclick="toggleRhyTag('3그루핑')">3그루핑</span> · <span id="rhytag-4그루핑" class="rhytag" onclick="toggleRhyTag('4그루핑')">4그루핑</span> · <span id="rhytag-5그루핑" class="rhytag" onclick="toggleRhyTag('5그루핑')">5그루핑</span> · <span id="rhytag-6그루핑" class="rhytag" onclick="toggleRhyTag('6그루핑')">6그루핑</span>
 </div>
 </div>
@@ -321,7 +321,7 @@ ex) 필인 끝에 탐 accent 더 강조하기" rows="7"></textarea></div>
 <button class="addbtn" onclick="addRow('rhy','')">+ 장르 항목 추가</button>
 </div>
 <div>
-<div class="cath tec">⚡ 테크닉 <input type="hidden" class="cattime" id="cattime-tec"><span class="cattime-sw"><span class="cattime-disp" id="cattime-disp-tec">00:00</span><button type="button" class="cattime-btn" id="cattime-btn-tec" onclick="catSwToggle('tec')">▶</button><button type="button" class="cattime-btn reset" onclick="catSwReset('tec')">↺</button></span>
+<div class="cath tec">⚡ 테크닉 <input type="hidden" class="cattime" id="cattime-tec"><span class="cattime-sw"><span class="cattime-disp" id="cattime-disp-tec">00:00/180:00</span><button type="button" class="cattime-btn" id="cattime-btn-tec" onclick="catSwToggle('tec')">▶</button><button type="button" class="cattime-btn reset" onclick="catSwReset('tec')">↺</button></span>
 <div style="font-size:.63rem;font-weight:400;margin-top:4px;line-height:2">
 <span style="color:var(--tec);font-weight:600">활용 → </span><span id="tectag-오케스트레이션" class="tectag" onclick="toggleTecTag('오케스트레이션')">오케스트레이션</span> · <span id="tectag-플램활용" class="tectag" onclick="toggleTecTag('플램활용')">플램 활용</span> · <span id="tectag-32비트활용" class="tectag" onclick="toggleTecTag('32비트활용')">32비트 활용</span> · <span id="tectag-쉼표활용" class="tectag" onclick="toggleTecTag('쉼표활용')">쉼표 활용</span> · <span id="tectag-심벌활용" class="tectag" onclick="toggleTecTag('심벌활용')">심벌 활용</span> · <span id="tectag-엇박활용" class="tectag" onclick="toggleTecTag('엇박활용')">엇박 활용</span> · <span id="tectag-스와핑활용" class="tectag" onclick="toggleTecTag('스와핑활용')">스와핑 활용</span> · <span id="tectag-킥밀기유니즌" class="tectag" onclick="toggleTecTag('킥밀기유니즌')">킥 밀기·유니즌</span> · <span id="tectag-다이나믹" class="tectag" onclick="toggleTecTag('다이나믹')">다이나믹 (pp~ff)</span><br>
 <span style="color:var(--tec);font-weight:600">연음·그루핑 → </span><span id="tectag-4연음" class="tectag" onclick="toggleTecTag('4연음')">4연음</span> · <span id="tectag-4연음5그루핑" class="tectag" onclick="toggleTecTag('4연음5그루핑')">4연음 5그루핑</span> · <span id="tectag-6연음" class="tectag" onclick="toggleTecTag('6연음')">6연음</span> · <span id="tectag-6연음4그루핑" class="tectag" onclick="toggleTecTag('6연음4그루핑')">6연음 4그루핑</span> · <span id="tectag-6연음5그루핑" class="tectag" onclick="toggleTecTag('6연음5그루핑')">6연음 5그루핑</span>
@@ -331,12 +331,17 @@ ex) 필인 끝에 탐 accent 더 강조하기" rows="7"></textarea></div>
 <button class="addbtn" onclick="addRow('tec','')">+ 테크닉 항목 추가</button>
 </div>
 <div>
-<div class="cath" style="background:rgba(6,182,212,.13);color:#22d3ee;border-left:3px solid #22d3ee">📚 교재 <input type="hidden" class="cattime" id="cattime-book"><span class="cattime-sw"><span class="cattime-disp" id="cattime-disp-book">00:00</span><button type="button" class="cattime-btn" id="cattime-btn-book" onclick="catSwToggle('book')">▶</button><button type="button" class="cattime-btn reset" onclick="catSwReset('book')">↺</button></span></div>
+<div class="cath" style="background:rgba(239,68,68,.13);color:#f87171;border-left:3px solid #ef4444">🔧 문제점 / 고쳐야할점 <input type="hidden" class="cattime" id="cattime-prob"><span class="cattime-sw"><span class="cattime-disp" id="cattime-disp-prob">00:00/30:00</span><button type="button" class="cattime-btn" id="cattime-btn-prob" onclick="catSwToggle('prob')">▶</button><button type="button" class="cattime-btn reset" onclick="catSwReset('prob')">↺</button></span></div>
+<table class="clt"><thead><tr><th style="width:24px"></th><th>항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">번호</th></tr></thead><tbody id="body-prob"></tbody></table>
+<button class="addbtn" onclick="addRow('prob','')">+ 문제점 항목 추가</button>
+</div>
+<div>
+<div class="cath" style="background:rgba(6,182,212,.13);color:#22d3ee;border-left:3px solid #22d3ee">📚 교재 <input type="hidden" class="cattime" id="cattime-book"><span class="cattime-sw"><span class="cattime-disp" id="cattime-disp-book">00:00/30:00</span><button type="button" class="cattime-btn" id="cattime-btn-book" onclick="catSwToggle('book')">▶</button><button type="button" class="cattime-btn reset" onclick="catSwReset('book')">↺</button></span></div>
 <table class="clt"><thead><tr><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">번호</th></tr></thead><tbody id="body-book"></tbody></table>
 <button class="addbtn" onclick="addRow('book','')">+ 교재 항목 추가</button>
 </div>
 <div>
-<div class="cath etc">음악성 <input type="hidden" class="cattime" id="cattime-etc"><span class="cattime-sw"><span class="cattime-disp" id="cattime-disp-etc">00:00</span><button type="button" class="cattime-btn" id="cattime-btn-etc" onclick="catSwToggle('etc')">▶</button><button type="button" class="cattime-btn reset" onclick="catSwReset('etc')">↺</button></span></div>
+<div class="cath etc">음악성 <input type="hidden" class="cattime" id="cattime-etc"><span class="cattime-sw"><span class="cattime-disp" id="cattime-disp-etc">00:00/60:00</span><button type="button" class="cattime-btn" id="cattime-btn-etc" onclick="catSwToggle('etc')">▶</button><button type="button" class="cattime-btn reset" onclick="catSwReset('etc')">↺</button></span></div>
 <table class="clt"><thead><tr><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th></tr></thead><tbody id="body-etc"></tbody></table>
 <button class="addbtn" onclick="addRow('etc','')">+ 음악성 항목 추가</button>
 </div>
@@ -349,11 +354,6 @@ ex) 필인 끝에 탐 accent 더 강조하기" rows="7"></textarea></div>
 <div class="cath" style="background:rgba(20,184,166,.13);color:#2dd4bf;border-left:3px solid #14b8a6">🥁 기타 연습 <input type="hidden" class="cattime" id="cattime-misc2"><span class="cattime-sw"><span class="cattime-disp" id="cattime-disp-misc2">00:00</span><button type="button" class="cattime-btn" id="cattime-btn-misc2" onclick="catSwToggle('misc2')">▶</button><button type="button" class="cattime-btn reset" onclick="catSwReset('misc2')">↺</button></span></div>
 <table class="clt"><thead><tr><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">번호</th></tr></thead><tbody id="body-misc2"></tbody></table>
 <button class="addbtn" onclick="addRow('misc2','')">+ 기타 연습 항목 추가</button>
-</div>
-<div>
-<div class="cath" style="background:rgba(239,68,68,.13);color:#f87171;border-left:3px solid #ef4444">🔧 문제점 / 고쳐야할점 <input type="hidden" class="cattime" id="cattime-prob"><span class="cattime-sw"><span class="cattime-disp" id="cattime-disp-prob">00:00</span><button type="button" class="cattime-btn" id="cattime-btn-prob" onclick="catSwToggle('prob')">▶</button><button type="button" class="cattime-btn reset" onclick="catSwReset('prob')">↺</button></span></div>
-<table class="clt"><thead><tr><th style="width:24px"></th><th>항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">번호</th></tr></thead><tbody id="body-prob"></tbody></table>
-<button class="addbtn" onclick="addRow('prob','')">+ 문제점 항목 추가</button>
 </div>
 </div>
 </div>
@@ -730,15 +730,47 @@ function fillPrev(el){
   input.value = el.dataset.prev || '';
   as();
 }
+// ── 항목 이름별 최고 템포(BPM) 기록 — 요일 상관없이 이어짐 ──
+const BEST_TEMPO_KEY='drum_best_tempo_v1';
+function loadBestTempoMap(){
+  try{return JSON.parse(localStorage.getItem(BEST_TEMPO_KEY))||{};}catch{return{};}
+}
+function saveBestTempoMap(map){
+  try{localStorage.setItem(BEST_TEMPO_KEY,JSON.stringify(map));}catch(e){}
+}
+function getBestTempo(txt){
+  if(!txt) return '';
+  const map=loadBestTempoMap();
+  return map[txt]||'';
+}
+function updateBestTempo(txt,val){
+  if(!txt) return;
+  const num=parseFloat(val);
+  if(isNaN(num)) return;
+  const map=loadBestTempoMap();
+  const cur=parseFloat(map[txt]);
+  if(isNaN(cur) || num>cur){
+    map[txt]=String(val).trim();
+    saveBestTempoMap(map);
+  }
+}
+function updateBestTempoFromRow(input){
+  const tr=input.closest('tr');
+  if(!tr) return;
+  const txtInput=tr.querySelector('.cltxt');
+  const txt=txtInput?txtInput.value.trim():'';
+  if(!txt) return;
+  updateBestTempo(txt, input.value);
+}
 function addRow(cat,txt,chk,mins,tempo,set,pri,sub){
   if(cat==='ryt') cat='rhy';
   if(cat==='tec' && txt==='아이디어'){
     const shared=loadSharedTecIdea();
     chk=shared.chk; mins=shared.mins; tempo=shared.tempo; set=shared.set; sub=shared.sub;
   }
-  // 이전 요일 저장값 조회 (분/템포/번호 힌트용)
+  // 이전 요일 저장값 조회 (분/번호 힌트용, 템포는 이름별 최고기록으로 아래에서 별도 계산)
   let prevMins='', prevTempo='', prevSet='';
-  if(!mins && !tempo && !set) {
+  if(!mins && !set) {
     // 직전 요일(현재 요일 -1, 순환)에서 같은 항목 찾기
     const prevDay = (currentDay + 6) % 7;
     try {
@@ -747,11 +779,16 @@ function addRow(cat,txt,chk,mins,tempo,set,pri,sub){
         const match = prevData.cl.find(c => c.txt === txt);
         if(match) {
           prevMins = match.mins || '';
-          prevTempo = match.tempo || '';
           prevSet = match.set || '';
         }
       }
     } catch(e) {}
+  }
+  // 템포(BPM)는 요일 상관없이 같은 이름 항목의 최고 기록을 힌트로 표시
+  if(!tempo){
+    prevTempo = getBestTempo(txt);
+  } else {
+    updateBestTempo(txt, tempo); // 이미 저장된 값도 최고기록에 반영
   } // 구 리듬+테크닉 카테고리 → 장르(리듬)로 통합
   const tb=document.getElementById('body-'+cat);
   if(!tb) return;
@@ -761,7 +798,7 @@ function addRow(cat,txt,chk,mins,tempo,set,pri,sub){
   const minsVal = mins || (setLabel==='세트' ? '1' : '');
   const setVal = set || (setLabel==='세트' ? '3/0' : '');
   const hasSub = Array.isArray(sub) && sub.length>0;
-  const allowSub = (cat==='rhy' && (txt==='리듬 카피' || txt==='드럼 카피' || txt==='드러머 카피' || txt==='아이디어')) || (cat==='tec' && txt==='아이디어');
+  const allowSub = (cat==='rhy' && (txt==='리듬 카피' || txt==='드러머' || txt==='드럼 카피' || txt==='드러머 카피' || txt==='아이디어')) || (cat==='tec' && txt==='아이디어');
   const hideBpmSet = cat==='etc' || cat==='rhy' || (cat==='exam' && ['입시곡','질문','화성학'].includes(txt));
   const subItemsHtml = (sub||[]).map(s=>`<div class="subitem"><input type="checkbox" ${s.chk?'checked':''} onchange="as()"><input type="text" class="subtxt" value="${(s.txt||'').replace(/"/g,'&quot;')}" placeholder="하위 항목" oninput="as()"></div>`).join('');
   const tr=document.createElement('tr'); tr.className='clr'+(pri?' pri':'');
@@ -771,7 +808,7 @@ function addRow(cat,txt,chk,mins,tempo,set,pri,sub){
       <div class="sublist-wrap${hasSub?' open':''}"><div class="sublist">${subItemsHtml}</div><button type="button" class="subadd" onclick="addSubItem(this)">+ 하위 항목</button></div>`:`<input type="text" class="cltxt" value="${txt||''}" placeholder="연습 항목 입력" oninput="as()">`}
     </td>
     ${cat==='rhy'?'':`<td style="text-align:center"><input type="text" class="clnum" value="${minsVal}" placeholder="분" oninput="as()">${prevMins?`<span class='prev-hint' data-prev="${prevMins}" onclick="fillPrev(this)">${prevMins}분</span>`:''}<button type="button" class="lapbtn" onclick="catLap(this,'${cat}')" title="스톱워치에서 경과 시간 가져오기">⏱ 기록</button></td>`}
-    ${hideBpmSet?'':`<td style="text-align:center"><input type="text" class="clnum" value="${tempo||''}" placeholder="BPM" oninput="as()">${prevTempo?`<span class='prev-hint' data-prev="${prevTempo}" onclick="fillPrev(this)">${prevTempo}</span>`:''}</td>
+    ${hideBpmSet?'':`<td style="text-align:center"><input type="text" class="clnum" value="${tempo||''}" placeholder="BPM" oninput="as();updateBestTempoFromRow(this)">${prevTempo?`<span class='prev-hint' data-prev="${prevTempo}" onclick="fillPrev(this)">${prevTempo}</span>`:''}</td>
     <td style="text-align:center">${setLabel==='세트'?`<div class="setstep"><input type="text" class="clnum" value="${setVal}" placeholder="${setLabel}" oninput="as()"><span class="stepbtns"><button type="button" class="stepbtn" onclick="stepSet(this,1)">▲</button><button type="button" class="stepbtn" onclick="stepSet(this,-1)">▼</button></span></div>`:`<input type="text" class="clnum" value="${set||''}" placeholder="${setLabel}" oninput="as()">`}${prevSet?`<span class='prev-hint' data-prev="${prevSet}" onclick="fillPrev(this)">${prevSet}</span>`:''}</td>`}
     `;
   tr.querySelector('input[type=checkbox]').addEventListener('change',as);
@@ -884,6 +921,16 @@ function setCatTimes(times){
 }
 const catSwState={};
 const SW_PERSIST_KEY='drum_sw_state';
+// 카테고리별 목표 시간(분) — 목표가 있는 카테고리만 "경과/목표" 형식으로 표시
+const CAT_TARGET_MIN={pad:60,exam:120,rhy:180,tec:180,prob:30,book:30,etc:60};
+function catSwTargetStr(cat){
+  const t=CAT_TARGET_MIN[cat];
+  if(!t) return '';
+  return '/'+String(t).padStart(2,'0')+':00';
+}
+function catSwDispText(cat,ms){
+  return catSwFormat(ms)+catSwTargetStr(cat);
+}
 
 function catSwFormat(ms){
   const totalSec=Math.max(0,Math.floor(ms/1000));
@@ -937,7 +984,7 @@ function catSwRestore(){
         st.timerId=setInterval(()=>catSwTick(cat),500);
       }
       const disp=document.getElementById('cattime-disp-'+cat);
-      if(disp) disp.textContent=catSwFormat(catSwGetElapsed(cat));
+      if(disp) disp.textContent=catSwDispText(cat, catSwGetElapsed(cat));
     });
   }catch(e){}
 }
@@ -947,7 +994,7 @@ function catSwTick(cat){
   if(!st||!st.running) return;
   const elapsed=catSwGetElapsed(cat);
   const disp=document.getElementById('cattime-disp-'+cat);
-  if(disp) disp.textContent=catSwFormat(elapsed);
+  if(disp) disp.textContent=catSwDispText(cat, elapsed);
 }
 
 function catSwToggle(cat){
@@ -1028,7 +1075,7 @@ function catSwReset(cat){
     st.lastLap=0;
   }
   const disp=document.getElementById('cattime-disp-'+cat);
-  if(disp) disp.textContent='00:00';
+  if(disp) disp.textContent=catSwDispText(cat,0);
   const btn=document.getElementById('cattime-btn-'+cat);
   if(btn) btn.textContent='▶';
   const input=document.getElementById('cattime-'+cat);
@@ -1043,9 +1090,9 @@ function catSwSyncFromInput(cat){
   if(!isNaN(mins)&&mins>0){
     if(!catSwState[cat]) catSwState[cat]={running:false,startTs:0,elapsed:0,timerId:null};
     catSwState[cat].elapsed=mins*60000;
-    disp.textContent=catSwFormat(catSwState[cat].elapsed);
+    disp.textContent=catSwDispText(cat, catSwState[cat].elapsed);
   } else {
-    disp.textContent='00:00';
+    disp.textContent=catSwDispText(cat, 0);
   }
 }
 function saveDayCL(d){
@@ -1121,13 +1168,15 @@ const MON_DEFAULT=[
   {cat:'pad',txt:'더블 스트로크',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'트리플 스트로크',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'4·6연음 스틱킹 및 악센트',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'피지컬 - 플로어탐 더블',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'피지컬 - 탐돌리기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'피지컬 - 모울러 테크닉',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'피지컬 - 싱글 킥',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'스와핑 피지컬',chk:false,mins:'',tempo:'',set:''},
   // 장르
   {cat:'rhy',txt:'MR 연습 - Ballad · R&B · Neo Soul',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'리듬 카피',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'아이디어',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'드러머',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'리듬 카피 사용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'리듬 카피 응용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'50~70정도로 리듬 치기 (3분마다 그루브 변경)',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'톤 연구',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'멜로디 리듬 꾸미기',chk:false,mins:'',tempo:'',set:''},
@@ -1135,14 +1184,14 @@ const MON_DEFAULT=[
   // 테크닉
   {cat:'tec',txt:'카피 연습',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'카피 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'제한하기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'제한하기 - 왼손먼저 시작 · 왼손 악센트',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'입으로 소리내고 표현하기',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'하이햇 컨트롤',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'6연음 5그루핑',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'6연음 4그루핑',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'6연음 콤비네이션',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'6연음 스틱킹',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'쉼표',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'6연음 쉼표',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'루디먼트 응용',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'톤',chk:false,mins:'',tempo:'',set:''},
   // 입시
@@ -1150,7 +1199,6 @@ const MON_DEFAULT=[
   {cat:'exam',txt:'질문',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'아메리칸 솔로 초견',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'모던 리딩 텍스트 초견',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'스윙 컴핑 · 섹션 초견',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'화성학',chk:false,mins:'',tempo:'',set:''},
   // 음악성
   {cat:'etc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
@@ -1176,17 +1224,19 @@ const TUE_DEFAULT=[
   {cat:'pad',txt:'플램 피지컬',chk:false,mins:'',tempo:'',set:''},
   // 장르
   {cat:'rhy',txt:'MR 연습 - Hip Hop · Jazz Hip Hop · Jungle',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'드럼 카피',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'아이디어',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'드러머',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'리듬 카피 사용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'리듬 카피 응용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'50~70정도로 리듬 치기 (3분마다 그루브 변경)',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'톤 연구',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'멜로디 리듬 꾸미기',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'솔로 전개 연습',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'솔로 전개 연습 (모티브 늘리고 넓히기)',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
   {cat:'tec',txt:'카피 연습',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'카피 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'제한하기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'제한하기 - 1 e & a 섹션 or 필 고정',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'입으로 소리내고 표현하기',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'하이햇 컨트롤',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'4연음 5그루핑',chk:false,mins:'',tempo:'',set:''},
@@ -1200,7 +1250,6 @@ const TUE_DEFAULT=[
   {cat:'exam',txt:'질문',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'아메리칸 솔로 초견',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'모던 리딩 텍스트 초견',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'스윙 컴핑 · 섹션 초견',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'화성학',chk:false,mins:'',tempo:'',set:''},
   // 음악성
   {cat:'etc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
@@ -1221,16 +1270,17 @@ const WED_DEFAULT=[
   {cat:'pad',txt:'더블 스트로크',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'트리플 스트로크',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'4·6연음 스틱킹 및 악센트',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'피지컬 - 플로어탐 더블',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'피지컬 - 싱글킥',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'피지컬 - 모울러 테크닉',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'피지컬 - 더블킥',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'스와핑 피지컬',chk:false,mins:'',tempo:'',set:''},
   // 장르
   {cat:'rhy',txt:'MR 연습 - Funk · Gospel · Shuffle · Blues',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'드럼 카피',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'아이디어',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'드러머',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'리듬 카피 사용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'리듬 카피 응용',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'셔플 · 하프타임셔플',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'블루스(셔플) 리듬',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'50~70정도로 리듬 치기 (3분마다 그루브 변경)',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'톤 연구',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'멜로디 리듬 꾸미기',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
@@ -1239,14 +1289,14 @@ const WED_DEFAULT=[
   // 테크닉
   {cat:'tec',txt:'카피 연습',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'카피 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'제한하기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'제한하기 - 이동 위치 제한하기 (하이햇 금지, 탐 금지)',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'입으로 소리내고 표현하기',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'하이햇 컨트롤',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'6연음 5그루핑',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'6연음 4그루핑',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'6연음 콤비네이션',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'6연음 스틱킹',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'쉼표',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'6연음 쉼표',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'루디먼트 응용',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'톤',chk:false,mins:'',tempo:'',set:''},
   // 입시
@@ -1254,7 +1304,6 @@ const WED_DEFAULT=[
   {cat:'exam',txt:'질문',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'아메리칸 솔로 초견',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'모던 리딩 텍스트 초견',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'스윙 컴핑 · 섹션 초견',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'화성학',chk:false,mins:'',tempo:'',set:''},
   // 음악성
   {cat:'etc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
@@ -1280,10 +1329,12 @@ const THU_DEFAULT=[
   {cat:'pad',txt:'플램 피지컬',chk:false,mins:'',tempo:'',set:''},
   // 장르
   {cat:'rhy',txt:'MR 연습 - Jazz · Fusion Jazz · Latin',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'드럼 카피',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'아이디어',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'드러머',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'리듬 카피 사용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'리듬 카피 응용',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'삼바',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'보사노바',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'50~70정도로 리듬 치기 (3분마다 그루브 변경)',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'톤 연구',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'드럼으로 멜로디 연주 · 멜로디 따라가기',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
@@ -1292,7 +1343,7 @@ const THU_DEFAULT=[
   // 테크닉
   {cat:'tec',txt:'카피 연습',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'카피 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'제한하기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'제한하기 - 1 e & a 에 들어가기',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'입으로 소리내고 표현하기',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'하이햇 컨트롤',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'4연음 5그루핑',chk:false,mins:'',tempo:'',set:''},
@@ -1306,7 +1357,6 @@ const THU_DEFAULT=[
   {cat:'exam',txt:'질문',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'아메리칸 솔로 초견',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'모던 리딩 텍스트 초견',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'스윙 컴핑 · 섹션 초견',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'화성학',chk:false,mins:'',tempo:'',set:''},
   // 음악성
   {cat:'etc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
@@ -1326,16 +1376,18 @@ const FRI_DEFAULT=[
   {cat:'pad',txt:'더블 스트로크',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'트리플 스트로크',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'4·6연음 스틱킹 및 악센트',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'피지컬 - 플로어탐 더블',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'피지컬 - 탐돌리기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'피지컬 - 모울러 테크닉',chk:false,mins:'',tempo:'',set:''},
+  {cat:'pad',txt:'피지컬 - 싱글 킥',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'스와핑 피지컬',chk:false,mins:'',tempo:'',set:''},
   // 장르
   {cat:'rhy',txt:'MR 연습 - Funk · Gospel · Shuffle · Blues',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'드럼 카피',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'아이디어',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'드러머',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'리듬 카피 사용',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'리듬 카피 응용',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'셔플 · 하프타임셔플',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'블루스(셔플) 리듬',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'브로큰 비트',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'50~70정도로 리듬 치기 (3분마다 그루브 변경)',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'톤 연구',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'멜로디 리듬 꾸미기',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
@@ -1344,7 +1396,7 @@ const FRI_DEFAULT=[
   // 테크닉
   {cat:'tec',txt:'카피 연습',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'카피 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'제한하기',chk:false,mins:'',tempo:'',set:''},
+  {cat:'tec',txt:'제한하기 - 1 e & a 섹션 or 필 고정',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'입으로 소리내고 표현하기',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'하이햇 컨트롤',chk:false,mins:'',tempo:'',set:''},
   {cat:'tec',txt:'6연음 5그루핑',chk:false,mins:'',tempo:'',set:''},
@@ -1359,7 +1411,6 @@ const FRI_DEFAULT=[
   {cat:'exam',txt:'질문',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'아메리칸 솔로 초견',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'모던 리딩 텍스트 초견',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'스윙 컴핑 · 섹션 초견',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'화성학',chk:false,mins:'',tempo:'',set:''},
   // 음악성
   {cat:'etc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
@@ -1375,7 +1426,7 @@ const FRI_DEFAULT=[
   {cat:'misc2',txt:'리니어 리듬',chk:false,mins:'',tempo:'',set:''},
 ];
 const DAY_DEFAULTS=[MON_DEFAULT,TUE_DEFAULT,WED_DEFAULT,THU_DEFAULT,FRI_DEFAULT,null,null];
-const DEFAULT_VERSION='v20.9'; // 기본값 바뀌면 이 숫자 올리기
+const DEFAULT_VERSION='v20.23'; // 기본값 바뀌면 이 숫자 올리기
 const DEFAULT_VER_KEY='drum_default_ver';
 
 function loadDefaultCL(list){
@@ -1491,10 +1542,12 @@ function loadSharedSoloDom(){
     {txt:'킥으로만 끝내는 것 고치기',chk:false,mins:'',tempo:'',set:''},
     {txt:'작은 다이나믹에 안무너지기',chk:false,mins:'',tempo:'',set:''},
     {txt:'느린 템포에 안무너지기',chk:false,mins:'',tempo:'',set:''},
+    {txt:'바운스 리듬 펄스',chk:false,mins:'',tempo:'',set:''},
+    {txt:'R,L,K 사운드 밸런스 및 다이나믹 조절',chk:false,mins:'',tempo:'',set:''},
   ];
   probList.forEach(c=>addRow('prob',c.txt,c.chk,c.mins,c.tempo,c.set,c.pri));
   // 기존에 저장된 데이터가 있어도 새로 옮겨진 항목이 없으면 추가
-  ['작은 다이나믹에 안무너지기','느린 템포에 안무너지기'].forEach(t=>{
+  ['작은 다이나믹에 안무너지기','느린 템포에 안무너지기','바운스 리듬 펄스','R,L,K 사운드 밸런스 및 다이나믹 조절'].forEach(t=>{
     if(!probList.some(c=>c.txt===t)) addRow('prob',t,false,'','','');
   });
 }
@@ -1571,6 +1624,52 @@ function as(){clearTimeout(asTimer);asTimer=setTimeout(()=>{saveDayCL(currentDay
 function g(id){const el=document.getElementById(id);return el?el.value:'';}
 function s(id,v){const el=document.getElementById(id);if(el)el.value=v||'';}
 
+// ── 월~토 체크 해제 + rhytag/tectag 초기화 (일요일 저장 시 공통 사용) ──
+function performWeeklyReset(){
+  for(let d=0;d<6;d++){
+    localStorage.removeItem(getRhyTagKey(d));
+    localStorage.removeItem(getTecTagKey(d));
+    const data=loadDayCL(d);
+    if(data&&data.cl){
+      data.cl.forEach(c=>{c.chk=false;});
+      data.catTimes={};
+      localStorage.setItem(getDayCLKey(d),JSON.stringify(data));
+    } else if(DAY_DEFAULTS[d]){
+      const resetList=DAY_DEFAULTS[d].map(c=>({...c,chk:false}));
+      localStorage.setItem(getDayCLKey(d),JSON.stringify({cl:resetList, catTimes:{}}));
+    }
+    localStorage.setItem(DEFAULT_VER_KEY+'_'+d, DEFAULT_VERSION);
+  }
+}
+
+// ── 일요일을 못 켜고 지나갔을 때 자동으로 저장 + 초기화 ──
+const LAST_WEEKLY_RESET_KEY='drum_last_weekly_reset_v1';
+function todayStr(){const n=new Date();return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`;}
+function autoWeeklyReset(){
+  const now=new Date();
+  const dow=now.getDay(); // 0=일 1=월 ... 6=토
+  if(dow===0) return; // 오늘이 일요일이면 정상적인 수동 저장 흐름에 맡김
+  const lastSunday=new Date(now);
+  lastSunday.setDate(now.getDate()-dow);
+  const sundayKey=`${lastSunday.getFullYear()}-${String(lastSunday.getMonth()+1).padStart(2,'0')}-${String(lastSunday.getDate()).padStart(2,'0')}`;
+  if(localStorage.getItem(LAST_WEEKLY_RESET_KEY)===sundayKey) return; // 이미 처리됨
+
+  const sunData=loadDayCL(6);
+  const hasSunProgress=sunData && sunData.cl && sunData.cl.some(c=>c.chk);
+  if(hasSunProgress){
+    const rec={id:Date.now(),day:6,dayName:'일요일',
+      date:sundayKey,loc:'',goal:'',lesson:'',feel:'',feedback:'',
+      change:'',tomorrow:'',ptime:'',stars:0,cl:sunData.cl,
+      rhytags:[],tectags:[],catTimes:sunData.catTimes||{}};
+    const arr=dbGet();arr.unshift(rec);dbSet(arr);
+  }
+  localStorage.removeItem(getDayCLKey(6));
+  localStorage.removeItem(getRhyTagKey(6));
+  localStorage.removeItem(getTecTagKey(6));
+  performWeeklyReset();
+  localStorage.setItem(LAST_WEEKLY_RESET_KEY,sundayKey);
+}
+
 function clearForm(){
   ['dateInput','locationInput','goalInput','lessonInput','feelInput','feedbackInput','changeInput','tomorrowInput','practiceTimeInput'].forEach(id=>s(id,''));
   sv=0;document.querySelectorAll('.star').forEach(x=>x.classList.remove('on'));
@@ -1599,25 +1698,8 @@ function saveRec(){
     setCatTimes({});
     document.querySelectorAll('.rhytag').forEach(el=>el.classList.remove('on'));
     document.querySelectorAll('.tectag').forEach(el=>el.classList.remove('on'));
-    // 월~토: 체크 표시 해제 + rhytag 초기화
-    for(let d=0;d<6;d++){
-      // rhytag, tectag 초기화
-      localStorage.removeItem(getRhyTagKey(d));
-      localStorage.removeItem(getTecTagKey(d));
-      // 체크리스트 체크 해제 (항목은 유지, 체크만 false) + 연습시간 입력 초기화
-      const data=loadDayCL(d);
-      if(data&&data.cl){
-        data.cl.forEach(c=>{c.chk=false;});
-        data.catTimes={};
-        localStorage.setItem(getDayCLKey(d),JSON.stringify(data));
-      } else if(DAY_DEFAULTS[d]){
-        // 저장 데이터 없으면 기본값으로 초기화
-        const resetList=DAY_DEFAULTS[d].map(c=>({...c,chk:false}));
-        localStorage.setItem(getDayCLKey(d),JSON.stringify({cl:resetList, catTimes:{}}));
-      }
-      // 버전 유지 (기본값 재로드 방지)
-      localStorage.setItem(DEFAULT_VER_KEY+'_'+d, DEFAULT_VERSION);
-    }
+    performWeeklyReset();
+    localStorage.setItem(LAST_WEEKLY_RESET_KEY, todayStr());
   }
   clearForm();renderHist();
   toast('💾 저장되었습니다!');
@@ -1675,9 +1757,15 @@ function openM(id){
   }
   // 전체 rhytag 목록 (순서대로)
   const ALL_RHYTAGS=[
-    {id:'rhytag-고스트',txt:'고스트'},{id:'rhytag-악센트',txt:'악센트'},
-    {id:'rhytag-프레스',txt:'프레스'},{id:'rhytag-고스트더블',txt:'고스트(더블) 선명도'},
-    {id:'rhytag-레이백',txt:'레이백'},
+    {id:'rhytag-8비트리듬',txt:'8비트 리듬'},{id:'rhytag-16비트리듬',txt:'16비트 리듬'},
+    {id:'rhytag-3연음리듬',txt:'3연음 리듬'},{id:'rhytag-6연음리듬',txt:'6연음 리듬'},
+    {id:'rhytag-8연음리듬',txt:'8연음 리듬'},
+    {id:'rhytag-셔플리듬',txt:'셔플 리듬'},{id:'rhytag-하프타임셔플',txt:'하프타임 셔플'},
+    {id:'rhytag-블루스셔플리듬',txt:'블루스 셔플 리듬'},
+    {id:'rhytag-스윙',txt:'스윙'},{id:'rhytag-보사노바',txt:'보사노바'},
+    {id:'rhytag-쌈바',txt:'쌈바'},{id:'rhytag-송고',txt:'송고'},
+    {id:'rhytag-루디먼트리듬',txt:'루디먼트 리듬'},
+    {id:'rhytag-정글리듬',txt:'정글 리듬'},{id:'rhytag-바운스리듬',txt:'바운스 리듬'},
     {id:'rhytag-3그루핑',txt:'3그루핑'},{id:'rhytag-4그루핑',txt:'4그루핑'},
     {id:'rhytag-5그루핑',txt:'5그루핑'},{id:'rhytag-6그루핑',txt:'6그루핑'},
   ];
@@ -1704,7 +1792,7 @@ function openM(id){
     return `<span style="${on?'background:rgba(34,197,94,.3);border-color:var(--tec);color:#fff;font-weight:600':'background:rgba(42,42,64,.4);border-color:var(--border);color:var(--text3)'};border:1px solid;border-radius:5px;padding:2px 8px;font-size:.73rem;display:inline-block;margin:2px">${t.txt}</span>`;
   }).join('');
   document.getElementById('mbody').innerHTML=`
-    <div class="mr"><div class="ml">🎵 리듬 스네어 / 그루핑</div><div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px">${rhytagHtml}</div></div>
+    <div class="mr"><div class="ml">🎵 리듬 / 그루핑</div><div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px">${rhytagHtml}</div></div>
     <div class="mr"><div class="ml">⚡ 테크닉 활용 / 연음·그루핑</div><div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px">${tectagHtml}</div></div>
     ${cth?`<div class="mr"><div class="ml">⏱ 카테고리별 연습시간</div>${cth}</div>`:''}
     ${clh?`<div class="mr"><div class="ml">연습 체크리스트</div>${clh}</div>`:''}
@@ -1845,6 +1933,7 @@ window.addEventListener('load',()=>{
     const n=new Date();
     s('dateInput',`${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`);
   }
+  autoWeeklyReset();
   initDayButtons();
   renderHist();
 });
