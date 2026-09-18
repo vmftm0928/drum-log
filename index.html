@@ -84,6 +84,44 @@ textarea.inp{resize:vertical;line-height:1.7}
 .subdel:hover{color:var(--red)}
 .subadd{background:none;border:none;color:var(--accent3);cursor:pointer;font-size:.72rem;font-weight:700;padding:4px 0;font-family:'Noto Sans KR',sans-serif;opacity:1}
 .subadd:hover{opacity:1}
+.subitem-row{display:flex;align-items:center;gap:4px;width:100%}
+.subsubtoggle{background:none;border:none;color:var(--accent2);cursor:pointer;font-size:.65rem;font-weight:700;padding:2px;width:13px;flex:none;transition:transform .15s}
+.subsubtoggle.open{transform:rotate(90deg)}
+.subsublist-wrap{display:none;margin:5px 0 3px 20px;padding:5px 8px;border-left:2px solid var(--accent2);background:rgba(6,182,212,.08);border-radius:0 6px 6px 0}
+.subsublist-wrap.open{display:block}
+.subsubitem{display:flex;align-items:center;gap:5px;padding:2px 0}
+.subsubitem input[type=checkbox]{width:13px;height:13px;accent-color:var(--accent2);cursor:pointer;flex:none}
+.subsubtxt{background:transparent;border:none;color:var(--text2);font-size:.76rem;font-weight:600;width:100%;outline:none;font-family:'Noto Sans KR',sans-serif}
+.subsubadd{background:none;border:none;color:var(--accent2);cursor:pointer;font-size:.68rem;font-weight:700;padding:3px 0;font-family:'Noto Sans KR',sans-serif}
+.tagchip{display:inline-flex;align-items:center;padding:3px 9px;margin:2px 3px 2px 0;border-radius:999px;border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--text2);font-size:.68rem;cursor:pointer;font-family:'Noto Sans KR',sans-serif;user-select:none}
+.tagchip:hover{border-color:var(--accent)}
+.tagchip.active{background:rgba(124,58,237,.28);border-color:var(--accent);color:var(--text)}
+.tagchip.readonly{cursor:default}
+.tagchip.readonly:hover{border-color:var(--border)}
+.tag-group-label{font-size:.66rem;color:var(--text3);margin:8px 0 3px;font-weight:700}
+.drummer-entry{border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:10px;background:rgba(255,255,255,.02)}
+.drummer-entry-head{display:flex;align-items:center;gap:8px}
+.drummer-name-input{flex:1;background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--text);font-size:.9rem;font-weight:700;padding:3px 2px;font-family:'Noto Sans KR',sans-serif}
+.drummer-name-input:focus{outline:none;border-color:var(--accent)}
+.drummer-del{background:none;border:none;color:var(--text3);cursor:pointer;font-size:.85rem;flex:none}
+.drummer-del:hover{color:var(--red)}
+.drummer-tagedit-toggle{background:none;border:none;color:var(--accent3);cursor:pointer;font-size:.7rem;font-weight:700;flex:none;white-space:nowrap}
+.drummer-collab-toggle{background:none;border:none;color:var(--accent3);cursor:pointer;font-size:.7rem;font-weight:700;flex:none;white-space:nowrap}
+.drummer-collab-wrap{display:none;margin-top:8px;padding-top:8px;border-top:1px dashed var(--border)}
+.drummer-collab-wrap.open{display:block}
+.drummer-collab-group{margin-bottom:6px}
+.drummer-collab-group b{font-size:.72rem;color:var(--text2)}
+.drummer-collab-list{font-size:.74rem;color:var(--text2);line-height:1.6;margin-top:2px}
+.collab-item{white-space:nowrap}
+.collab-sep{color:var(--text3)}
+.drummer-tags-display{margin-top:6px}
+.tag-group-divider{color:var(--text3);font-size:.75rem;margin:0 4px;font-weight:700}
+.drummer-tagedit-wrap{display:none;margin-top:8px;padding-top:8px;border-top:1px dashed var(--border)}
+.drummer-tagedit-wrap.open{display:block}
+.drumdb-filterbar{margin-bottom:12px;padding-bottom:10px;border-bottom:1px dashed var(--border)}
+.drumdb-addbtn{background:none;border:1px dashed var(--text3);border-radius:8px;color:var(--text3);font-size:.76rem;padding:7px;width:100%;cursor:pointer;font-family:'Noto Sans KR',sans-serif}
+.drumdb-addbtn:hover{border-color:var(--accent);color:var(--accent3)}
+.drumdb-clearbtn{background:none;border:none;color:var(--text3);font-size:.68rem;cursor:pointer;text-decoration:underline;margin-left:6px;font-family:'Noto Sans KR',sans-serif}
 .addbtn:hover{border-color:var(--accent);color:var(--accent3)}
 .rw{overflow-x:auto}
 .rt{width:100%;border-collapse:collapse;min-width:580px}
@@ -274,6 +312,11 @@ textarea.inp{resize:vertical;line-height:1.7}
 <div class="cb"><textarea class="inp" id="lessonInput" oninput="as()" placeholder="ex) 스네어 고스트 노트 더 작게
 ex) 필인 끝에 탐 accent 더 강조하기" rows="7"></textarea></div>
 </div>
+</div>
+<!-- 드러머 데이터베이스 -->
+<div class="card">
+<div class="ch"><span class="ci">🥁</span><span class="ct">드러머 데이터베이스</span></div>
+<div class="cb" id="drummerDbBody"></div>
 </div>
 <!-- 날짜/장소 & 컨디션 -->
 </div>
@@ -827,9 +870,13 @@ function addRow(cat,txt,chk,mins,tempo,set,pri,sub){
   const hasSub = Array.isArray(sub) && sub.length>0;
   const allowSub = ((cat==='rhy'||cat==='drum') && (txt==='리듬 카피' || txt==='드러머' || txt==='드럼 카피' || txt==='드러머 카피' || txt==='아이디어')) || (cat==='tec' && txt==='아이디어');
   const hideBpmSet = cat==='etc' || cat==='rhy' || (cat==='exam' && ['입시곡','질문','화성학'].includes(txt));
-  const subItemsHtml = (sub||[]).map(s=>`<div class="subitem"><input type="checkbox" ${s.chk?'checked':''} onchange="as()"><input type="text" class="subtxt" value="${(s.txt||'').replace(/"/g,'&quot;')}" placeholder="하위 항목" oninput="as()"></div>`).join('');
+  const subItemsHtml = (sub||[]).map(s=>{
+    const hasSubSub = Array.isArray(s.sub) && s.sub.length>0;
+    const subSubHtml = (s.sub||[]).map(ss=>`<div class="subsubitem"><input type="checkbox" ${ss.chk?'checked':''} onchange="as()"><input type="text" class="subsubtxt" value="${(ss.txt||'').replace(/"/g,'&quot;')}" placeholder="드러머 이름" oninput="as()"></div>`).join('');
+    return `<div class="subitem"><div class="subitem-row"><button type="button" class="subsubtoggle${hasSubSub?' open':''}" onclick="toggleSubSubList(this)" title="하위 항목">▸</button><input type="checkbox" ${s.chk?'checked':''} onchange="as()"><input type="text" class="subtxt" value="${(s.txt||'').replace(/"/g,'&quot;')}" placeholder="하위 항목" oninput="as()"></div><div class="subsublist-wrap${hasSubSub?' open':''}"><div class="subsublist">${subSubHtml}</div><button type="button" class="subsubadd" onclick="addSubSubItem(this)">+ 하위 항목</button></div></div>`;
+  }).join('');
   const tr=document.createElement('tr'); tr.className='clr'+(pri?' pri':'');
-  tr.innerHTML=`<td><input type="checkbox" ${chk?'checked':''}></td>
+  tr.innerHTML=`<td class="chkcell"><input type="checkbox" ${chk?'checked':''}></td>
     <td>
       ${allowSub?`<div class="cl-item-row"><button type="button" class="subtoggle${hasSub?' open':''}" onclick="toggleSubList(this)" title="하위 리스트">▸</button><input type="text" class="cltxt" value="${txt||''}" placeholder="연습 항목 입력" oninput="as()"></div>
       <div class="sublist-wrap${hasSub?' open':''}"><div class="sublist">${subItemsHtml}</div><button type="button" class="subadd" onclick="addSubItem(this)">+ 하위 항목</button></div>`:`<input type="text" class="cltxt" value="${txt||''}" placeholder="연습 항목 입력" oninput="as()">`}
@@ -838,8 +885,35 @@ function addRow(cat,txt,chk,mins,tempo,set,pri,sub){
     ${hideBpmSet?'':`<td style="text-align:center"><input type="text" class="clnum" value="${tempo||''}" placeholder="BPM" oninput="as();updateBestTempoFromRow(this)">${prevTempo?`<span class='prev-hint' data-prev="${prevTempo}" onclick="fillPrev(this)">${prevTempo}</span>`:''}</td>
     <td style="text-align:center">${setLabel==='세트'?`<div class="setstep"><input type="text" class="clnum" value="${setVal}" placeholder="${setLabel}" oninput="as()"><span class="stepbtns"><button type="button" class="stepbtn" onclick="stepSet(this,1)">▲</button><button type="button" class="stepbtn" onclick="stepSet(this,-1)">▼</button></span></div>`:`<input type="text" class="clnum" value="${set||''}" placeholder="${setLabel}" oninput="as()">`}${prevSet?`<span class='prev-hint' data-prev="${prevSet}" onclick="fillPrev(this)">${prevSet}</span>`:''}</td>`}
     `;
-  tr.querySelector('input[type=checkbox]').addEventListener('change',as);
+  const mainChk=tr.querySelector('.chkcell input[type=checkbox]');
+  if(mainChk) mainChk.addEventListener('change',as);
   tb.appendChild(tr);
+}
+function toggleSubSubList(btn){
+  const wrap=btn.closest('.subitem').querySelector('.subsublist-wrap');
+  if(!wrap) return;
+  const open=wrap.classList.toggle('open');
+  btn.classList.toggle('open',open);
+  if(open){
+    const list=wrap.querySelector('.subsublist');
+    if(list && !list.querySelector('.subsubitem')){
+      list.insertAdjacentHTML('beforeend','<div class="subsubitem"><input type="checkbox" onchange="as()"><input type="text" class="subsubtxt" placeholder="드러머 이름" oninput="as()"></div>');
+      const firstInput=list.querySelector('.subsubtxt');
+      if(firstInput) firstInput.focus();
+    }
+  }
+}
+function addSubSubItem(btn){
+  const list=btn.closest('.subsublist-wrap').querySelector('.subsublist');
+  if(!list) return;
+  list.insertAdjacentHTML('beforeend','<div class="subsubitem"><input type="checkbox" onchange="as()"><input type="text" class="subsubtxt" placeholder="드러머 이름" oninput="as()"></div>');
+  const inputs=list.querySelectorAll('.subsubtxt');
+  const last=inputs[inputs.length-1];
+  if(last) last.focus();
+  as();
+}
+function newSubItemHtml(){
+  return '<div class="subitem"><div class="subitem-row"><button type="button" class="subsubtoggle" onclick="toggleSubSubList(this)" title="하위 항목">▸</button><input type="checkbox" onchange="as()"><input type="text" class="subtxt" placeholder="하위 항목" oninput="as()"></div><div class="subsublist-wrap"><div class="subsublist"></div><button type="button" class="subsubadd" onclick="addSubSubItem(this)">+ 하위 항목</button></div></div>';
 }
 function toggleSubList(btn){
   const wrap=btn.closest('td').querySelector('.sublist-wrap');
@@ -849,7 +923,7 @@ function toggleSubList(btn){
   if(open){
     const list=wrap.querySelector('.sublist');
     if(list && !list.querySelector('.subitem')){
-      list.insertAdjacentHTML('beforeend','<div class="subitem"><input type="checkbox" onchange="as()"><input type="text" class="subtxt" placeholder="하위 항목" oninput="as()"></div>');
+      list.insertAdjacentHTML('beforeend',newSubItemHtml());
       const firstInput=list.querySelector('.subtxt');
       if(firstInput) firstInput.focus();
     }
@@ -858,7 +932,7 @@ function toggleSubList(btn){
 function addSubItem(btn){
   const list=btn.closest('.sublist-wrap').querySelector('.sublist');
   if(!list) return;
-  list.insertAdjacentHTML('beforeend','<div class="subitem"><input type="checkbox" onchange="as()"><input type="text" class="subtxt" placeholder="하위 항목" oninput="as()"></div>');
+  list.insertAdjacentHTML('beforeend',newSubItemHtml());
   const inputs=list.querySelectorAll('.subtxt');
   const last=inputs[inputs.length-1];
   if(last) last.focus();
@@ -890,8 +964,12 @@ function getCL(){
       const txt=tr.querySelector('.cltxt').value.trim(); if(!txt)return;
       const nums=tr.querySelectorAll('.clnum');
       const pri=tr.querySelector('.pribtn')?.classList.contains('on')||false;
-      const sub=[...tr.querySelectorAll('.subitem')].map(si=>({txt:si.querySelector('.subtxt').value.trim(),chk:si.querySelector('input[type=checkbox]').checked})).filter(s=>s.txt);
-      r.push({cat:c,chk:tr.querySelector('input[type=checkbox]').checked,txt,mins:nums[0]?.value||'',tempo:nums[1]?.value||'',set:nums[2]?.value||'',pri,sub});
+      const sub=[...tr.querySelectorAll('.sublist > .subitem')].map(si=>({
+        txt:si.querySelector('.subtxt').value.trim(),
+        chk:si.querySelector('.subitem-row input[type=checkbox]').checked,
+        sub:[...si.querySelectorAll('.subsublist > .subsubitem')].map(ssi=>({txt:ssi.querySelector('.subsubtxt').value.trim(),chk:ssi.querySelector('input[type=checkbox]').checked})).filter(ss=>ss.txt)
+      })).filter(s=>s.txt);
+      r.push({cat:c,chk:tr.querySelector('.chkcell input[type=checkbox]')?.checked||false,txt,mins:nums[0]?.value||'',tempo:nums[1]?.value||'',set:nums[2]?.value||'',pri,sub});
     });
   });
   return r;
@@ -1214,9 +1292,7 @@ const MON_DEFAULT=[
   {cat:'pad',txt:'피지컬 - 싱글 킥',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'피지컬 - 스와핑',chk:false,mins:'',tempo:'',set:''},
   // 장르
-  {cat:'rhy',txt:'드러머',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'MR 연습 - Ballad · R&B · Neo Soul',chk:false,mins:'',tempo:'',set:''},
-  {cat:'drum',txt:'드러머',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'MR 연습 - Ballad · POP',chk:false,mins:'',tempo:'',set:''},
   {cat:'drum',txt:'리듬 카피 사용',chk:false,mins:'',tempo:'',set:''},
   {cat:'drum',txt:'리듬 카피 응용',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'50~70정도로 리듬 치기 (3분마다 그루브 변경)',chk:false,mins:'',tempo:'',set:''},
@@ -1265,9 +1341,7 @@ const TUE_DEFAULT=[
   {cat:'pad',txt:'피지컬 - RLK 다운업',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'피지컬 - 플램',chk:false,mins:'',tempo:'',set:''},
   // 장르
-  {cat:'rhy',txt:'드러머',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'MR 연습 - Hip Hop · Jazz Hip Hop',chk:false,mins:'',tempo:'',set:''},
-  {cat:'drum',txt:'드러머',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'MR 연습 - Hip Hop · Jazz Hip Hop · R&B · Neo Soul',chk:false,mins:'',tempo:'',set:''},
   {cat:'drum',txt:'리듬 카피 사용',chk:false,mins:'',tempo:'',set:''},
   {cat:'drum',txt:'리듬 카피 응용',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'50~70정도로 리듬 치기 (3분마다 그루브 변경)',chk:false,mins:'',tempo:'',set:''},
@@ -1316,16 +1390,14 @@ const WED_DEFAULT=[
   {cat:'pad',txt:'피지컬 - 더블킥',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'피지컬 - 스와핑',chk:false,mins:'',tempo:'',set:''},
   // 장르
-  {cat:'rhy',txt:'드러머',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'MR 연습 - Funk · Gospel',chk:false,mins:'',tempo:'',set:''},
-  {cat:'drum',txt:'드러머',chk:false,mins:'',tempo:'',set:''},
   {cat:'drum',txt:'리듬 카피 사용',chk:false,mins:'',tempo:'',set:''},
   {cat:'drum',txt:'리듬 카피 응용',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'50~70정도로 리듬 치기 (3분마다 그루브 변경)',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'톤 연구',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'특정 멜로디 주제 삼아 꾸미기',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'솔로 전개 연습 (선그리고 다이나믹 표현, 리듬부터 솔로)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'솔로 빌드업 연습 (빌드업, 선그리고 다이나믹 표현, 리듬부터 솔로)',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
   {cat:'drum',txt:'카피 연습',chk:false,mins:'',tempo:'',set:''},
@@ -1368,16 +1440,14 @@ const THU_DEFAULT=[
   {cat:'pad',txt:'피지컬 - RLK 다운업',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'피지컬 - 플램',chk:false,mins:'',tempo:'',set:''},
   // 장르
-  {cat:'rhy',txt:'드러머',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'MR 연습 - Jazz · Fusion Jazz · Latin',chk:false,mins:'',tempo:'',set:''},
-  {cat:'drum',txt:'드러머',chk:false,mins:'',tempo:'',set:''},
   {cat:'drum',txt:'리듬 카피 사용',chk:false,mins:'',tempo:'',set:''},
   {cat:'drum',txt:'리듬 카피 응용',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'50~70정도로 리듬 치기 (3분마다 그루브 변경)',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'톤 연구',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'드럼으로 멜로디 연주 · 멜로디 따라가기',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'솔로 전개 연습 (선그리고 다이나믹 표현, 리듬부터 솔로)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'솔로 빌드업 연습 (빌드업, 선그리고 다이나믹 표현, 리듬부터 솔로)',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
   {cat:'drum',txt:'카피 연습',chk:false,mins:'',tempo:'',set:''},
@@ -1418,16 +1488,14 @@ const FRI_DEFAULT=[
   {cat:'pad',txt:'피지컬 - 싱글 킥',chk:false,mins:'',tempo:'',set:''},
   {cat:'pad',txt:'피지컬 - 스와핑',chk:false,mins:'',tempo:'',set:''},
   // 장르
-  {cat:'rhy',txt:'드러머',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'MR 연습 - Shuffle · Blues · Jungle',chk:false,mins:'',tempo:'',set:''},
-  {cat:'drum',txt:'드러머',chk:false,mins:'',tempo:'',set:''},
   {cat:'drum',txt:'리듬 카피 사용',chk:false,mins:'',tempo:'',set:''},
   {cat:'drum',txt:'리듬 카피 응용',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'50~70정도로 리듬 치기 (3분마다 그루브 변경)',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'톤 연구',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'특정 멜로디 주제 삼아 꾸미기',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'솔로 전개 연습 (선그리고 다이나믹 표현, 리듬부터 솔로)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'rhy',txt:'솔로 빌드업 연습 (빌드업, 선그리고 다이나믹 표현, 리듬부터 솔로)',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)',chk:false,mins:'',tempo:'',set:''},
   // 테크닉
   {cat:'drum',txt:'카피 연습',chk:false,mins:'',tempo:'',set:''},
@@ -1461,7 +1529,7 @@ const FRI_DEFAULT=[
   {cat:'misc2',txt:'리니어 리듬',chk:false,mins:'',tempo:'',set:''},
 ];
 const DAY_DEFAULTS=[MON_DEFAULT,TUE_DEFAULT,WED_DEFAULT,THU_DEFAULT,FRI_DEFAULT,null,null];
-const DEFAULT_VERSION='v20.33'; // 기본값 바뀌면 이 숫자 올리기
+const DEFAULT_VERSION='v20.40'; // 기본값 바뀌면 이 숫자 올리기
 const DEFAULT_VER_KEY='drum_default_ver';
 
 function loadDefaultCL(list){
@@ -1961,6 +2029,164 @@ function cdInit(){
 }
 // ──────────────────────────────────────────────────────────
 
+// ── 드러머 데이터베이스 (요일 무관 공유) ─────────────────
+const TAG_GENRE=['재즈','모던 재즈','퓨전','알앤비','네오 소울','힙합','재즈 힙합','펑크','가스펠','발라드','팝','소울','블루스','라틴','아프로쿠반','아프로캐리비안'];
+const TAG_GROOVE=['스윙','셔플','바운스','정글','8비트','16비트','6연음','8연음','트리플렛','16비트 트리플렛 계열','당김음','폴리리듬','변박','비정형 리듬','리니어','하프타임','더블타임','레이백','푸시','풀','스트레이트','필','다이내믹 필','포켓','그루브'];
+const TAG_PURPOSE=['그루브','포켓','뉘앙스','다이내믹스','고스트 노트','킥','스네어','하이햇','심벌','필인','프레이즈','악센트','인터랙션','컴핑','타임','톤','찹스','테크닉','루디먼트','루디먼트 응용','디스플레이스먼트','아이디어','배리에이션','오케스트레이션'];
+const DRUMMER_DB_KEY='drum_drummer_db_v1';
+const DRUMMER_DB_DEFAULT=[
+  {name:'라넬루이스',tags:['재즈','모던 재즈','퓨전','알앤비','가스펠','펑크','아프로캐리비안',
+     '그루브','당김음','폴리리듬','리니어','6연음','16비트 트리플렛 계열','비정형 리듬','포켓','푸시','풀','다이내믹 필',
+     '뉘앙스','다이내믹스','하이햇','킥','스네어','고스트 노트','오케스트레이션','필인','악센트','인터랙션','아이디어',
+     '루디먼트 응용','찹스','테크닉','톤','프레이즈','디스플레이스먼트'],
+   collab:{
+     bands:['Snarky Puppy — 퓨전 재즈','Jeremy Ledbetter Trio — 컨템포러리 재즈','Larnell Lewis (리더 프로젝트) — 퓨전 · 가스펠'],
+     artists:['Pat Metheny (기타)','Gregory Porter (보컬)','Kurt Elling (보컬)','Gary Burton (비브라폰)','John Scofield (기타)','Benny Golson (색소폰)','Lisa Fischer (보컬)','Lalah Hathaway (보컬)','Etienne Charles (트럼펫)','Quincy Jones (프로듀서·작곡가)','Jacob Collier (보컬·멀티악기)','Laila Biali (보컬·피아노)','Molly Johnson (보컬)','Fred Hammond (보컬·베이스)','Michael Brecker (색소폰)','Dave Holland (베이스)','Dave Liebman (색소폰)','Steve Gadd (드럼)','Tim Ries (색소폰, The Rolling Stones)','Glenn Lewis (보컬)','Jully Black (보컬)','Matt Dusk (보컬)','Kellylee Evans (보컬)','Joy Lapps (스틸팬)','Mohini Dey (베이스)']
+   }}
+];
+let drummerDB=[];
+let drummerFilterTags=[];
+let drummerOpenSet=new Set();
+let drummerCollabOpenSet=new Set();
+function escHtml(s){return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function loadDrummerDB(){
+  try{
+    const saved=JSON.parse(localStorage.getItem(DRUMMER_DB_KEY));
+    drummerDB=Array.isArray(saved)&&saved.length?saved:JSON.parse(JSON.stringify(DRUMMER_DB_DEFAULT));
+  }catch(e){
+    drummerDB=JSON.parse(JSON.stringify(DRUMMER_DB_DEFAULT));
+  }
+  const ln=drummerDB.find(d=>d.name==='라넬루이스');
+  if(ln && !ln.collab){
+    const def=DRUMMER_DB_DEFAULT.find(d=>d.name==='라넬루이스');
+    if(def && def.collab){ ln.collab=JSON.parse(JSON.stringify(def.collab)); saveDrummerDB(); }
+  }
+  // 라넬루이스 태그를 새로 정리된 장르/리듬/카피목적 구성(한글)으로 1회 동기화 (기존 저장 데이터 보정)
+  const TAG_SYNC_KEY='drum_drummer_tagsync_v3';
+  if(!localStorage.getItem(TAG_SYNC_KEY)){
+    const def2=DRUMMER_DB_DEFAULT.find(d=>d.name==='라넬루이스');
+    if(ln && def2){ ln.tags=JSON.parse(JSON.stringify(def2.tags)); saveDrummerDB(); }
+    try{localStorage.setItem(TAG_SYNC_KEY,'1');}catch(e){}
+  }
+  // 협연 정보를 간단한 밴드명+장르, 아티스트+악기 구성으로 1회 동기화 (기존 저장 데이터 보정)
+  const COLLAB_SYNC_KEY='drum_drummer_collabsync_v4';
+  if(!localStorage.getItem(COLLAB_SYNC_KEY)){
+    const def3=DRUMMER_DB_DEFAULT.find(d=>d.name==='라넬루이스');
+    if(ln && def3 && def3.collab){ ln.collab=JSON.parse(JSON.stringify(def3.collab)); saveDrummerDB(); }
+    try{localStorage.setItem(COLLAB_SYNC_KEY,'1');}catch(e){}
+  }
+}
+function saveDrummerDB(){
+  try{localStorage.setItem(DRUMMER_DB_KEY,JSON.stringify(drummerDB));}catch(e){}
+}
+function filterTagChipsHtml(list){
+  return list.map(t=>{
+    const active=drummerFilterTags.includes(t);
+    return `<button type="button" class="tagchip${active?' active':''}" onclick="toggleDrummerFilterTag('${t.replace(/'/g,"\\'")}')">${escHtml(t)}</button>`;
+  }).join('');
+}
+function drummerTagChipsHtml(idx,list,activeTags){
+  return list.map(t=>{
+    const active=activeTags.includes(t);
+    return `<button type="button" class="tagchip${active?' active':''}" onclick="toggleDrummerTag(${idx},'${t.replace(/'/g,"\\'")}')">${escHtml(t)}</button>`;
+  }).join('');
+}
+function readonlyTagChipsHtml(list){
+  if(!list.length) return `<span style="font-size:.7rem;color:var(--text3)">태그 없음</span>`;
+  const chip=t=>`<span class="tagchip readonly${drummerFilterTags.includes(t)?' active':''}">${escHtml(t)}</span>`;
+  const used=new Set();
+  const groups=[TAG_GENRE,TAG_GROOVE,TAG_PURPOSE].map(g=>{
+    const items=list.filter(t=>g.includes(t)&&!used.has(t));
+    items.forEach(t=>used.add(t));
+    return items;
+  });
+  const etc=list.filter(t=>!used.has(t));
+  if(etc.length) groups.push(etc);
+  return groups.filter(g=>g.length).map(g=>g.map(chip).join('')).join('<span class="tag-group-divider"> / </span>');
+}
+function toggleDrummerFilterTag(tag){
+  const i=drummerFilterTags.indexOf(tag);
+  if(i>=0) drummerFilterTags.splice(i,1); else drummerFilterTags.push(tag);
+  renderDrummerDB();
+}
+function clearDrummerFilter(){
+  drummerFilterTags=[];
+  renderDrummerDB();
+}
+function toggleDrummerTagEdit(idx){
+  if(drummerOpenSet.has(idx)) drummerOpenSet.delete(idx); else drummerOpenSet.add(idx);
+  renderDrummerDB();
+}
+function toggleDrummerCollab(idx){
+  if(drummerCollabOpenSet.has(idx)) drummerCollabOpenSet.delete(idx); else drummerCollabOpenSet.add(idx);
+  renderDrummerDB();
+}
+function collabHtml(collab){
+  if(!collab) return `<div style="font-size:.72rem;color:var(--text3)">등록된 정보가 없어요</div>`;
+  const groups=[];
+  if(collab.bands&&collab.bands.length) groups.push(`<div class="drummer-collab-group"><b>밴드 / 그룹</b><div class="drummer-collab-list">${collab.bands.map(b=>`<span class="collab-item">${escHtml(b)}</span>`).join('<br>')}</div></div>`);
+  if(collab.artists&&collab.artists.length) groups.push(`<div class="drummer-collab-group"><b>협연 아티스트</b><div class="drummer-collab-list">${collab.artists.map(a=>`<span class="collab-item">${escHtml(a)}</span>`).join('<span class="collab-sep"> · </span>')}</div></div>`);
+  return groups.join('')||`<div style="font-size:.72rem;color:var(--text3)">등록된 정보가 없어요</div>`;
+}
+function toggleDrummerTag(idx,tag){
+  const d=drummerDB[idx];
+  if(!d) return;
+  const i=d.tags.indexOf(tag);
+  if(i>=0) d.tags.splice(i,1); else d.tags.push(tag);
+  saveDrummerDB();
+  renderDrummerDB();
+}
+function updateDrummerName(idx,val){
+  if(!drummerDB[idx]) return;
+  drummerDB[idx].name=val;
+  saveDrummerDB();
+}
+function addDrummer(){
+  drummerDB.push({name:'',tags:[]});
+  saveDrummerDB();
+  renderDrummerDB();
+  const inputs=document.querySelectorAll('.drummer-name-input');
+  const last=inputs[inputs.length-1];
+  if(last) last.focus();
+}
+function deleteDrummer(idx){
+  drummerDB.splice(idx,1);
+  drummerOpenSet.delete(idx);
+  saveDrummerDB();
+  renderDrummerDB();
+}
+function renderDrummerDB(){
+  const body=document.getElementById('drummerDbBody');
+  if(!body) return;
+  const filterBar=`<div class="drumdb-filterbar">
+    <div style="font-size:.72rem;color:var(--text3);margin-bottom:2px">태그를 누르면 그 태그를 가진 드러머만 보여요${drummerFilterTags.length?`<button type="button" class="drumdb-clearbtn" onclick="clearDrummerFilter()">필터 초기화</button>`:''}</div>
+    <div class="tag-group-label">장르 태그</div><div>${filterTagChipsHtml(TAG_GENRE)}</div>
+    <div class="tag-group-label">리듬 / 그루브 태그</div><div>${filterTagChipsHtml(TAG_GROOVE)}</div>
+    <div class="tag-group-label">카피 목적 태그</div><div>${filterTagChipsHtml(TAG_PURPOSE)}</div>
+  </div>`;
+  const visible=drummerDB.map((d,i)=>({d,i})).filter(({d})=>drummerFilterTags.every(t=>d.tags.includes(t)));
+  const listHtml=visible.length?visible.map(({d,i})=>{
+    const isOpen=drummerOpenSet.has(i);
+    const isCollabOpen=drummerCollabOpenSet.has(i);
+    return `<div class="drummer-entry">
+      <div class="drummer-entry-head">
+        <button type="button" class="drummer-collab-toggle" onclick="toggleDrummerCollab(${i})" title="협연 정보">${isCollabOpen?'▾':'▸'}</button>
+        <input type="text" class="drummer-name-input" value="${escHtml(d.name)}" placeholder="드러머 이름" oninput="updateDrummerName(${i},this.value)">
+        <button type="button" class="drummer-tagedit-toggle" onclick="toggleDrummerTagEdit(${i})">${isOpen?'▾':'▸'} 태그편집</button>
+      </div>
+      <div class="drummer-collab-wrap${isCollabOpen?' open':''}">${collabHtml(d.collab)}</div>
+      <div class="drummer-tags-display">${readonlyTagChipsHtml(d.tags)}</div>
+      <div class="drummer-tagedit-wrap${isOpen?' open':''}">
+        <div class="tag-group-label">장르 태그</div><div>${drummerTagChipsHtml(i,TAG_GENRE,d.tags)}</div>
+        <div class="tag-group-label">리듬 / 그루브 태그</div><div>${drummerTagChipsHtml(i,TAG_GROOVE,d.tags)}</div>
+        <div class="tag-group-label">카피 목적 태그</div><div>${drummerTagChipsHtml(i,TAG_PURPOSE,d.tags)}</div>
+      </div>
+    </div>`;
+  }).join(''):`<div style="font-size:.75rem;color:var(--text3);padding:8px 0">선택한 태그를 가진 드러머가 없어요</div>`;
+  body.innerHTML=filterBar+listHtml+`<button type="button" class="drumdb-addbtn" onclick="addDrummer()">+ 드러머 추가</button>`;
+}
+// ──────────────────────────────────────────────────────────
+
 // 하루 일정표 시간 알림
 const SCHED_ALARM_KEY='drum_sched_alarm_v1';
 let schedAlarmInterval=null;
@@ -2050,6 +2276,8 @@ window.addEventListener('load',()=>{
   initDayButtons();
   renderHist();
   schedAlarmInit();
+  loadDrummerDB();
+  renderDrummerDB();
 });
 </script>
 <script>
