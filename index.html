@@ -1027,9 +1027,8 @@ function setCatTimes(times){
 const catSwState={};
 const SW_PERSIST_KEY='drum_sw_state';
 // 카테고리별 목표 시간(분) — 목표가 있는 카테고리만 "경과/목표" 형식으로 표시
-const CAT_TARGET_MIN={pad:60,exam:120,drum:60,rhy:120,tec:180,prob:30,book:30,etc:60};
-// 화/목요일에는 테크닉 1시간을 드러머 카피로 넘김
-const CAT_TARGET_DAY_OVERRIDE={1:{tec:120,drum:120},3:{tec:120,drum:120}}; // day: 0=월,1=화,2=수,3=목,4=금
+const CAT_TARGET_MIN={pad:60,exam:120,drum:60,rhy:120,tec:120,prob:60,book:60,etc:60};
+const CAT_TARGET_DAY_OVERRIDE={}; // 요일별 예외 없음 (전체 요일 동일 배분)
 function catSwTargetMin(cat){
   const ov=CAT_TARGET_DAY_OVERRIDE[currentDay];
   if(ov && ov[cat]!=null) return ov[cat];
