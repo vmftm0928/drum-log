@@ -177,6 +177,9 @@ textarea.inp{resize:vertical;line-height:1.7}
 .daybtn.on{background:rgba(124,58,237,.3);border-color:var(--accent);color:#fff}
 .toast{position:fixed;bottom:28px;right:28px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-radius:10px;padding:11px 16px;font-size:.8rem;font-family:'Noto Sans KR',sans-serif;box-shadow:0 4px 18px rgba(124,58,237,.5);opacity:0;transform:translateY(8px);transition:all .3s;pointer-events:none;z-index:9999}
 .toast.show{opacity:1;transform:translateY(0)}
+.chkbanner{position:fixed;top:0;left:0;right:0;z-index:10000;display:flex;align-items:center;justify-content:center;gap:14px;padding:16px 20px;padding-top:calc(16px + env(safe-area-inset-top,0px));background:linear-gradient(135deg,#f59e0b,#fbbf24);color:#1a1a1a;font-family:'Noto Sans KR',sans-serif;font-weight:700;font-size:1rem;box-shadow:0 6px 24px rgba(0,0,0,.35);transform:translateY(-110%);transition:transform .35s ease}
+.chkbanner.show{transform:translateY(0)}
+.chkbanner-close{background:rgba(0,0,0,.15);border:none;border-radius:8px;color:#1a1a1a;font-size:1.1rem;line-height:1;padding:6px 12px;cursor:pointer;flex-shrink:0}
 @media(max-width:700px){.g2{grid-template-columns:1fr}.hdr{padding:14px 16px}.hdr-title{font-size:1.7rem}.main{padding:14px 12px}}
 
 .setstep {
@@ -265,10 +268,6 @@ textarea.inp{resize:vertical;line-height:1.7}
 <div class="main"><div class="card">
 <div class="ch"><span class="ci">🕐</span><span class="ct">하루 일정표</span></div>
 <div class="cb">
-<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:10px">
-<span style="font-size:.72rem;color:var(--text3)">설정된 시간이 되면 알림으로 알려드려요</span>
-<button class="cattime-btn" id="schedAlarmBtn" onclick="schedAlarmToggle()" style="white-space:nowrap">🔕 알람 꺼짐</button>
-</div>
 <script>var SCHED_ITEMS=[{time:'01:00',label:'취침'},{time:'09:00',label:'식사'},{time:'10:00',label:'나갈준비'},{time:'10:30',label:'학원 이동'},{time:'11:00',label:'운동'},{time:'11:30',label:'패드 및 손풀기'},{time:'12:00',label:'피지컬연습'},{time:'12:30',label:'입시곡 연습'},{time:'14:30',label:'식사'},{time:'15:00',label:'드러머 카피'},{time:'17:00',label:'장르 연습'},{time:'18:30',label:'테크닉 연습'},{time:'21:00',label:'문제점 고치기'},{time:'21:30',label:'교재'},{time:'22:00',label:'화성학 공부'},{time:'22:30',label:'귀가'},{time:'23:00',label:'자유시간'}];</script>
 <div id="scheduleList">
 <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(9,auto);grid-auto-flow:column;gap:0 10px">
@@ -330,6 +329,10 @@ ex) 필인 끝에 탐 accent 더 강조하기" rows="7"></textarea></div>
 <span class="ci">✅</span><span class="ct">연습 체크리스트</span>
 <input class="inp" id="dateInput" oninput="as()" type="date" style="margin-left:auto;width:auto;padding:5px 9px;font-size:.75rem"/>
 <span style="font-size:.63rem;color:var(--accent3)">✦ 참고표 클릭 → 자동 추가</span>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 16px;background:rgba(10,10,15,.6);border-bottom:1px solid var(--border);gap:10px">
+<span style="font-size:.72rem;color:var(--text3)">30분마다 체크리스트를 작성하라고 알려드려요</span>
+<button class="cattime-btn" id="chkAlarmBtn" onclick="chkAlarmToggle()" style="white-space:nowrap">🔕 알람 꺼짐</button>
 </div>
 <!-- 타이머 -->
 <div style="padding:12px 16px;background:rgba(10,10,15,.8);border-bottom:1px solid var(--border)">
@@ -483,6 +486,7 @@ ex) 필인 후 타임이 더 안정적이었음" rows="5"></textarea></div>
 <div id="histList"></div>
 </div>
 <div class="toast" id="toast"></div>
+<div class="chkbanner" id="chkBanner"><span id="chkBannerMsg"></span><button type="button" class="chkbanner-close" onclick="chkHideBanner()">✕</button></div>
 <div class="mo" id="modal" onclick="closeM()" style="display:none">
 <div class="mb" onclick="event.stopPropagation()">
 <h2 id="mtitle"></h2>
@@ -864,7 +868,7 @@ function addRow(cat,txt,chk,mins,tempo,set,pri,sub){
   const setVal = set || (setLabel==='세트' ? '3/0' : '');
   const hasSub = Array.isArray(sub) && sub.length>0;
   const allowSub = (cat==='rhy' && (txt==='리듬 카피' || txt==='드러머' || txt==='드럼 카피' || txt==='드러머 카피' || txt==='아이디어')) || (cat==='tec' && txt==='아이디어');
-  const hideBpmSet = cat==='etc' || cat==='rhy' || (cat==='exam' && ['입시곡','질문','화성학'].includes(txt));
+  const hideBpmSet = cat==='etc' || cat==='rhy' || (cat==='exam' && ['입시곡'].includes(txt));
   const subItemsHtml = (sub||[]).map(s=>{
     const hasSubSub = Array.isArray(s.sub) && s.sub.length>0;
     const subSubHtml = (s.sub||[]).map(ss=>`<div class="subsubitem"><input type="checkbox" ${ss.chk?'checked':''} onchange="as()"><input type="text" class="subsubtxt" value="${(ss.txt||'').replace(/"/g,'&quot;')}" placeholder="드러머 이름" oninput="as()"></div>`).join('');
@@ -1307,10 +1311,13 @@ const MON_DEFAULT=[
   {cat:'tec',txt:'지금까지 연습한거로 놀기 (남은 시간)',chk:false,mins:'',tempo:'',set:''},
   // 입시
   {cat:'exam',txt:'입시곡',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'질문',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'랜덤 MR',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'아메리칸 솔로 초견',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'모던 리딩 텍스트 초견',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'화성학',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'스윙 컴핑 초견 (스네어, 킥, 보사노바 삼바)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'섹션 초견 (8비트,스윙)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'리듬 체인지',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'잼 (1코러스 리듬 1코러스 솔로) {장르: 셔플 블루스, 펑크 등}',chk:false,mins:'',tempo:'',set:''},
   // 음악성
   {cat:'etc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
   {cat:'etc',txt:'화성학 공부',chk:false,mins:'',tempo:'',set:''},
@@ -1356,10 +1363,13 @@ const TUE_DEFAULT=[
   {cat:'tec',txt:'지금까지 연습한거로 놀기 (남은 시간)',chk:false,mins:'',tempo:'',set:''},
   // 입시
   {cat:'exam',txt:'입시곡',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'질문',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'랜덤 MR',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'아메리칸 솔로 초견',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'모던 리딩 텍스트 초견',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'화성학',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'스윙 컴핑 초견 (스네어, 킥, 보사노바 삼바)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'섹션 초견 (8비트,스윙)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'리듬 체인지',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'잼 (1코러스 리듬 1코러스 솔로) {장르: 셔플 블루스, 펑크 등}',chk:false,mins:'',tempo:'',set:''},
   // 음악성
   {cat:'etc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
   {cat:'etc',txt:'화성학 공부',chk:false,mins:'',tempo:'',set:''},
@@ -1405,10 +1415,13 @@ const WED_DEFAULT=[
   {cat:'tec',txt:'지금까지 연습한거로 놀기 (남은 시간)',chk:false,mins:'',tempo:'',set:''},
   // 입시
   {cat:'exam',txt:'입시곡',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'질문',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'랜덤 MR',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'아메리칸 솔로 초견',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'모던 리딩 텍스트 초견',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'화성학',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'스윙 컴핑 초견 (스네어, 킥, 보사노바 삼바)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'섹션 초견 (8비트,스윙)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'리듬 체인지',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'잼 (1코러스 리듬 1코러스 솔로) {장르: 셔플 블루스, 펑크 등}',chk:false,mins:'',tempo:'',set:''},
   // 음악성
   {cat:'etc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
   {cat:'etc',txt:'화성학 공부',chk:false,mins:'',tempo:'',set:''},
@@ -1454,10 +1467,13 @@ const THU_DEFAULT=[
   {cat:'tec',txt:'지금까지 연습한거로 놀기 (남은 시간)',chk:false,mins:'',tempo:'',set:''},
   // 입시
   {cat:'exam',txt:'입시곡',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'질문',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'랜덤 MR',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'아메리칸 솔로 초견',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'모던 리딩 텍스트 초견',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'화성학',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'스윙 컴핑 초견 (스네어, 킥, 보사노바 삼바)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'섹션 초견 (8비트,스윙)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'리듬 체인지',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'잼 (1코러스 리듬 1코러스 솔로) {장르: 셔플 블루스, 펑크 등}',chk:false,mins:'',tempo:'',set:''},
   // 음악성
   {cat:'etc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
   {cat:'etc',txt:'화성학 공부',chk:false,mins:'',tempo:'',set:''},
@@ -1502,10 +1518,13 @@ const FRI_DEFAULT=[
   {cat:'tec',txt:'지금까지 연습한거로 놀기 (남은 시간)',chk:false,mins:'',tempo:'',set:''},
   // 입시
   {cat:'exam',txt:'입시곡',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'질문',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'랜덤 MR',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'아메리칸 솔로 초견',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'모던 리딩 텍스트 초견',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'화성학',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'스윙 컴핑 초견 (스네어, 킥, 보사노바 삼바)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'섹션 초견 (8비트,스윙)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'리듬 체인지',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'잼 (1코러스 리듬 1코러스 솔로) {장르: 셔플 블루스, 펑크 등}',chk:false,mins:'',tempo:'',set:''},
   // 음악성
   {cat:'etc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
   {cat:'etc',txt:'화성학 공부',chk:false,mins:'',tempo:'',set:''},
@@ -1530,10 +1549,13 @@ const SUN_DEFAULT=[
   {cat:'pad',txt:'피지컬 - 플램',chk:false,mins:'',tempo:'',set:''},
   // 입시
   {cat:'exam',txt:'입시곡',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'질문',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'랜덤 MR',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'아메리칸 솔로 초견',chk:false,mins:'',tempo:'',set:''},
   {cat:'exam',txt:'모던 리딩 텍스트 초견',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'화성학',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'스윙 컴핑 초견 (스네어, 킥, 보사노바 삼바)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'섹션 초견 (8비트,스윙)',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'리듬 체인지',chk:false,mins:'',tempo:'',set:''},
+  {cat:'exam',txt:'잼 (1코러스 리듬 1코러스 솔로) {장르: 셔플 블루스, 펑크 등}',chk:false,mins:'',tempo:'',set:''},
   // 장르 (목요일 기준, 정글만 추가)
   {cat:'rhy',txt:'리듬 카피 사용',chk:false,mins:'',tempo:'',set:''},
   {cat:'rhy',txt:'리듬 카피 응용',chk:false,mins:'',tempo:'',set:''},
@@ -2247,18 +2269,18 @@ function renderDrummerDB(){
 }
 // ──────────────────────────────────────────────────────────
 
-// 하루 일정표 시간 알림
-const SCHED_ALARM_KEY='drum_sched_alarm_v1';
-let schedAlarmInterval=null;
-let schedFiredMap={};
-function schedAlarmGetOn(){
-  try{ return JSON.parse(localStorage.getItem(SCHED_ALARM_KEY))===true; }catch(e){ return false; }
+// 30분마다 체크리스트 작성 알림
+const CHK_ALARM_KEY='drum_chk_alarm_v1';
+let chkAlarmInterval=null;
+let chkFiredMap={};
+function chkAlarmGetOn(){
+  try{ return JSON.parse(localStorage.getItem(CHK_ALARM_KEY))===true; }catch(e){ return false; }
 }
-function schedAlarmSetOn(v){ try{ localStorage.setItem(SCHED_ALARM_KEY, JSON.stringify(v)); }catch(e){} }
-function schedAlarmUpdateBtn(){
-  const btn=document.getElementById('schedAlarmBtn');
+function chkAlarmSetOn(v){ try{ localStorage.setItem(CHK_ALARM_KEY, JSON.stringify(v)); }catch(e){} }
+function chkAlarmUpdateBtn(){
+  const btn=document.getElementById('chkAlarmBtn');
   if(!btn) return;
-  if(schedAlarmGetOn()){
+  if(chkAlarmGetOn()){
     btn.textContent='🔔 알람 켜짐';
     btn.style.background='rgba(34,197,94,.28)';
     btn.style.borderColor='#22c55e';
@@ -2283,44 +2305,60 @@ function schedPlayBeep(){
     }
   }catch(e){}
 }
-function schedFireAlarm(item){
+let chkBannerTimer=null;
+function chkShowBanner(msg){
+  const b=document.getElementById('chkBanner');
+  const m=document.getElementById('chkBannerMsg');
+  if(!b||!m) return;
+  m.textContent=msg;
+  b.classList.add('show');
+  clearTimeout(chkBannerTimer);
+  chkBannerTimer=setTimeout(chkHideBanner,8000);
+}
+function chkHideBanner(){
+  const b=document.getElementById('chkBanner');
+  if(!b) return;
+  b.classList.remove('show');
+  clearTimeout(chkBannerTimer);
+}
+function chkFireAlarm(){
   schedPlayBeep();
-  toast(`⏰ ${item.time} — ${item.label} 시작할 시간이에요!`);
+  chkShowBanner('📝 체크리스트를 작성할 시간이에요!');
   if(window.Notification && Notification.permission==='granted'){
-    try{ new Notification('🥁 드럼 연습일지', {body:`${item.time} — ${item.label} 시작할 시간이에요!`}); }catch(e){}
+    try{ new Notification('🥁 드럼 연습일지', {body:'📝 체크리스트를 작성할 시간이에요!'}); }catch(e){}
   }
 }
-function schedCheckAlarms(){
-  if(!schedAlarmGetOn() || !window.SCHED_ITEMS) return;
+function chkCheckAlarms(){
+  if(!chkAlarmGetOn()) return;
   const n=new Date();
   const todayKey=`${n.getFullYear()}-${n.getMonth()}-${n.getDate()}`;
-  if(schedFiredMap._day!==todayKey){ schedFiredMap={_day:todayKey}; }
-  const hhmm=`${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}`;
-  SCHED_ITEMS.forEach(item=>{
-    if(item.time===hhmm && !schedFiredMap[item.time]){
-      schedFiredMap[item.time]=true;
-      schedFireAlarm(item);
+  if(chkFiredMap._day!==todayKey){ chkFiredMap={_day:todayKey}; }
+  if(n.getMinutes()%30===0){
+    const hhmm=`${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}`;
+    if(!chkFiredMap[hhmm]){
+      chkFiredMap[hhmm]=true;
+      chkFireAlarm();
     }
-  });
+  }
 }
-function schedAlarmToggle(){
-  const turningOn=!schedAlarmGetOn();
+function chkAlarmToggle(){
+  const turningOn=!chkAlarmGetOn();
   if(turningOn && window.Notification && Notification.permission==='default'){
     Notification.requestPermission();
   }
-  schedAlarmSetOn(turningOn);
-  schedAlarmUpdateBtn();
+  chkAlarmSetOn(turningOn);
+  chkAlarmUpdateBtn();
   if(turningOn){
-    toast('🔔 시간 알림을 켰어요. 이 화면을 열어두면 시간마다 알려드려요.');
-    if(!schedAlarmInterval) schedAlarmInterval=setInterval(schedCheckAlarms,15000);
+    toast('🔔 30분마다 체크리스트 알림을 켰어요. 이 화면을 열어두면 알려드려요.');
+    if(!chkAlarmInterval) chkAlarmInterval=setInterval(chkCheckAlarms,15000);
   } else {
-    toast('🔕 시간 알림을 껐어요.');
+    toast('🔕 체크리스트 알림을 껐어요.');
   }
 }
-function schedAlarmInit(){
-  schedAlarmUpdateBtn();
-  if(schedAlarmGetOn() && !schedAlarmInterval){
-    schedAlarmInterval=setInterval(schedCheckAlarms,15000);
+function chkAlarmInit(){
+  chkAlarmUpdateBtn();
+  if(chkAlarmGetOn() && !chkAlarmInterval){
+    chkAlarmInterval=setInterval(chkCheckAlarms,15000);
   }
 }
 
@@ -2335,7 +2373,7 @@ window.addEventListener('load',()=>{
   autoWeeklyReset();
   initDayButtons();
   renderHist();
-  schedAlarmInit();
+  chkAlarmInit();
   loadDrummerDB();
   renderDrummerDB();
 });
