@@ -16,7 +16,7 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;min-height:100vh}
-.hdr{background:linear-gradient(135deg,#1a0a2e,#12121a,#0f1a2e);border-bottom:2px solid var(--accent);padding:20px 32px;display:flex;align-items:center;justify-content:space-between}
+.hdr{background:linear-gradient(135deg,#1a0a2e,#12121a,#0f1a2e);border-bottom:2px solid var(--accent);padding:20px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
 .hdr-left{display:flex;align-items:center;gap:14px}
 .hdr-icon{font-size:2.2rem;animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
@@ -118,6 +118,15 @@ textarea.inp{resize:vertical;line-height:1.7}
 .tag-group-divider{color:var(--text3);font-size:.75rem;margin:0 4px;font-weight:700}
 .drummer-tagedit-wrap{display:none;margin-top:8px;padding-top:8px;border-top:1px dashed var(--border)}
 .drummer-tagedit-wrap.open{display:block}
+.drummer-photo{width:64px;height:64px;border-radius:50%;overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--surface2);border:1px solid var(--border);font-size:1.8rem}
+.drummer-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.drummer-photoedit-toggle{background:none;border:none;color:var(--accent3);cursor:pointer;font-size:.7rem;font-weight:700;flex:none;white-space:nowrap}
+.drummer-photoedit-wrap{display:none;margin-top:8px;padding-top:8px;border-top:1px dashed var(--border);gap:8px;flex-wrap:wrap;align-items:center}
+.drummer-photoedit-wrap.open{display:flex}
+.drummer-photoedit-wrap input[type=text]{flex:1;min-width:140px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.75rem;padding:6px 8px;font-family:'Noto Sans KR',sans-serif}
+.drummer-photoedit-wrap label{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:.72rem;color:var(--text2);cursor:pointer;white-space:nowrap}
+.drummer-photoedit-wrap label input{display:none}
+.drummer-photoedit-wrap .photo-rm-btn{background:none;border:none;color:#f87171;font-size:.72rem;cursor:pointer;white-space:nowrap}
 .drumdb-filterbar{margin-bottom:12px;padding-bottom:10px;border-bottom:1px dashed var(--border)}
 .drumdb-addbtn{background:none;border:1px dashed var(--text3);border-radius:8px;color:var(--text3);font-size:.76rem;padding:7px;width:100%;cursor:pointer;font-family:'Noto Sans KR',sans-serif}
 .drumdb-addbtn:hover{border-color:var(--accent);color:var(--accent3)}
@@ -264,6 +273,10 @@ textarea.inp{resize:vertical;line-height:1.7}
 </div>
 </div>
 <div class="hdr-badge">SESSION TRACKER</div>
+<div style="display:flex;gap:6px;margin-left:12px">
+<button type="button" class="cattime-btn" style="white-space:nowrap" onclick="exportBackup()">💾 내보내기</button>
+<label class="cattime-btn" style="white-space:nowrap;cursor:pointer;display:inline-flex;align-items:center">📂 불러오기<input type="file" accept="application/json" style="display:none" onchange="importBackupFile(this)"></label>
+</div>
 </div>
 <div class="main"><div class="card">
 <div class="ch"><span class="ci">🕐</span><span class="ct">하루 일정표</span></div>
@@ -1025,6 +1038,46 @@ function setCatTimes(times){
 }
 const catSwState={};
 const SW_PERSIST_KEY='drum_sw_state';
+// ── 백업 내보내기/불러오기 (모든 localStorage 데이터: 체크리스트, 드러머 사진, 알람 설정 등) ──
+function exportBackup(){
+  const data={};
+  for(let i=0;i<localStorage.length;i++){
+    const k=localStorage.key(i);
+    data[k]=localStorage.getItem(k);
+  }
+  const blob=new Blob([JSON.stringify(data)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  const ts=new Date().toISOString().slice(0,10);
+  a.href=url;
+  a.download=`drum_backup_${ts}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+  toast('💾 백업 파일을 다운로드했어요');
+}
+function importBackupFile(input){
+  const file=input.files&&input.files[0];
+  if(!file) return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const data=JSON.parse(reader.result);
+      if(!data||typeof data!=='object') throw new Error('형식이 올바르지 않아요');
+      const keys=Object.keys(data);
+      if(!keys.length) throw new Error('빈 백업 파일이에요');
+      if(!confirm(`백업 파일에서 ${keys.length}개 항목을 불러와요. 이 기기의 현재 데이터를 덮어씁니다. 계속할까요?`)){ input.value=''; return; }
+      keys.forEach(k=>{ try{ localStorage.setItem(k, data[k]); }catch(e){} });
+      toast('✅ 복원 완료! 새로고침할게요');
+      setTimeout(()=>location.reload(),800);
+    }catch(e){
+      alert('백업 파일을 읽지 못했어요: '+e.message);
+      input.value='';
+    }
+  };
+  reader.readAsText(file);
+}
 // 카테고리별 목표 시간(분) — 목표가 있는 카테고리만 "경과/목표" 형식으로 표시
 const CAT_TARGET_MIN={pad:60,exam:120,rhy:90,tec:150,prob:60,book:60,etc:60};
 const CAT_TARGET_DAY_OVERRIDE={}; // 요일별 예외 없음 (전체 요일 동일 배분)
@@ -1712,12 +1765,12 @@ function saveSharedSolo(){
 function loadSharedSoloDom(){
   const data=loadSharedSolo();
   document.getElementById('body-prob').innerHTML='';
-  const probList=data.prob&&data.prob.length?data.prob:[
+  const probList=data.prob&&data.prob.length?data.prob.map(c=>c.txt==='다이나믹 (강하게 치기만 함)'?{...c,txt:'다이나믹 세분화 하기'}:c):[
     {txt:'필인 타임키핑',chk:false,mins:'',tempo:'',set:''},
     {txt:'인터플레이',chk:false,mins:'',tempo:'',set:''},
     {txt:'찹스 오래 유지하기',chk:false,mins:'',tempo:'',set:''},
     {txt:'타임키핑',chk:false,mins:'',tempo:'',set:''},
-    {txt:'다이나믹 (강하게 치기만 함)',chk:false,mins:'',tempo:'',set:''},
+    {txt:'다이나믹 세분화 하기',chk:false,mins:'',tempo:'',set:''},
     {txt:'솔로중 킥단독 사용 및 킥 공간 만들때 흔들림 고치기',chk:false,mins:'',tempo:'',set:''},
     {txt:'시작 필인 다양하게 넣기',chk:false,mins:'',tempo:'',set:''},
     {txt:'킥으로만 끝내는 것 고치기',chk:false,mins:'',tempo:'',set:''},
@@ -1725,10 +1778,12 @@ function loadSharedSoloDom(){
     {txt:'느린 템포에 안무너지기',chk:false,mins:'',tempo:'',set:''},
     {txt:'바운스 리듬 펄스',chk:false,mins:'',tempo:'',set:''},
     {txt:'R,L,K 사운드 밸런스 및 다이나믹 조절',chk:false,mins:'',tempo:'',set:''},
+    {txt:'힘빼고 치기',chk:false,mins:'',tempo:'',set:''},
+    {txt:'콤비네이션 더블 스틱킹 잘섞기',chk:false,mins:'',tempo:'',set:''},
   ];
   probList.forEach(c=>addRow('prob',c.txt,c.chk,c.mins,c.tempo,c.set,c.pri));
   // 기존에 저장된 데이터가 있어도 새로 옮겨진 항목이 없으면 추가
-  ['작은 다이나믹에 안무너지기','느린 템포에 안무너지기','바운스 리듬 펄스','R,L,K 사운드 밸런스 및 다이나믹 조절'].forEach(t=>{
+  ['작은 다이나믹에 안무너지기','느린 템포에 안무너지기','바운스 리듬 펄스','R,L,K 사운드 밸런스 및 다이나믹 조절','힘빼고 치기','콤비네이션 더블 스틱킹 잘섞기'].forEach(t=>{
     if(!probList.some(c=>c.txt===t)) addRow('prob',t,false,'','','');
   });
 }
@@ -2131,6 +2186,7 @@ const DRUMMER_DB_DEFAULT=[
 let drummerDB=[];
 let drummerFilterTags=[];
 let drummerOpenSet=new Set();
+let drummerPhotoOpenSet=new Set();
 let drummerCollabOpenSet=new Set();
 function escHtml(s){return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function loadDrummerDB(){
@@ -2199,6 +2255,36 @@ function toggleDrummerTagEdit(idx){
   if(drummerOpenSet.has(idx)) drummerOpenSet.delete(idx); else drummerOpenSet.add(idx);
   renderDrummerDB();
 }
+function toggleDrummerPhotoEdit(idx){
+  if(drummerPhotoOpenSet.has(idx)) drummerPhotoOpenSet.delete(idx); else drummerPhotoOpenSet.add(idx);
+  renderDrummerDB();
+}
+function updateDrummerImgFile(idx,input){
+  const file=input.files&&input.files[0];
+  if(!file) return;
+  if(!file.type.startsWith('image/')){ toast('⚠️ 이미지 파일만 가능해요'); return; }
+  if(file.size>2*1024*1024){ toast('⚠️ 2MB 이하 이미지를 사용해주세요'); return; }
+  const reader=new FileReader();
+  reader.onload=()=>{
+    if(!drummerDB[idx]) return;
+    drummerDB[idx].img=reader.result;
+    saveDrummerDB();
+    renderDrummerDB();
+    toast('📷 사진을 추가했어요');
+  };
+  reader.readAsDataURL(file);
+}
+function updateDrummerImgUrl(idx,val){
+  if(!drummerDB[idx]) return;
+  drummerDB[idx].img=val.trim();
+  saveDrummerDB();
+}
+function removeDrummerImg(idx){
+  if(!drummerDB[idx]) return;
+  delete drummerDB[idx].img;
+  saveDrummerDB();
+  renderDrummerDB();
+}
 function toggleDrummerCollab(idx){
   if(drummerCollabOpenSet.has(idx)) drummerCollabOpenSet.delete(idx); else drummerCollabOpenSet.add(idx);
   renderDrummerDB();
@@ -2234,6 +2320,7 @@ function addDrummer(){
 function deleteDrummer(idx){
   drummerDB.splice(idx,1);
   drummerOpenSet.delete(idx);
+  drummerPhotoOpenSet.delete(idx);
   saveDrummerDB();
   renderDrummerDB();
 }
@@ -2250,11 +2337,19 @@ function renderDrummerDB(){
   const listHtml=visible.length?visible.map(({d,i})=>{
     const isOpen=drummerOpenSet.has(i);
     const isCollabOpen=drummerCollabOpenSet.has(i);
+    const isPhotoOpen=drummerPhotoOpenSet.has(i);
     return `<div class="drummer-entry">
       <div class="drummer-entry-head">
         <button type="button" class="drummer-collab-toggle" onclick="toggleDrummerCollab(${i})" title="협연 정보">${isCollabOpen?'▾':'▸'}</button>
+        <div class="drummer-photo">${d.img?`<img src="${escHtml(d.img)}" alt="">`:'🥁'}</div>
         <input type="text" class="drummer-name-input" value="${escHtml(d.name)}" placeholder="드러머 이름" oninput="updateDrummerName(${i},this.value)">
+        <button type="button" class="drummer-photoedit-toggle" onclick="toggleDrummerPhotoEdit(${i})">${isPhotoOpen?'▾':'▸'} 사진</button>
         <button type="button" class="drummer-tagedit-toggle" onclick="toggleDrummerTagEdit(${i})">${isOpen?'▾':'▸'} 태그편집</button>
+      </div>
+      <div class="drummer-photoedit-wrap${isPhotoOpen?' open':''}">
+        <label>파일 선택<input type="file" accept="image/*" onchange="updateDrummerImgFile(${i},this)"></label>
+        <input type="text" placeholder="또는 이미지 URL 붙여넣기" value="${d.img&&d.img.startsWith('http')?escHtml(d.img):''}" onchange="updateDrummerImgUrl(${i},this.value)">
+        ${d.img?`<button type="button" class="photo-rm-btn" onclick="removeDrummerImg(${i})">사진 삭제</button>`:''}
       </div>
       <div class="drummer-collab-wrap${isCollabOpen?' open':''}">${collabHtml(d.collab)}</div>
       <div class="drummer-tags-display">${readonlyTagChipsHtml(d.tags)}</div>
