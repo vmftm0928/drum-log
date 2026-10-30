@@ -1276,6 +1276,12 @@ function loadDayCL(d){
         if(d===4&&x.txt==='MR 연습 - Jazz · Fusion Jazz · Latin · Jungle') x.txt='MR 연습 - Bossa Nova · Samba · Latin';
       });
       migrateRhyMrOrder(o);
+      // 장르: '다이나믹 세분화 하기' → '톤연구(다이나믹 세분화)' (저장된 데이터 + 최고 BPM 기록도 이어받기)
+      o.cl.forEach(x=>{ if(x&&x.cat==='rhy'&&x.txt==='다이나믹 세분화 하기') x.txt='톤연구(다이나믹 세분화)'; });
+      try{
+        const bm2=loadBestTempoMap();
+        if(bm2['다이나믹 세분화 하기']&&!bm2['톤연구(다이나믹 세분화)']){ bm2['톤연구(다이나믹 세분화)']=bm2['다이나믹 세분화 하기']; saveBestTempoMap(bm2); }
+      }catch(e){}
       // 장르: 메트로놈 항목 이름 변경 (저장된 데이터 + 최고 BPM 기록도 새 이름으로 이어받기)
       o.cl.forEach(x=>{ if(x&&x.cat==='rhy'&&x.txt==='메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)') x.txt='메트로놈 - 메트로놈 변형 연습(1마디~4마디 키고 끄기, n박으로 생각하기) + (필)'; });
       try{
@@ -1432,7 +1438,7 @@ const MON_DEFAULT=[
   {cat:"rhy",txt:"메트로놈 - 메트로놈 변형 연습(1마디~4마디 키고 끄기, n박으로 생각하기) + (필)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"50~70정도로 리듬 치기 (3분마다 그루브 변경)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
-  {cat:"rhy",txt:"다이나믹 세분화 하기",chk:false,mins:'',tempo:'',set:'',red:true},
+  {cat:"rhy",txt:"톤연구(다이나믹 세분화)",chk:false,mins:'',tempo:'',set:'',red:true},
   {cat:"tec",txt:"카피 연습",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"tec",txt:"카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"tec",txt:"하이햇 인디펜던스",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
@@ -1472,7 +1478,7 @@ const TUE_DEFAULT=[
   {cat:"rhy",txt:"50~70정도로 리듬 치기 (3분마다 그루브 변경)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"드럼으로 멜로디 연주 · 멜로디 따라가기",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
-  {cat:"rhy",txt:"다이나믹 세분화 하기",chk:false,mins:'',tempo:'',set:'',red:true},
+  {cat:"rhy",txt:"톤연구(다이나믹 세분화)",chk:false,mins:'',tempo:'',set:'',red:true},
   {cat:"rhy",txt:"특정 멜로디 주제 삼아 꾸미기",chk:false,mins:'',tempo:'',set:'',red:true},
   {cat:"tec",txt:"카피 연습",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"tec",txt:"카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
@@ -1509,7 +1515,7 @@ const WED_DEFAULT=[
   {cat:"rhy",txt:"솔로 빌드업 연습 (빌드업, 선그리고 다이나믹 표현, 리듬부터 솔로)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"50~70정도로 리듬 치기 (3분마다 그루브 변경)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
-  {cat:"rhy",txt:"다이나믹 세분화 하기",chk:false,mins:'',tempo:'',set:'',red:true},
+  {cat:"rhy",txt:"톤연구(다이나믹 세분화)",chk:false,mins:'',tempo:'',set:'',red:true},
   {cat:"rhy",txt:"특정 멜로디 주제 삼아 꾸미기",chk:false,mins:'',tempo:'',set:'',red:true},
   {cat:"tec",txt:"카피 연습",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"tec",txt:"카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
@@ -1548,7 +1554,7 @@ const THU_DEFAULT=[
   {cat:"rhy",txt:"50~70정도로 리듬 치기 (3분마다 그루브 변경)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"드럼으로 멜로디 연주 · 멜로디 따라가기",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
-  {cat:"rhy",txt:"다이나믹 세분화 하기",chk:false,mins:'',tempo:'',set:'',red:true},
+  {cat:"rhy",txt:"톤연구(다이나믹 세분화)",chk:false,mins:'',tempo:'',set:'',red:true},
   {cat:"tec",txt:"카피 연습",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"tec",txt:"카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"tec",txt:"하이햇 인디펜던스",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
@@ -1585,7 +1591,7 @@ const FRI_DEFAULT=[
   {cat:"rhy",txt:"50~70정도로 리듬 치기 (3분마다 그루브 변경)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"드럼으로 멜로디 연주 · 멜로디 따라가기",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
-  {cat:"rhy",txt:"다이나믹 세분화 하기",chk:false,mins:'',tempo:'',set:'',red:true},
+  {cat:"rhy",txt:"톤연구(다이나믹 세분화)",chk:false,mins:'',tempo:'',set:'',red:true},
   {cat:"tec",txt:"카피 연습",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"tec",txt:"카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"tec",txt:"하이햇 인디펜던스",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
@@ -1624,7 +1630,7 @@ const SUN_DEFAULT=[
   {cat:"rhy",txt:"솔로 빌드업 연습 (빌드업, 선그리고 다이나믹 표현, 리듬부터 솔로)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"50~70정도로 리듬 치기 (3분마다 그루브 변경)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
-  {cat:"rhy",txt:"다이나믹 세분화 하기",chk:false,mins:'',tempo:'',set:'',red:true},
+  {cat:"rhy",txt:"톤연구(다이나믹 세분화)",chk:false,mins:'',tempo:'',set:'',red:true},
   {cat:"tec",txt:"카피 연습",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"tec",txt:"카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"tec",txt:"하이햇 인디펜던스",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
@@ -1769,12 +1775,12 @@ function saveSharedSolo(){
 function loadSharedSoloDom(){
   const data=loadSharedSolo();
   document.getElementById('body-prob').innerHTML='';
-  const probList=data.prob&&data.prob.length?data.prob.map(c=>c.txt==='다이나믹 (강하게 치기만 함)'?{...c,txt:'다이나믹 세분화 하기'}:c):[
+  const probList=data.prob&&data.prob.length?data.prob.map(c=>(c.txt==='다이나믹 (강하게 치기만 함)'||c.txt==='다이나믹 세분화 하기')?{...c,txt:'톤연구(다이나믹 세분화)'}:c):[
     {txt:'필인 타임키핑',chk:false,mins:'',tempo:'',set:''},
     {txt:'인터플레이',chk:false,mins:'',tempo:'',set:''},
     {txt:'찹스 오래 유지하기',chk:false,mins:'',tempo:'',set:''},
     {txt:'타임키핑',chk:false,mins:'',tempo:'',set:''},
-    {txt:'다이나믹 세분화 하기',chk:false,mins:'',tempo:'',set:''},
+    {txt:'톤연구(다이나믹 세분화)',chk:false,mins:'',tempo:'',set:''},
     {txt:'솔로중 킥단독 사용 및 킥 공간 만들때 흔들림 고치기',chk:false,mins:'',tempo:'',set:''},
     {txt:'시작 필인 다양하게 넣기',chk:false,mins:'',tempo:'',set:''},
     {txt:'킥으로만 끝내는 것 고치기',chk:false,mins:'',tempo:'',set:''},
