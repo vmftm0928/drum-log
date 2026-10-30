@@ -12,7 +12,7 @@
   --accent:#7c3aed;--accent2:#a855f7;--accent3:#c084fc;
   --gold:#f59e0b;--red:#ef4444;--green:#22c55e;
   --text:#e8e8f0;--text2:#9090b0;--text3:#5a5a7a;
-  --pad:#0ea5e9;--rhy:#a855f7;--tec:#22c55e;--etc:#fbbf24;
+  --pad:#0ea5e9;--phy:#ec4899;--rhy:#a855f7;--tec:#22c55e;--etc:#fbbf24;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;min-height:100vh}
@@ -45,6 +45,7 @@ textarea.inp{resize:vertical;line-height:1.7}
 .cath{display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:7px;margin:10px 0 4px;font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;font-family:'Space Mono',monospace}
 .cath:first-child{margin-top:0}
 .cath.pad{background:rgba(14,165,233,.13);color:var(--pad);border-left:3px solid var(--pad)}
+.cath.phy{background:rgba(236,72,153,.13);color:var(--phy);border-left:3px solid var(--phy)}
 .cath.rhy{background:rgba(168,85,247,.13);color:var(--rhy);border-left:3px solid var(--rhy)}
 .cath.tec{background:rgba(34,197,94,.13);color:var(--tec);border-left:3px solid var(--tec)}
 .cath.etc{background:rgba(251,191,36,.13);color:var(--etc);border-left:3px solid var(--etc)}
@@ -68,6 +69,11 @@ textarea.inp{resize:vertical;line-height:1.7}
 .pribtn:hover{opacity:.8}
 .pribtn.on{color:var(--gold);opacity:1}
 .clr.pri{background:rgba(245,158,11,.08)}
+.grpwrap{display:flex;align-items:center;gap:8px}
+.grpbadge{flex:none;font-size:.62rem;font-weight:700;padding:1px 7px;border-radius:10px;background:rgba(148,163,184,.18);color:#94a3b8;white-space:nowrap}
+.grpbadge.deep{background:rgba(124,58,237,.25);color:#c4b5fd}
+.clr.redrow .cltxt{color:#ef4444!important}
+#body-rhy .clr.redrow .cltxt{color:#fff!important}
 .clr.pri .cltxt{color:var(--gold);font-weight:700}
 .delbtn:hover{color:var(--red)}
 .addbtn{background:none;border:1px dashed var(--text3);border-radius:8px;color:var(--text3);font-size:.76rem;padding:7px;width:100%;cursor:pointer;margin-top:5px;font-family:'Noto Sans KR',sans-serif}
@@ -121,6 +127,8 @@ textarea.inp{resize:vertical;line-height:1.7}
 .drummer-photo{width:64px;height:64px;border-radius:50%;overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--surface2);border:1px solid var(--border);font-size:1.8rem}
 .drummer-photo img{width:100%;height:100%;object-fit:cover;display:block}
 .drummer-photoedit-toggle{background:none;border:none;color:var(--accent3);cursor:pointer;font-size:.7rem;font-weight:700;flex:none;white-space:nowrap}
+.drummer-yt-link{flex:none;display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:#ff0000;color:#fff;font-size:.65rem;text-decoration:none;line-height:1}
+.drummer-yt-link:hover{filter:brightness(1.15)}
 .drummer-photoedit-wrap{display:none;margin-top:8px;padding-top:8px;border-top:1px dashed var(--border);gap:8px;flex-wrap:wrap;align-items:center}
 .drummer-photoedit-wrap.open{display:flex}
 .drummer-photoedit-wrap input[type=text]{flex:1;min-width:140px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.75rem;padding:6px 8px;font-family:'Noto Sans KR',sans-serif}
@@ -278,33 +286,7 @@ textarea.inp{resize:vertical;line-height:1.7}
 <label class="cattime-btn" style="white-space:nowrap;cursor:pointer;display:inline-flex;align-items:center">📂 불러오기<input type="file" accept="application/json" style="display:none" onchange="importBackupFile(this)"></label>
 </div>
 </div>
-<div class="main"><div class="card">
-<div class="ch"><span class="ci">🕐</span><span class="ct">하루 일정표</span></div>
-<div class="cb">
-<script>var SCHED_ITEMS=[{time:'01:00',label:'취침'},{time:'09:00',label:'식사'},{time:'10:00',label:'나갈준비'},{time:'10:30',label:'학원 이동'},{time:'11:00',label:'운동'},{time:'11:30',label:'패드 및 손풀기'},{time:'12:00',label:'피지컬연습'},{time:'12:30',label:'입시곡 연습'},{time:'14:30',label:'식사'},{time:'15:00',label:'드러머 카피'},{time:'17:00',label:'장르 연습'},{time:'18:30',label:'테크닉 연습'},{time:'21:00',label:'문제점 고치기'},{time:'21:30',label:'교재'},{time:'22:00',label:'화성학 공부'},{time:'22:30',label:'귀가'},{time:'23:00',label:'자유시간'}];</script>
-<div id="scheduleList">
-<div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(9,auto);grid-auto-flow:column;gap:0 10px">
-<div style="display:flex;align-items:center;gap:5px;padding:3px 2px;border-bottom:1px solid rgba(42,42,64,.3)"><span style="width:7px;height:7px;border-radius:2px;background:#312e81;flex-shrink:0"></span><span style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--text2);white-space:nowrap">01:00–09:00</span><span style="font-size:.72rem;color:var(--text)">취침</span></div>
-<div style="display:flex;align-items:center;gap:5px;padding:3px 2px;border-bottom:1px solid rgba(42,42,64,.3)"><span style="width:7px;height:7px;border-radius:2px;background:#f97316;flex-shrink:0"></span><span style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--text2);white-space:nowrap">09:00–10:00</span><span style="font-size:.72rem;color:var(--text)">식사</span></div>
-<div style="display:flex;align-items:center;gap:5px;padding:3px 2px;border-bottom:1px solid rgba(42,42,64,.3)"><span style="width:7px;height:7px;border-radius:2px;background:#64748b;flex-shrink:0"></span><span style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--text2);white-space:nowrap">10:00–10:30</span><span style="font-size:.72rem;color:var(--text)">나갈준비</span></div>
-<div style="display:flex;align-items:center;gap:5px;padding:3px 2px;border-bottom:1px solid rgba(42,42,64,.3)"><span style="width:7px;height:7px;border-radius:2px;background:#3f3f56;flex-shrink:0"></span><span style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--text2);white-space:nowrap">10:30–11:00</span><span style="font-size:.72rem;color:var(--text)">학원 이동</span></div>
-<div style="display:flex;align-items:center;gap:5px;padding:3px 2px;border-bottom:1px solid rgba(42,42,64,.3)"><span style="width:7px;height:7px;border-radius:2px;background:#f43f5e;flex-shrink:0"></span><span style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--text2);white-space:nowrap">11:00–11:30</span><span style="font-size:.72rem;color:var(--text)">운동</span></div>
-<div style="display:flex;align-items:center;gap:5px;padding:3px 2px;border-bottom:1px solid rgba(42,42,64,.3)"><span style="width:7px;height:7px;border-radius:2px;background:#0ea5e9;flex-shrink:0"></span><span style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--text2);white-space:nowrap">11:30–12:00</span><span style="font-size:.72rem;color:var(--text)">패드 및 손풀기</span></div>
-<div style="display:flex;align-items:center;gap:5px;padding:3px 2px;border-bottom:1px solid rgba(42,42,64,.3)"><span style="width:7px;height:7px;border-radius:2px;background:#0ea5e9;flex-shrink:0"></span><span style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--text2);white-space:nowrap">12:00–12:30</span><span style="font-size:.72rem;color:var(--text)">피지컬연습</span></div>
-<div style="display:flex;align-items:center;gap:5px;padding:3px 2px;border-bottom:1px solid rgba(42,42,64,.3)"><span style="width:7px;height:7px;border-radius:2px;background:#f59e0b;flex-shrink:0"></span><span style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--text2);white-space:nowrap">12:30–14:30</span><span style="font-size:.72rem;color:var(--text)">입시곡 연습</span></div>
-<div style="display:flex;align-items:center;gap:5px;padding:3px 2px;border-bottom:1px solid rgba(42,42,64,.3)"><span style="width:7px;height:7px;border-radius:2px;background:#f97316;flex-shrink:0"></span><span style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--text2);white-space:nowrap">14:30–15:00</span><span style="font-size:.72rem;color:var(--text)">식사</span></div>
-<div style="display:flex;align-items:center;gap:5px;padding:3px 2px;border-bottom:1px solid rgba(42,42,64,.3)"><span style="width:7px;height:7px;border-radius:2px;background:#14b8a6;flex-shrink:0"></span><span style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--text2);white-space:nowrap">15:00–17:00</span><span style="font-size:.72rem;color:var(--text)">드러머 카피</span></div>
-<div style="display:flex;align-items:center;gap:5px;padding:3px 2px;border-bottom:1px solid rgba(42,42,64,.3)"><span style="width:7px;height:7px;border-radius:2px;background:#a855f7;flex-shrink:0"></span><span style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--text2);white-space:nowrap">17:00–18:30</span><span style="font-size:.72rem;color:var(--text)">장르 연습</span></div>
-<div style="display:flex;align-items:center;gap:5px;padding:3px 2px;border-bottom:1px solid rgba(42,42,64,.3)"><span style="width:7px;height:7px;border-radius:2px;background:#22c55e;flex-shrink:0"></span><span style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--text2);white-space:nowrap">18:30–21:00</span><span style="font-size:.72rem;color:var(--text)">테크닉 연습</span></div>
-<div style="display:flex;align-items:center;gap:5px;padding:3px 2px;border-bottom:1px solid rgba(42,42,64,.3)"><span style="width:7px;height:7px;border-radius:2px;background:#ef4444;flex-shrink:0"></span><span style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--text2);white-space:nowrap">21:00–21:30</span><span style="font-size:.72rem;color:var(--text)">문제점 고치기</span></div>
-<div style="display:flex;align-items:center;gap:5px;padding:3px 2px;border-bottom:1px solid rgba(42,42,64,.3)"><span style="width:7px;height:7px;border-radius:2px;background:#22d3ee;flex-shrink:0"></span><span style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--text2);white-space:nowrap">21:30–22:00</span><span style="font-size:.72rem;color:var(--text)">교재</span></div>
-<div style="display:flex;align-items:center;gap:5px;padding:3px 2px;border-bottom:1px solid rgba(42,42,64,.3)"><span style="width:7px;height:7px;border-radius:2px;background:#fbbf24;flex-shrink:0"></span><span style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--text2);white-space:nowrap">22:00–22:30</span><span style="font-size:.72rem;color:var(--text)">화성학 공부</span></div>
-<div style="display:flex;align-items:center;gap:5px;padding:3px 2px;border-bottom:1px solid rgba(42,42,64,.3)"><span style="width:7px;height:7px;border-radius:2px;background:#64748b;flex-shrink:0"></span><span style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--text2);white-space:nowrap">22:30–23:00</span><span style="font-size:.72rem;color:var(--text)">귀가</span></div>
-<div style="display:flex;align-items:center;gap:5px;padding:3px 2px;border-bottom:1px solid rgba(42,42,64,.3)"><span style="width:7px;height:7px;border-radius:2px;background:#3f3f56;flex-shrink:0"></span><span style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--text2);white-space:nowrap">23:00–01:00</span><span style="font-size:.72rem;color:var(--text)">자유시간</span></div>
-</div>
-</div>
-</div>
-</div>
+<div class="main">
 <div class="g2"><div class="card">
 <div class="ch"><span class="ci">⚠️</span><span class="ct">연습 주의할점</span></div>
 <div class="cb">
@@ -377,14 +359,18 @@ ex) 필인 끝에 탐 accent 더 강조하기" rows="7"></textarea></div>
 <button class="daybtn" data-day="4" onclick="switchDay(4)">금</button>
 <button class="daybtn" data-day="5" onclick="switchDay(5)">토</button>
 <button class="daybtn" data-day="6" onclick="switchDay(6)">일</button>
-<button onclick="moveTodoToSunday()" style="background:rgba(168,85,247,.15);border:1px solid var(--rhy);border-radius:7px;color:var(--rhy);padding:5px 11px;font-size:.75rem;cursor:pointer;font-family:'Noto Sans KR',sans-serif;font-weight:700;white-space:nowrap" title="미체크 항목을 일요일로 복사">📤 일요일로</button>
 <span id="dayLabel" style="margin-left:auto;font-size:.68rem;color:var(--accent3);font-family:'Space Mono',monospace"></span>
 </div>
 <div class="cb" style="padding:13px 18px;display:flex;flex-direction:column;gap:20px">
 <div>
-<div class="cath pad">🥁 기본기 및 피지컬 <input type="hidden" class="cattime" id="cattime-pad"><span class="cattime-sw"><span class="cattime-disp" id="cattime-disp-pad">00:00/60:00</span><button type="button" class="cattime-btn" id="cattime-btn-pad" onclick="catSwToggle('pad')">▶</button><button type="button" class="cattime-btn reset" onclick="catSwReset('pad')">↺</button></span></div>
+<div class="cath pad">🥁 기본기 <input type="hidden" class="cattime" id="cattime-pad"><span class="cattime-sw"><span class="cattime-disp" id="cattime-disp-pad">00:00/30:00</span><button type="button" class="cattime-btn" id="cattime-btn-pad" onclick="catSwToggle('pad')">▶</button><button type="button" class="cattime-btn reset" onclick="catSwReset('pad')">↺</button></span></div>
 <table class="clt"><thead><tr><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">번호</th></tr></thead><tbody id="body-pad"></tbody></table>
-<button class="addbtn" onclick="addRow('pad','')">+ 기본기 및 피지컬 항목 추가</button>
+<button class="addbtn" onclick="addRow('pad','')">+ 기본기 항목 추가</button>
+</div>
+<div>
+<div class="cath phy">💪 피지컬 <input type="hidden" class="cattime" id="cattime-phy"><span class="cattime-sw"><span class="cattime-disp" id="cattime-disp-phy">00:00/30:00</span><button type="button" class="cattime-btn" id="cattime-btn-phy" onclick="catSwToggle('phy')">▶</button><button type="button" class="cattime-btn reset" onclick="catSwReset('phy')">↺</button></span></div>
+<table class="clt"><thead><tr><th style="width:24px"></th><th>연습 항목</th><th class="tc" style="width:72px">시간(분)</th><th class="tc" style="width:72px">TEMPO</th><th class="tc" style="width:60px">번호</th></tr></thead><tbody id="body-phy"></tbody></table>
+<button class="addbtn" onclick="addRow('phy','')">+ 피지컬 항목 추가</button>
 </div>
 <div>
 <div class="cath" style="background:rgba(245,158,11,.13);color:#fbbf24;border-left:3px solid #f59e0b">🏆 입시 <input type="hidden" class="cattime" id="cattime-exam"><span class="cattime-sw"><span class="cattime-disp" id="cattime-disp-exam">00:00/120:00</span><button type="button" class="cattime-btn" id="cattime-btn-exam" onclick="catSwToggle('exam')">▶</button><button type="button" class="cattime-btn reset" onclick="catSwReset('exam')">↺</button></span></div>
@@ -844,7 +830,7 @@ function updateBestTempoFromRow(input){
   if(!txt) return;
   updateBestTempo(txt, input.value);
 }
-function addRow(cat,txt,chk,mins,tempo,set,pri,sub){
+function addRow(cat,txt,chk,mins,tempo,set,pri,sub,grp,red){
   if(cat==='ryt') cat='rhy';
   if(cat==='tec' && txt==='아이디어'){
     const shared=loadSharedTecIdea();
@@ -876,7 +862,7 @@ function addRow(cat,txt,chk,mins,tempo,set,pri,sub){
   if(!tb) return;
   // 패드에서 싱글/더블/핑거링/트리플 스트로크는 세트, 나머지는 번호
   const padSetItems=['싱글 스트로크','더블 스트로크','핑거링','트리플 스트로크','모울러 테크닉','피지컬','임용훈 스트로크'];
-  const setLabel = (cat==='pad' && padSetItems.some(s=>txt&&txt.includes(s.split(' ')[0]))) ? '세트' : '번호';
+  const setLabel = ((cat==='pad'||cat==='phy') && padSetItems.some(s=>txt&&txt.includes(s.split(' ')[0]))) ? '세트' : '번호';
   const minsVal = mins || (setLabel==='세트' ? '1' : '');
   const setVal = set || (setLabel==='세트' ? '3/0' : '');
   const hasSub = Array.isArray(sub) && sub.length>0;
@@ -899,6 +885,8 @@ function addRow(cat,txt,chk,mins,tempo,set,pri,sub){
     `;
   const mainChk=tr.querySelector('.chkcell input[type=checkbox]');
   if(mainChk) mainChk.addEventListener('change',as);
+  if(grp){tr.dataset.grp=grp;} // '매일/깊게' 라벨은 화면에 표시하지 않음 (데이터만 유지)
+  if(red){tr.dataset.red='1';tr.classList.add('redrow');}
   tb.appendChild(tr);
 }
 function toggleSubSubList(btn){
@@ -971,7 +959,7 @@ function fromRef(cat,txt,idx){
 }
 function getCL(){
   const r=[];
-  ['pad','rhy','tec','book','exam','etc','misc2','prob'].forEach(c=>{
+  ['pad','phy','rhy','tec','book','exam','etc','misc2','prob'].forEach(c=>{
     document.querySelectorAll('#body-'+c+' .clr:not(.cllabel)').forEach(tr=>{
       const txt=tr.querySelector('.cltxt').value.trim(); if(!txt)return;
       const nums=tr.querySelectorAll('.clnum');
@@ -981,7 +969,7 @@ function getCL(){
         chk:si.querySelector('.subitem-row input[type=checkbox]').checked,
         sub:[...si.querySelectorAll('.subsublist > .subsubitem')].map(ssi=>({txt:ssi.querySelector('.subsubtxt').value.trim(),chk:ssi.querySelector('input[type=checkbox]').checked})).filter(ss=>ss.txt)
       })).filter(s=>s.txt);
-      r.push({cat:c,chk:tr.querySelector('.chkcell input[type=checkbox]')?.checked||false,txt,mins:nums[0]?.value||'',tempo:nums[1]?.value||'',set:nums[2]?.value||'',pri,sub});
+      r.push({cat:c,chk:tr.querySelector('.chkcell input[type=checkbox]')?.checked||false,txt,mins:nums[0]?.value||'',tempo:nums[1]?.value||'',set:nums[2]?.value||'',pri,sub,grp:tr.dataset.grp||'',red:tr.dataset.red==='1'});
     });
   });
   return r;
@@ -1034,7 +1022,7 @@ function getCatTimes(){
 }
 function setCatTimes(times){
   document.querySelectorAll('.cattime').forEach(el=>{ el.value = (times && times[el.id]) || ''; });
-  ['pad','exam','rhy','tec','book','etc','misc2','prob'].forEach(catSwSyncFromInput);
+  ['pad','phy','exam','rhy','tec','book','etc','misc2','prob'].forEach(catSwSyncFromInput);
 }
 const catSwState={};
 const SW_PERSIST_KEY='drum_sw_state';
@@ -1079,7 +1067,7 @@ function importBackupFile(input){
   reader.readAsText(file);
 }
 // 카테고리별 목표 시간(분) — 목표가 있는 카테고리만 "경과/목표" 형식으로 표시
-const CAT_TARGET_MIN={pad:60,exam:120,rhy:90,tec:150,prob:60,book:60,etc:60};
+const CAT_TARGET_MIN={pad:30,phy:30,exam:120,rhy:90,tec:150,prob:60,book:60,etc:60};
 const CAT_TARGET_DAY_OVERRIDE={}; // 요일별 예외 없음 (전체 요일 동일 배분)
 function catSwTargetMin(cat){
   const ov=CAT_TARGET_DAY_OVERRIDE[currentDay];
@@ -1220,7 +1208,7 @@ window.addEventListener('beforeunload', catSwPersist);
 // 해당 줄의 시간(분) 칸에 적어주고, 다음 기록 기준점을 갱신한다 (구간별 기록/랩타임)
 function catLap(btn,cat){
   if(!catSwState[cat] || (catSwGetElapsed(cat)<=0 && !catSwState[cat].running)){
-    toast('⏱ 먼저 '+ (({pad:'기본기 및 피지컬',exam:'입시',rhy:'장르',tec:'테크닉',book:'교재',etc:'음악성',misc2:'기타 연습',prob:'문제점/고쳐야할점'})[cat]||'') +' 스톱워치를 시작하세요');
+    toast('⏱ 먼저 '+ (({pad:'기본기',phy:'피지컬',exam:'입시',rhy:'장르',tec:'테크닉',book:'교재',etc:'음악성',misc2:'기타 연습',prob:'문제점/고쳐야할점'})[cat]||'') +' 스톱워치를 시작하세요');
     return;
   }
   const st=catSwState[cat];
@@ -1268,17 +1256,162 @@ function catSwSyncFromInput(cat){
 function saveDayCL(d){
   try{ localStorage.setItem(getDayCLKey(d), JSON.stringify({cl:getCL(), catTimes:getCatTimes()})); }catch(e){}
 }
+// 입시 카테고리 개편: 월·수·금 = 랜덤 MR, 리듬 체인지 / 화·목·일 = 스윙 컴핑 초견, 섹션 초견, 잼
+// 빨간(red) 항목과 '질문' 삭제. 예전 구조(빨간 입시 항목 또는 '질문')가 남아있는 저장 데이터만 1회 변환
+const EXAM_MWF=['랜덤 MR','리듬 체인지'];
+const EXAM_TTS=['스윙 컴핑 초견 (스네어, 킥, 보사노바 삼바)','섹션 초견 (8비트,스윙)','잼 (1코러스 리듬 1코러스 솔로) {장르: 셔플 블루스, 펑크 등}'];
+function migrateExamCL(d,o){
+  const need=[0,2,4].includes(d)?EXAM_MWF:([1,3,6].includes(d)?EXAM_TTS:null);
+  if(!need||!o||!Array.isArray(o.cl)) return;
+  if(!o.cl.some(x=>x&&x.cat==='exam'&&(x.red||x.txt==='질문'))) return;
+  const kept=[];
+  o.cl.forEach(x=>{
+    if(x&&x.cat==='exam'){
+      if(need.includes(x.txt)){ x.red=false; kept.push(x); return; }
+      if(x.red||x.txt==='질문') return;
+    }
+    kept.push(x);
+  });
+  let last=-1; kept.forEach((x,i)=>{ if(x&&x.cat==='exam') last=i; });
+  const add=need.filter(n=>!kept.some(x=>x&&x.cat==='exam'&&x.txt===n))
+    .map(n=>({cat:'exam',chk:false,txt:n,mins:'',tempo:'',set:'',pri:false,sub:[],grp:'',red:false}));
+  kept.splice(last+1,0,...add);
+  o.cl=kept;
+}
+// 장르의 'MR 연습' 항목들은 '리듬 카피 응용' 바로 아래에 오도록 정렬 (저장된 데이터에도 적용)
+function migrateRhyMrOrder(o){
+  if(!o||!Array.isArray(o.cl)) return;
+  const isMr=x=>x&&x.cat==='rhy'&&typeof x.txt==='string'&&x.txt.indexOf('MR 연습')===0;
+  const mr=o.cl.filter(isMr);
+  if(!mr.length) return;
+  const rest=o.cl.filter(x=>!isMr(x));
+  const k=rest.findIndex(x=>x&&x.cat==='rhy'&&x.txt==='리듬 카피 응용');
+  if(k<0) return;
+  rest.splice(k+1,0,...mr);
+  o.cl=rest;
+}
+// 구 '기본기 및 피지컬' 카테고리(pad)에 저장돼 있던 피지컬 항목을 새 '피지컬'(phy) 카테고리로 이동
+function migratePhyCat(x){
+  if(x && x.cat==='pad' && ((x.txt && x.txt.indexOf('피지컬')===0) || (x.grp && x.grp.indexOf('피지컬')===0))) x.cat='phy';
+  return x;
+}
 function loadDayCL(d){
-  try{ const r=localStorage.getItem(getDayCLKey(d)); return r?JSON.parse(r):null; }catch(e){return null;}
+  try{
+    const r=localStorage.getItem(getDayCLKey(d));
+    if(!r) return null;
+    const o=JSON.parse(r);
+    if(o && Array.isArray(o.cl)){
+      o.cl.forEach(migratePhyCat);
+      // 기본기/피지컬의 빨간색(red) 항목은 삭제됨 → 이미 저장된 데이터에서도 제거
+      o.cl=o.cl.filter(x=>!(x && x.red && (x.cat==='pad'||x.cat==='phy'||x.cat==='tec'||x.cat==='etc'||x.cat==='book'||x.cat==='misc2'))); // 빨간 글 항목 삭제 (테크닉·음악성·교재·기타 연습)
+      migrateExamCL(d,o);
+      // 장르: 빨간 'MR 연습' 항목 삭제, 월·금의 '특정 멜로디 주제 삼아 꾸미기'(빨간 기본 항목) 삭제
+      o.cl=o.cl.filter(x=>!(x&&x.cat==='rhy'&&x.red&&((typeof x.txt==='string'&&x.txt.indexOf('MR 연습')===0)||((d===0||d===4)&&x.txt==='특정 멜로디 주제 삼아 꾸미기')||(d===6&&typeof x.txt==='string'&&x.txt.indexOf('드럼으로 멜로디 연주')===0))));
+      // 교재: 목·금은 '재즈 교재'만 남김 (예전 기본 교재 항목만 제거, 직접 추가한 항목은 유지)
+      if(d===3||d===4){
+        const oldBooks=['인디펜던스 교재','퓨처사운드 교재','뉴 브리드 교재'];
+        const before=o.cl.length;
+        o.cl=o.cl.filter(x=>!(x&&x.cat==='book'&&oldBooks.includes(x.txt)));
+        if(o.cl.length!==before && !o.cl.some(x=>x&&x.cat==='book'&&x.txt==='재즈 교재')){
+          let last=-1; o.cl.forEach((x,i)=>{ if(x&&x.cat==='book') last=i; });
+          const idx=last>=0?last+1:o.cl.length;
+          o.cl.splice(idx,0,{cat:'book',chk:false,txt:'재즈 교재',mins:'',tempo:'',set:'',pri:false,sub:[],grp:'깊게',red:false});
+        }
+      }
+      // 장르 MR 연습 문구: 목 = Jazz · Fusion Jazz / 금 = Bossa Nova · Samba · Latin (저장된 데이터의 예전 문구를 새 문구로 교체)
+      o.cl.forEach(x=>{
+        if(!x||x.cat!=='rhy') return;
+        if(d===3&&x.txt==='MR 연습 - Jazz · Fusion Jazz · Latin') x.txt='MR 연습 - Jazz · Fusion Jazz';
+        if(d===4&&x.txt==='MR 연습 - Jazz · Fusion Jazz · Latin · Jungle') x.txt='MR 연습 - Bossa Nova · Samba · Latin';
+      });
+      migrateRhyMrOrder(o);
+      // 장르: 메트로놈 항목 이름 변경 (저장된 데이터 + 최고 BPM 기록도 새 이름으로 이어받기)
+      o.cl.forEach(x=>{ if(x&&x.cat==='rhy'&&x.txt==='메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)') x.txt='메트로놈 - 메트로놈 변형 연습(1마디~4마디 키고 끄기, n박으로 생각하기) + (필)'; });
+      try{
+        const bm=loadBestTempoMap(), ok='메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)', nk='메트로놈 - 메트로놈 변형 연습(1마디~4마디 키고 끄기, n박으로 생각하기) + (필)';
+        if(bm[ok]&&!bm[nk]){ bm[nk]=bm[ok]; saveBestTempoMap(bm); }
+      }catch(e){}
+      // 장르: '필인 후 리듬 복귀(원 · 투 · 쓰리 · 포)' (화·수·일) — 예전 이름은 새 이름으로 바꾸고, 월요일 항목은 1회 제거
+      o.cl.forEach(x=>{ if(x&&x.cat==='rhy'&&x.txt==='필인 후 리듬 복귀') x.txt='필인 후 리듬 복귀(원 · 투 · 쓰리 · 포)'; });
+      if(d===0){
+        try{
+          if(!localStorage.getItem('drum_mig_fillreturn_rm_mon_v1')){
+            localStorage.setItem('drum_mig_fillreturn_rm_mon_v1','1');
+            const before=o.cl.length;
+            o.cl=o.cl.filter(x=>!(x&&x.cat==='rhy'&&x.txt==='필인 후 리듬 복귀(원 · 투 · 쓰리 · 포)'));
+            if(o.cl.length!==before) localStorage.setItem(getDayCLKey(d),JSON.stringify(o));
+          }
+        }catch(e){}
+      }
+      if([1,2,6].includes(d)){
+        const fk='drum_mig_fillreturn_v2_'+d;
+        try{
+          if(!localStorage.getItem(fk)){
+            localStorage.setItem(fk,'1');
+            if(!o.cl.some(x=>x&&x.cat==='rhy'&&x.txt==='필인 후 리듬 복귀(원 · 투 · 쓰리 · 포)')){
+              let pos=-1;
+              o.cl.forEach((x,i)=>{ if(x&&x.cat==='rhy'&&typeof x.txt==='string'&&x.txt.indexOf('MR 연습')===0) pos=i; });
+              if(pos<0) o.cl.forEach((x,i)=>{ if(x&&x.cat==='rhy'&&x.txt==='리듬 카피 응용') pos=i; });
+              if(pos<0) o.cl.forEach((x,i)=>{ if(x&&x.cat==='rhy') pos=i; });
+              o.cl.splice(pos<0?o.cl.length:pos+1,0,{cat:'rhy',chk:false,txt:'필인 후 리듬 복귀(원 · 투 · 쓰리 · 포)',mins:'',tempo:'',set:'',pri:false,sub:[],grp:'',red:false});
+              localStorage.setItem(getDayCLKey(d),JSON.stringify(o));
+            }
+          }
+        }catch(e){}
+      }
+      // 테크닉: '모든 템포 필인' (월·목·금) — 저장된 데이터에는 요일마다 1회만 추가
+      if([0,3,4].includes(d)){
+        const ak='drum_mig_alltempofill_v1_'+d;
+        try{
+          if(!localStorage.getItem(ak)){
+            localStorage.setItem(ak,'1');
+            if(!o.cl.some(x=>x&&x.cat==='tec'&&x.txt==='모든 템포 필인')){
+              let pos=-1;
+              o.cl.forEach((x,i)=>{ if(x&&x.cat==='tec'&&x.grp==='깊게') pos=i; });
+              if(pos<0) o.cl.forEach((x,i)=>{ if(x&&x.cat==='tec') pos=i; });
+              o.cl.splice(pos<0?o.cl.length:pos+1,0,{cat:'tec',chk:false,txt:'모든 템포 필인',mins:'',tempo:'',set:'',pri:false,sub:[],grp:'깊게',red:false});
+              localStorage.setItem(getDayCLKey(d),JSON.stringify(o));
+            }
+          }
+        }catch(e){}
+      }
+      // 기타 연습(남은 시간에 할 것들): 폴리리듬 · 메트릭 모듈레이션 · 리니어 리듬 — 요일마다 1회만 추가
+      if([0,1,2,3,4,6].includes(d)){
+        const mk='drum_mig_misc2_v1_'+d;
+        try{
+          if(!localStorage.getItem(mk)){
+            localStorage.setItem(mk,'1');
+            let changed=false;
+            ['폴리리듬','메트릭 모듈레이션','리니어 리듬'].forEach(t=>{
+              if(!o.cl.some(x=>x&&x.cat==='misc2'&&x.txt===t)){
+                o.cl.push({cat:'misc2',chk:false,txt:t,mins:'',tempo:'',set:'',pri:false,sub:[],grp:'',red:false});
+                changed=true;
+              }
+            });
+            if(changed) localStorage.setItem(getDayCLKey(d),JSON.stringify(o));
+          }
+        }catch(e){}
+      }
+      // 테크닉: '지금까지 연습한거로 놀기'는 항상 테크닉 맨 아래로
+      {
+        const ti=o.cl.findIndex(x=>x&&x.cat==='tec'&&x.txt==='지금까지 연습한거로 놀기 (남은 시간)');
+        if(ti>=0){
+          let last=-1; o.cl.forEach((x,i)=>{ if(x&&x.cat==='tec') last=i; });
+          if(last>ti){ const it=o.cl.splice(ti,1)[0]; o.cl.splice(last,0,it); }
+        }
+      }
+    }
+    return o;
+  }catch(e){return null;}
 }
 function clearDayCLDom(){
-  ['pad','rhy','tec','book','exam','etc','misc2','prob'].forEach(c=>{
+  ['pad','phy','rhy','tec','book','exam','etc','misc2','prob'].forEach(c=>{
     const el=document.getElementById('body-'+c);
     if(el) el.innerHTML='';
   });
 }
 function flushCatSw(){
-  ['pad','exam','rhy','tec','book','etc','misc2','prob'].forEach(cat=>{
+  ['pad','phy','exam','rhy','tec','book','etc','misc2','prob'].forEach(cat=>{
     const st=catSwState[cat];
     if(st&&st.running){
       const liveElapsed=st.elapsed+(Date.now()-st.startTs);
@@ -1291,7 +1424,7 @@ function flushCatSw(){
   });
 }
 function stopAllCatSw(){
-  ['pad','exam','rhy','tec','book','etc','misc2','prob'].forEach(cat=>{
+  ['pad','phy','exam','rhy','tec','book','etc','misc2','prob'].forEach(cat=>{
     const st=catSwState[cat];
     if(st&&st.running){
       st.elapsed+=Date.now()-st.startTs;
@@ -1322,7 +1455,7 @@ function switchDay(d){
     saveDayCL(d);
   } else {
     const data=loadDayCL(d);
-    if(data&&data.cl) data.cl.forEach(c=>addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set,c.pri,c.sub));
+    if(data&&data.cl) data.cl.forEach(c=>addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set,c.pri,c.sub,c.grp,c.red));
     setCatTimes(data&&data.catTimes?data.catTimes:{});
   }
   applyRhyTags(d);
@@ -1334,314 +1467,238 @@ function switchDay(d){
   toast('📅 '+DAYS[d]+'요일 체크리스트');
 }
 const MON_DEFAULT=[
-  // 패드
-  {cat:'pad',txt:'싱글 스트로크',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'더블 스트로크',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'트리플 스트로크',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'4·6연음 스틱킹 및 악센트',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'피지컬 - 모울러 테크닉',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'피지컬 - 싱글 킥',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'피지컬 - 스와핑',chk:false,mins:'',tempo:'',set:''},
-  // 장르
-  {cat:'rhy',txt:'리듬 카피 사용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'리듬 카피 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'MR 연습 - Ballad · POP',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'톤 연구',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'특정 멜로디 주제 삼아 꾸미기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)',chk:false,mins:'',tempo:'',set:''},
-  // 테크닉
-  {cat:'tec',txt:'카피 연습',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'카피 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'제한하기 - 1 e & a 에 들어가기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'하이햇 인디펜던스',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'4연음 콤비네이션',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'4연음 스틱킹',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'6연음 콤비네이션',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'6연음 스틱킹',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'리듬 모티브 반복',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콜 앤 리스폰',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'지금까지 연습한거로 놀기 (남은 시간)',chk:false,mins:'',tempo:'',set:''},
-  // 입시
-  {cat:'exam',txt:'입시곡',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'랜덤 MR',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'아메리칸 솔로 초견',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'모던 리딩 텍스트 초견',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'스윙 컴핑 초견 (스네어, 킥, 보사노바 삼바)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'섹션 초견 (8비트,스윙)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'리듬 체인지',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'잼 (1코러스 리듬 1코러스 솔로) {장르: 셔플 블루스, 펑크 등}',chk:false,mins:'',tempo:'',set:''},
-  // 음악성
-  {cat:'etc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'etc',txt:'화성학 공부',chk:false,mins:'',tempo:'',set:''},
-  {cat:'etc',txt:'녹음',chk:false,mins:'',tempo:'',set:''},
-  // 교재
-  {cat:'book',txt:'인디펜던스 교재',chk:false,mins:'',tempo:'',set:''},
-  {cat:'book',txt:'퓨처사운드 교재',chk:false,mins:'',tempo:'',set:''},
-  {cat:'book',txt:'뉴 브리드 교재',chk:false,mins:'',tempo:'',set:''},
-  // 기타 연습
-  {cat:'misc2',txt:'폴리리듬',chk:false,mins:'',tempo:'',set:''},
-  {cat:'misc2',txt:'메트릭 모듈레이션',chk:false,mins:'',tempo:'',set:''},
+  {cat:"pad",txt:"싱글 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"기본기 매일"},
+  {cat:"pad",txt:"더블 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"기본기 매일"},
+  {cat:"pad",txt:"트리플 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
+  {cat:"pad",txt:"루디먼트",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
+  {cat:"phy",txt:"피지컬 - 모울러 테크닉",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"피지컬 - 플램",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"피지컬 - RLK 다운업",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"피지컬 - 손발손발",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"rhy",txt:"리듬 카피 사용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"리듬 카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"MR 연습 - Ballad · POP",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"rhy",txt:"메트로놈 - 메트로놈 변형 연습(1마디~4마디 키고 끄기, n박으로 생각하기) + (필)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"50~70정도로 리듬 치기 (3분마다 그루브 변경)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"다이나믹 세분화 하기",chk:false,mins:'',tempo:'',set:'',red:true},
+  {cat:"tec",txt:"카피 연습",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"tec",txt:"카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"tec",txt:"하이햇 인디펜던스",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"tec",txt:"제한하기 - 1 e & a 에 들어가기",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"4연음 콤비네이션",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"4연음 스틱킹",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"리듬 모티브 반복",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"모든 템포 필인",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"지금까지 연습한거로 놀기 (남은 시간)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"exam",txt:"입시곡",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"exam",txt:"아메리칸 솔로 초견",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"exam",txt:"모던 리딩 텍스트 초견",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"exam",txt:"랜덤 MR",chk:false,mins:'',tempo:'',set:''},
+  {cat:"exam",txt:"리듬 체인지",chk:false,mins:'',tempo:'',set:''},
+  {cat:"etc",txt:"음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"etc",txt:"녹음",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"book",txt:"인디펜던스 교재",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"misc2",txt:"폴리리듬",chk:false,mins:'',tempo:'',set:''},
+  {cat:"misc2",txt:"메트릭 모듈레이션",chk:false,mins:'',tempo:'',set:''},
+  {cat:"misc2",txt:"리니어 리듬",chk:false,mins:'',tempo:'',set:''},
 ];
 // 화~금은 사진 받는 대로 채울 예정 — 지금은 월요일과 동일하게 임시 설정
 const TUE_DEFAULT=[
-  // 패드
-  {cat:'pad',txt:'임용훈 스트로크',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'더블 스트로크',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'핑거링',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'루디먼트',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'피지컬 - 손발손발',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'피지컬 - RLK 다운업',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'피지컬 - 플램',chk:false,mins:'',tempo:'',set:''},
-  // 장르
-  {cat:'rhy',txt:'리듬 카피 사용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'리듬 카피 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'MR 연습 - Hip Hop · Jazz Hip Hop · R&B · Neo Soul',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'50~70정도로 리듬 치기 (3분마다 그루브 변경)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'톤 연구',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'특정 멜로디 주제 삼아 꾸미기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'솔로 빌드업 연습 (빌드업, 선그리고 다이나믹 표현, 리듬부터 솔로)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)',chk:false,mins:'',tempo:'',set:''},
-  // 테크닉
-  {cat:'tec',txt:'카피 연습',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'카피 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'제한하기 - 1 e & a 섹션 or 필 고정',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'하이햇 인디펜던스',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'4연음 5그루핑',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'6연음 5그루핑',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'6연음 4그루핑',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'리듬 모티브 반복',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콜 앤 리스폰',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'지금까지 연습한거로 놀기 (남은 시간)',chk:false,mins:'',tempo:'',set:''},
-  // 입시
-  {cat:'exam',txt:'입시곡',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'랜덤 MR',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'아메리칸 솔로 초견',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'모던 리딩 텍스트 초견',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'스윙 컴핑 초견 (스네어, 킥, 보사노바 삼바)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'섹션 초견 (8비트,스윙)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'리듬 체인지',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'잼 (1코러스 리듬 1코러스 솔로) {장르: 셔플 블루스, 펑크 등}',chk:false,mins:'',tempo:'',set:''},
-  // 음악성
-  {cat:'etc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'etc',txt:'화성학 공부',chk:false,mins:'',tempo:'',set:''},
-  {cat:'etc',txt:'녹음',chk:false,mins:'',tempo:'',set:''},
-  // 교재
-  {cat:'book',txt:'인디펜던스 교재',chk:false,mins:'',tempo:'',set:''},
-  {cat:'book',txt:'퓨처사운드 교재',chk:false,mins:'',tempo:'',set:''},
-  {cat:'book',txt:'뉴 브리드 교재',chk:false,mins:'',tempo:'',set:''},
-  // 기타 연습
-  {cat:'misc2',txt:'폴리리듬',chk:false,mins:'',tempo:'',set:''},
-  {cat:'misc2',txt:'메트릭 모듈레이션',chk:false,mins:'',tempo:'',set:''},
-  {cat:'misc2',txt:'리니어 리듬',chk:false,mins:'',tempo:'',set:''},
+  {cat:"pad",txt:"싱글 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"기본기 매일"},
+  {cat:"pad",txt:"더블 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"기본기 매일"},
+  {cat:"pad",txt:"핑거링",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
+  {cat:"pad",txt:"4·6연음 스틱킹 및 악센트",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
+  {cat:"phy",txt:"임용훈 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"피지컬 - 스와핑",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"피지컬 - 더블킥",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"피지컬 - 손발손발",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"rhy",txt:"리듬 카피 사용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"리듬 카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"MR 연습 - Hip Hop · Jazz Hip Hop · R&B · Neo Soul",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"rhy",txt:"필인 후 리듬 복귀(원 · 투 · 쓰리 · 포)",chk:false,mins:'',tempo:'',set:''},
+  {cat:"rhy",txt:"메트로놈 - 메트로놈 변형 연습(1마디~4마디 키고 끄기, n박으로 생각하기) + (필)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"솔로 빌드업 연습 (빌드업, 선그리고 다이나믹 표현, 리듬부터 솔로)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"50~70정도로 리듬 치기 (3분마다 그루브 변경)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"드럼으로 멜로디 연주 · 멜로디 따라가기",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"rhy",txt:"다이나믹 세분화 하기",chk:false,mins:'',tempo:'',set:'',red:true},
+  {cat:"rhy",txt:"특정 멜로디 주제 삼아 꾸미기",chk:false,mins:'',tempo:'',set:'',red:true},
+  {cat:"tec",txt:"카피 연습",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"tec",txt:"카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"tec",txt:"하이햇 인디펜던스",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"tec",txt:"제한하기 - 1 e & a 섹션 or 필 고정",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"콜 앤 리스폰",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"루디먼트 응용",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"4연음 5그루핑",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"지금까지 연습한거로 놀기 (남은 시간)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"exam",txt:"입시곡",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"exam",txt:"스윙 컴핑 초견 (스네어, 킥, 보사노바 삼바)",chk:false,mins:'',tempo:'',set:''},
+  {cat:"exam",txt:"섹션 초견 (8비트,스윙)",chk:false,mins:'',tempo:'',set:''},
+  {cat:"exam",txt:"잼 (1코러스 리듬 1코러스 솔로) {장르: 셔플 블루스, 펑크 등}",chk:false,mins:'',tempo:'',set:''},
+  {cat:"etc",txt:"음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"book",txt:"퓨처사운드 교재",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"misc2",txt:"폴리리듬",chk:false,mins:'',tempo:'',set:''},
+  {cat:"misc2",txt:"메트릭 모듈레이션",chk:false,mins:'',tempo:'',set:''},
+  {cat:"misc2",txt:"리니어 리듬",chk:false,mins:'',tempo:'',set:''},
 ];
 const WED_DEFAULT=[
-  // 패드
-  {cat:'pad',txt:'싱글 스트로크',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'더블 스트로크',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'트리플 스트로크',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'4·6연음 스틱킹 및 악센트',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'피지컬 - 모울러 테크닉',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'피지컬 - 더블킥',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'피지컬 - 스와핑',chk:false,mins:'',tempo:'',set:''},
-  // 장르
-  {cat:'rhy',txt:'리듬 카피 사용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'리듬 카피 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'MR 연습 - Funk · Gospel',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'50~70정도로 리듬 치기 (3분마다 그루브 변경)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'톤 연구',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'특정 멜로디 주제 삼아 꾸미기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'솔로 빌드업 연습 (빌드업, 선그리고 다이나믹 표현, 리듬부터 솔로)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)',chk:false,mins:'',tempo:'',set:''},
-  // 테크닉
-  {cat:'tec',txt:'카피 연습',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'카피 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'제한하기 - 이동 위치 제한하기 (하이햇 금지, 탐 금지)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'하이햇 인디펜던스',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'4연음 쉼표',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'6연음 쉼표',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'루디먼트 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'리듬 모티브 반복',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콜 앤 리스폰',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'지금까지 연습한거로 놀기 (남은 시간)',chk:false,mins:'',tempo:'',set:''},
-  // 입시
-  {cat:'exam',txt:'입시곡',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'랜덤 MR',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'아메리칸 솔로 초견',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'모던 리딩 텍스트 초견',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'스윙 컴핑 초견 (스네어, 킥, 보사노바 삼바)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'섹션 초견 (8비트,스윙)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'리듬 체인지',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'잼 (1코러스 리듬 1코러스 솔로) {장르: 셔플 블루스, 펑크 등}',chk:false,mins:'',tempo:'',set:''},
-  // 음악성
-  {cat:'etc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'etc',txt:'화성학 공부',chk:false,mins:'',tempo:'',set:''},
-  {cat:'etc',txt:'녹음',chk:false,mins:'',tempo:'',set:''},
-  // 교재
-  {cat:'book',txt:'인디펜던스 교재',chk:false,mins:'',tempo:'',set:''},
-  {cat:'book',txt:'퓨처사운드 교재',chk:false,mins:'',tempo:'',set:''},
-  {cat:'book',txt:'뉴 브리드 교재',chk:false,mins:'',tempo:'',set:''},
-  // 기타 연습
-  {cat:'misc2',txt:'폴리리듬',chk:false,mins:'',tempo:'',set:''},
-  {cat:'misc2',txt:'메트릭 모듈레이션',chk:false,mins:'',tempo:'',set:''},
-  {cat:'misc2',txt:'리니어 리듬',chk:false,mins:'',tempo:'',set:''},
+  {cat:"pad",txt:"싱글 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"기본기 매일"},
+  {cat:"pad",txt:"더블 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"기본기 매일"},
+  {cat:"pad",txt:"트리플 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
+  {cat:"pad",txt:"루디먼트",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
+  {cat:"phy",txt:"피지컬 - 플램",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"피지컬 - 모울러 테크닉",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"피지컬 - RLK 다운업",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"피지컬 - 손발손발",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"rhy",txt:"리듬 카피 사용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"리듬 카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"MR 연습 - Funk · Gospel",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"rhy",txt:"필인 후 리듬 복귀(원 · 투 · 쓰리 · 포)",chk:false,mins:'',tempo:'',set:''},
+  {cat:"rhy",txt:"메트로놈 - 메트로놈 변형 연습(1마디~4마디 키고 끄기, n박으로 생각하기) + (필)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"솔로 빌드업 연습 (빌드업, 선그리고 다이나믹 표현, 리듬부터 솔로)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"50~70정도로 리듬 치기 (3분마다 그루브 변경)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"다이나믹 세분화 하기",chk:false,mins:'',tempo:'',set:'',red:true},
+  {cat:"rhy",txt:"특정 멜로디 주제 삼아 꾸미기",chk:false,mins:'',tempo:'',set:'',red:true},
+  {cat:"tec",txt:"카피 연습",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"tec",txt:"카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"tec",txt:"하이햇 인디펜던스",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"tec",txt:"제한하기 - 이동 위치 제한하기 (하이햇 금지, 탐 금지)",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"4연음 쉼표",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"6연음 쉼표",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"리듬 모티브 반복",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"지금까지 연습한거로 놀기 (남은 시간)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"exam",txt:"입시곡",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"exam",txt:"아메리칸 솔로 초견",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"exam",txt:"모던 리딩 텍스트 초견",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"exam",txt:"랜덤 MR",chk:false,mins:'',tempo:'',set:''},
+  {cat:"exam",txt:"리듬 체인지",chk:false,mins:'',tempo:'',set:''},
+  {cat:"etc",txt:"음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"etc",txt:"녹음",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"book",txt:"뉴 브리드 교재",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"misc2",txt:"폴리리듬",chk:false,mins:'',tempo:'',set:''},
+  {cat:"misc2",txt:"메트릭 모듈레이션",chk:false,mins:'',tempo:'',set:''},
+  {cat:"misc2",txt:"리니어 리듬",chk:false,mins:'',tempo:'',set:''},
 ];
 const THU_DEFAULT=[
-  // 패드
-  {cat:'pad',txt:'임용훈 스트로크',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'더블 스트로크',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'핑거링',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'루디먼트',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'피지컬 - 손발손발',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'피지컬 - RLK 다운업',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'피지컬 - 플램',chk:false,mins:'',tempo:'',set:''},
-  // 장르
-  {cat:'rhy',txt:'리듬 카피 사용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'리듬 카피 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'MR 연습 - Jazz · Fusion Jazz · Latin',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'톤 연구',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'드럼으로 멜로디 연주 · 멜로디 따라가기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'솔로 빌드업 연습 (빌드업, 선그리고 다이나믹 표현, 리듬부터 솔로)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)',chk:false,mins:'',tempo:'',set:''},
-  // 테크닉
-  {cat:'tec',txt:'카피 연습',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'카피 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'제한하기 - 1 e & a 에 들어가기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'하이햇 인디펜던스',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'4연음 콤비네이션',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'4연음 스틱킹',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'6연음 콤비네이션',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'6연음 스틱킹',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'리듬 모티브 반복',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콜 앤 리스폰',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'지금까지 연습한거로 놀기 (남은 시간)',chk:false,mins:'',tempo:'',set:''},
-  // 입시
-  {cat:'exam',txt:'입시곡',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'랜덤 MR',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'아메리칸 솔로 초견',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'모던 리딩 텍스트 초견',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'스윙 컴핑 초견 (스네어, 킥, 보사노바 삼바)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'섹션 초견 (8비트,스윙)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'리듬 체인지',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'잼 (1코러스 리듬 1코러스 솔로) {장르: 셔플 블루스, 펑크 등}',chk:false,mins:'',tempo:'',set:''},
-  // 음악성
-  {cat:'etc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'etc',txt:'화성학 공부',chk:false,mins:'',tempo:'',set:''},
-  {cat:'etc',txt:'녹음',chk:false,mins:'',tempo:'',set:''},
-  // 교재
-  {cat:'book',txt:'인디펜던스 교재',chk:false,mins:'',tempo:'',set:''},
-  {cat:'book',txt:'재즈 교재',chk:false,mins:'',tempo:'',set:''},
-  // 기타 연습
-  {cat:'misc2',txt:'폴리리듬',chk:false,mins:'',tempo:'',set:''},
-  {cat:'misc2',txt:'메트릭 모듈레이션',chk:false,mins:'',tempo:'',set:''},
-  {cat:'misc2',txt:'리니어 리듬',chk:false,mins:'',tempo:'',set:''},
+  {cat:"pad",txt:"싱글 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"기본기 매일"},
+  {cat:"pad",txt:"더블 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"기본기 매일"},
+  {cat:"pad",txt:"핑거링",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
+  {cat:"pad",txt:"4·6연음 스틱킹 및 악센트",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
+  {cat:"phy",txt:"임용훈 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"피지컬 - 스와핑",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"피지컬 - 더블킥",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"피지컬 - 손발손발",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"rhy",txt:"리듬 카피 사용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"리듬 카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"MR 연습 - Jazz · Fusion Jazz",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"rhy",txt:"메트로놈 - 메트로놈 변형 연습(1마디~4마디 키고 끄기, n박으로 생각하기) + (필)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"솔로 빌드업 연습 (빌드업, 선그리고 다이나믹 표현, 리듬부터 솔로)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"50~70정도로 리듬 치기 (3분마다 그루브 변경)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"드럼으로 멜로디 연주 · 멜로디 따라가기",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"rhy",txt:"다이나믹 세분화 하기",chk:false,mins:'',tempo:'',set:'',red:true},
+  {cat:"tec",txt:"카피 연습",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"tec",txt:"카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"tec",txt:"하이햇 인디펜던스",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"tec",txt:"콜 앤 리스폰",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"제한하기 - 1 e & a 에 들어가기",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"6연음 5그루핑",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"루디먼트 응용",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"모든 템포 필인",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"지금까지 연습한거로 놀기 (남은 시간)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"exam",txt:"입시곡",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"exam",txt:"스윙 컴핑 초견 (스네어, 킥, 보사노바 삼바)",chk:false,mins:'',tempo:'',set:''},
+  {cat:"exam",txt:"섹션 초견 (8비트,스윙)",chk:false,mins:'',tempo:'',set:''},
+  {cat:"exam",txt:"잼 (1코러스 리듬 1코러스 솔로) {장르: 셔플 블루스, 펑크 등}",chk:false,mins:'',tempo:'',set:''},
+  {cat:"etc",txt:"음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"book",txt:"재즈 교재",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"misc2",txt:"폴리리듬",chk:false,mins:'',tempo:'',set:''},
+  {cat:"misc2",txt:"메트릭 모듈레이션",chk:false,mins:'',tempo:'',set:''},
+  {cat:"misc2",txt:"리니어 리듬",chk:false,mins:'',tempo:'',set:''},
 ];
 const FRI_DEFAULT=[
-  // 패드
-  {cat:'pad',txt:'싱글 스트로크',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'더블 스트로크',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'트리플 스트로크',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'4·6연음 스틱킹 및 악센트',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'피지컬 - 모울러 테크닉',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'피지컬 - 싱글 킥',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'피지컬 - 스와핑',chk:false,mins:'',tempo:'',set:''},
-  // 장르
-  {cat:'rhy',txt:'리듬 카피 사용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'리듬 카피 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'MR 연습 - Shuffle · Blues · Jungle',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'50~70정도로 리듬 치기 (3분마다 그루브 변경)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'톤 연구',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'특정 멜로디 주제 삼아 꾸미기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'솔로 빌드업 연습 (빌드업, 선그리고 다이나믹 표현, 리듬부터 솔로)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)',chk:false,mins:'',tempo:'',set:''},
-  // 테크닉
-  {cat:'tec',txt:'카피 연습',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'카피 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'제한하기 - 1 e & a 섹션 or 필 고정',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'하이햇 인디펜던스',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'4연음 5그루핑',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'6연음 5그루핑',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'6연음 4그루핑',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'리듬 모티브 반복',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콜 앤 리스폰',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'지금까지 연습한거로 놀기 (남은 시간)',chk:false,mins:'',tempo:'',set:''},
-  // 입시
-  {cat:'exam',txt:'입시곡',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'랜덤 MR',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'아메리칸 솔로 초견',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'모던 리딩 텍스트 초견',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'스윙 컴핑 초견 (스네어, 킥, 보사노바 삼바)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'섹션 초견 (8비트,스윙)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'리듬 체인지',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'잼 (1코러스 리듬 1코러스 솔로) {장르: 셔플 블루스, 펑크 등}',chk:false,mins:'',tempo:'',set:''},
-  // 음악성
-  {cat:'etc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'etc',txt:'화성학 공부',chk:false,mins:'',tempo:'',set:''},
-  {cat:'etc',txt:'녹음',chk:false,mins:'',tempo:'',set:''},
-  // 교재
-  {cat:'book',txt:'인디펜던스 교재',chk:false,mins:'',tempo:'',set:''},
-  {cat:'book',txt:'퓨처사운드 교재',chk:false,mins:'',tempo:'',set:''},
-  {cat:'book',txt:'뉴 브리드 교재',chk:false,mins:'',tempo:'',set:''},
-  // 기타 연습
-  {cat:'misc2',txt:'폴리리듬',chk:false,mins:'',tempo:'',set:''},
-  {cat:'misc2',txt:'메트릭 모듈레이션',chk:false,mins:'',tempo:'',set:''},
-  {cat:'misc2',txt:'리니어 리듬',chk:false,mins:'',tempo:'',set:''},
+  {cat:"pad",txt:"싱글 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"기본기 매일"},
+  {cat:"pad",txt:"더블 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"기본기 매일"},
+  {cat:"pad",txt:"트리플 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
+  {cat:"pad",txt:"루디먼트",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
+  {cat:"phy",txt:"피지컬 - 모울러 테크닉",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"피지컬 - 플램",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"피지컬 - RLK 다운업",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"피지컬 - 손발손발",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"rhy",txt:"리듬 카피 사용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"리듬 카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"MR 연습 - Bossa Nova · Samba · Latin",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"rhy",txt:"메트로놈 - 메트로놈 변형 연습(1마디~4마디 키고 끄기, n박으로 생각하기) + (필)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"솔로 빌드업 연습 (빌드업, 선그리고 다이나믹 표현, 리듬부터 솔로)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"50~70정도로 리듬 치기 (3분마다 그루브 변경)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"드럼으로 멜로디 연주 · 멜로디 따라가기",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"rhy",txt:"다이나믹 세분화 하기",chk:false,mins:'',tempo:'',set:'',red:true},
+  {cat:"tec",txt:"카피 연습",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"tec",txt:"카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"tec",txt:"하이햇 인디펜던스",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"tec",txt:"제한하기 - 1 e & a 섹션 or 필 고정",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"리듬 모티브 반복",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"6연음 콤비네이션",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"6연음 스틱킹",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"모든 템포 필인",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"지금까지 연습한거로 놀기 (남은 시간)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"exam",txt:"입시곡",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"exam",txt:"아메리칸 솔로 초견",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"exam",txt:"모던 리딩 텍스트 초견",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"exam",txt:"랜덤 MR",chk:false,mins:'',tempo:'',set:''},
+  {cat:"exam",txt:"리듬 체인지",chk:false,mins:'',tempo:'',set:''},
+  {cat:"etc",txt:"음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"etc",txt:"녹음",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"book",txt:"재즈 교재",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"misc2",txt:"폴리리듬",chk:false,mins:'',tempo:'',set:''},
+  {cat:"misc2",txt:"메트릭 모듈레이션",chk:false,mins:'',tempo:'',set:''},
+  {cat:"misc2",txt:"리니어 리듬",chk:false,mins:'',tempo:'',set:''},
 ];
 const SUN_DEFAULT=[
-  // 기본기 및 피지컬 (목요일과 동일)
-  {cat:'pad',txt:'임용훈 스트로크',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'더블 스트로크',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'핑거링',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'루디먼트',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'피지컬 - 손발손발',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'피지컬 - RLK 다운업',chk:false,mins:'',tempo:'',set:''},
-  {cat:'pad',txt:'피지컬 - 플램',chk:false,mins:'',tempo:'',set:''},
-  // 입시
-  {cat:'exam',txt:'입시곡',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'랜덤 MR',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'아메리칸 솔로 초견',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'모던 리딩 텍스트 초견',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'스윙 컴핑 초견 (스네어, 킥, 보사노바 삼바)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'섹션 초견 (8비트,스윙)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'리듬 체인지',chk:false,mins:'',tempo:'',set:''},
-  {cat:'exam',txt:'잼 (1코러스 리듬 1코러스 솔로) {장르: 셔플 블루스, 펑크 등}',chk:false,mins:'',tempo:'',set:''},
-  // 장르 (목요일 기준, 정글만 추가)
-  {cat:'rhy',txt:'리듬 카피 사용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'리듬 카피 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'MR 연습 - Jazz · Fusion Jazz · Latin · Jungle',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'톤 연구',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'드럼으로 멜로디 연주 · 멜로디 따라가기',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'솔로 빌드업 연습 (빌드업, 선그리고 다이나믹 표현, 리듬부터 솔로)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'rhy',txt:'노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)',chk:false,mins:'',tempo:'',set:''},
-  // 음악성
-  {cat:'etc',txt:'음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'etc',txt:'화성학 공부',chk:false,mins:'',tempo:'',set:''},
-  {cat:'etc',txt:'녹음',chk:false,mins:'',tempo:'',set:''},
-  // 교재
-  {cat:'book',txt:'인디펜던스 교재',chk:false,mins:'',tempo:'',set:''},
-  // 테크닉
-  {cat:'tec',txt:'카피 연습',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'카피 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'제한하기 - 이동 위치 제한하기 (하이햇 금지, 탐 금지)',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'하이햇 인디펜던스',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'4연음 쉼표',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'6연음 쉼표',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'루디먼트 응용',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'리듬 모티브 반복',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'콜 앤 리스폰',chk:false,mins:'',tempo:'',set:''},
-  {cat:'tec',txt:'지금까지 연습한거로 놀기 (남은 시간)',chk:false,mins:'',tempo:'',set:''},
+  {cat:"pad",txt:"싱글 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"기본기 매일"},
+  {cat:"pad",txt:"더블 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"기본기 매일"},
+  {cat:"pad",txt:"핑거링",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
+  {cat:"pad",txt:"4·6연음 스틱킹 및 악센트",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
+  {cat:"phy",txt:"임용훈 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"피지컬 - 스와핑",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"피지컬 - 더블킥",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"피지컬 - 손발손발",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"rhy",txt:"리듬 카피 사용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"리듬 카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"MR 연습 - Shuffle · Blues · Jungle",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"rhy",txt:"필인 후 리듬 복귀(원 · 투 · 쓰리 · 포)",chk:false,mins:'',tempo:'',set:''},
+  {cat:"rhy",txt:"메트로놈 - 메트로놈 변형 연습(1마디~4마디 키고 끄기, n박으로 생각하기) + (필)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"솔로 빌드업 연습 (빌드업, 선그리고 다이나믹 표현, 리듬부터 솔로)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"50~70정도로 리듬 치기 (3분마다 그루브 변경)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"다이나믹 세분화 하기",chk:false,mins:'',tempo:'',set:'',red:true},
+  {cat:"tec",txt:"카피 연습",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"tec",txt:"카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"tec",txt:"하이햇 인디펜던스",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"tec",txt:"콜 앤 리스폰",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"제한하기 - 이동 위치 제한하기 (하이햇 금지, 탐 금지)",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"6연음 4그루핑",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"루디먼트 응용",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"지금까지 연습한거로 놀기 (남은 시간)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"exam",txt:"입시곡",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"exam",txt:"스윙 컴핑 초견 (스네어, 킥, 보사노바 삼바)",chk:false,mins:'',tempo:'',set:''},
+  {cat:"exam",txt:"섹션 초견 (8비트,스윙)",chk:false,mins:'',tempo:'',set:''},
+  {cat:"exam",txt:"잼 (1코러스 리듬 1코러스 솔로) {장르: 셔플 블루스, 펑크 등}",chk:false,mins:'',tempo:'',set:''},
+  {cat:"etc",txt:"음악듣기 (드럼 없는 파트만 듣고 리듬 상상해보기, 같은 곡 다른 드러머 버전 비교)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"book",txt:"퓨처사운드 교재",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"misc2",txt:"폴리리듬",chk:false,mins:'',tempo:'',set:''},
+  {cat:"misc2",txt:"메트릭 모듈레이션",chk:false,mins:'',tempo:'',set:''},
+  {cat:"misc2",txt:"리니어 리듬",chk:false,mins:'',tempo:'',set:''},
 ];
 const DAY_DEFAULTS=[MON_DEFAULT,TUE_DEFAULT,WED_DEFAULT,THU_DEFAULT,FRI_DEFAULT,null,SUN_DEFAULT];
-const DEFAULT_VERSION='v20.54'; // 기본값 바뀌면 이 숫자 올리기
+const DEFAULT_VERSION='v20.56'; // 기본값 바뀌면 이 숫자 올리기
 const DEFAULT_VER_KEY='drum_default_ver';
 
 function loadDefaultCL(list){
-  list.forEach(c=>{ if(c.label) addLabel(c.cat,c.txt); else addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set); });
+  list.forEach(c=>{ if(c.label) addLabel(c.cat,c.txt); else addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set,undefined,undefined,c.grp,c.red); });
 }
 
 function shouldUseDefault(d){
@@ -1665,7 +1722,7 @@ function initDayButtons(){
     saveDayCL(currentDay);
   } else {
     const data=loadDayCL(currentDay);
-    if(data&&data.cl) data.cl.forEach(c=>addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set,c.pri,c.sub));
+    if(data&&data.cl) data.cl.forEach(c=>addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set,c.pri,c.sub,c.grp,c.red));
     setCatTimes(data&&data.catTimes?data.catTimes:{});
   }
   applyRhyTags(currentDay);
@@ -1804,23 +1861,6 @@ function saveSharedTecIdea(){
 }
 // ──────────────────────────────────────────────────────────
 
-function moveTodoToSunday(){
-  saveDayCL(currentDay);
-  const sunData=loadDayCL(6);
-  const sunCL=(sunData&&sunData.cl)?sunData.cl:[];
-  const sunTexts=new Set(sunCL.map(c=>c.txt));
-  let added=0;
-  for(let d=0;d<6;d++){
-    const data=loadDayCL(d);
-    if(!data||!data.cl)continue;
-    data.cl.filter(c=>!c.chk).forEach(c=>{
-      if(!sunTexts.has(c.txt)){sunCL.push({...c,chk:false});sunTexts.add(c.txt);added++;}
-    });
-  }
-  if(added===0){toast('⚠️ 이동할 미체크 항목이 없습니다');return;}
-  localStorage.setItem(getDayCLKey(6),JSON.stringify({cl:sunCL}));
-  toast(`📅 월~토 미체크 ${added}개 → 일요일에 추가됨`);
-}
 // ──────────────────────────────────────────────────────────
 
 // ── 참고표 토글 ───────────────────────────────────────────
@@ -1971,11 +2011,12 @@ function renderHist(){
 
 function openM(id){
   const r=dbGet().find(x=>x.id===id);if(!r)return;
-  const CI={pad:'🥁',rhy:'🎵',tec:'⚡',book:'📚',exam:'🏆',etc:'🎼',misc2:'🥁',prob:'🔧'};
-  const CN={pad:'기본기 및 피지컬',rhy:'장르',tec:'테크닉',book:'교재',exam:'입시',etc:'음악성',misc2:'기타 연습',prob:'문제점/고쳐야할점'};
+  if(r.cl) r.cl.forEach(migratePhyCat);
+  const CI={pad:'🥁',phy:'💪',rhy:'🎵',tec:'⚡',book:'📚',exam:'🏆',etc:'🎼',misc2:'🥁',prob:'🔧'};
+  const CN={pad:'기본기',phy:'피지컬',rhy:'장르',tec:'테크닉',book:'교재',exam:'입시',etc:'음악성',misc2:'기타 연습',prob:'문제점/고쳐야할점'};
   let clh='';
   if(r.cl&&r.cl.length){
-    ['pad','rhy','tec','book','exam','etc','misc2','prob'].forEach(c=>{
+    ['pad','phy','rhy','tec','book','exam','etc','misc2','prob'].forEach(c=>{
       const items=r.cl.filter(x=>x.cat===c);if(!items.length)return;
       clh+=`<div style="font-size:.68rem;color:var(--text3);letter-spacing:1px;text-transform:uppercase;font-family:'Space Mono',monospace;margin:10px 0 3px">${CI[c]} ${CN[c]}</div>`;
       items.forEach(x=>{
@@ -1986,7 +2027,7 @@ function openM(id){
   }
   let cth='';
   if(r.catTimes){
-    ['pad','rhy','tec','book','exam','etc','misc2','prob'].forEach(c=>{
+    ['pad','phy','rhy','tec','book','exam','etc','misc2','prob'].forEach(c=>{
       const v=r.catTimes['cattime-'+c];
       if(v) cth+=`<div class="mci">${CI[c]} <span style="flex:1">${CN[c]}</span><span style="color:var(--text2)">${v}분</span></div>`;
     });
@@ -2046,7 +2087,7 @@ function toast(msg){const t=document.getElementById('toast');if(!t)return;t.text
 
 // ── 타이머 ────────────────────────────────────────────────
 // 스톱워치: 카테고리 타이머 합산
-const SW_CATS=['pad','exam','rhy','tec','book','etc','misc2','prob'];
+const SW_CATS=['pad','phy','exam','rhy','tec','book','etc','misc2','prob'];
 let swSumInterval=null;
 
 function swFormat(ms){
@@ -2057,7 +2098,8 @@ function swFormat(ms){
   return `${h}:${m}:${sc}`;
 }
 function swGetTotalElapsed(){
-  return SW_CATS.reduce((sum,cat)=>{
+  // '남은 시간에 할 것들'(기타 연습, misc2)은 전체 시간 합계에서 제외
+  return SW_CATS.filter(c=>c!=='misc2').reduce((sum,cat)=>{
     const st=catSwState[cat];
     if(!st) return sum;
     return sum+(st.running ? st.elapsed+(Date.now()-st.startTs) : st.elapsed);
@@ -2167,7 +2209,7 @@ const TAG_GROOVE=['스윙','셔플','바운스','정글','8비트','16비트','6
 const TAG_PURPOSE=['그루브','포켓','뉘앙스','다이나믹','고스트 노트','킥','스네어','하이햇','심벌','필인','프레이즈','악센트','인터랙션','컴핑','타임','톤','찹스','테크닉','루디먼트','디스플레이스먼트','아이디어','배리에이션','오케스트레이션'];
 const DRUMMER_DB_KEY='drum_drummer_db_v1';
 const DRUMMER_DB_DEFAULT=[
-  {name:'라넬루이스',tags:['재즈','모던 재즈','퓨전 재즈','알앤비','가스펠','펑크','아프로캐리비안',
+  {name:'Larnell Lewis',tags:['재즈','모던 재즈','퓨전 재즈','알앤비','가스펠','펑크','아프로캐리비안',
      '그루브','당김음','폴리리듬','리니어','6연음','16비트 트리플렛 계열','비정형 리듬','포켓','푸시','풀','다이내믹 필',
      '뉘앙스','다이나믹','하이햇','킥','스네어','고스트 노트','오케스트레이션','필인','악센트','인터랙션','아이디어',
      '루디먼트','찹스','테크닉','톤','프레이즈','디스플레이스먼트'],
@@ -2175,18 +2217,27 @@ const DRUMMER_DB_DEFAULT=[
      bands:['Snarky Puppy — 퓨전 재즈','Jeremy Ledbetter Trio — 컨템포러리 재즈','Larnell Lewis (리더 프로젝트) — 퓨전 · 가스펠'],
      artists:['Pat Metheny (기타)','Gregory Porter (보컬)','Kurt Elling (보컬)','Gary Burton (비브라폰)','John Scofield (기타)','Benny Golson (색소폰)','Lisa Fischer (보컬)','Lalah Hathaway (보컬)','Etienne Charles (트럼펫)','Quincy Jones (프로듀서·작곡가)','Jacob Collier (보컬·멀티악기)','Laila Biali (보컬·피아노)','Molly Johnson (보컬)','Fred Hammond (보컬·베이스)','Michael Brecker (색소폰)','Dave Holland (베이스)','Dave Liebman (색소폰)','Steve Gadd (드럼)','Tim Ries (색소폰, The Rolling Stones)','Glenn Lewis (보컬)','Jully Black (보컬)','Matt Dusk (보컬)','Kellylee Evans (보컬)','Joy Lapps (스틸팬)','Mohini Dey (베이스)']
    }},
-  {name:'베니그랩',tags:['재즈','퓨전 재즈','펑크','록','뉴웨이브','펑크록',
+  {name:'Benny Greb',tags:['재즈','퓨전 재즈','펑크','록','뉴웨이브','펑크록',
      '그루브','포켓','필','다이내믹 필','리니어','당김음','디스플레이스먼트','스트레이트','16비트',
      '고스트 노트','다이나믹','뉘앙스','테크닉','찹스','톤','오케스트레이션','인터랙션','프레이즈','하이햇','킥','스네어','아이디어','필인','악센트'],
    collab:{
      bands:['Moving Parts (본인 리더 밴드) — 퓨전 · 펑크','Benny Greb Brass Band (본인 브라스 밴드) — 재즈 · 펑크','The Ron Spielman Trio — 록 · 블루스','Jerobeam — 펑크','NDR Bigband (Frank Zappa Project) — 퓨전 빅밴드','Strom & Wasser — 어쿠스틱 펑크'],
      artists:['Wayne Krantz (기타)','Stoppok (보컬·기타)','Sabri Tulug Tirpan (트럼펫)','Christian von Richthofen (퍼커션·차량 타악기 콜라보)','Cathy Rich (Buddy Rich Big Band 리더, 특별 게스트로 초청)']
+   }},
+  {name:'John Blackwell',tags:['재즈','퓨전 재즈','알앤비','펑크','팝','소울',
+     '그루브','포켓','필','다이내믹 필','16비트','당김음','리니어','더블타임','스트레이트','하프타임',
+     '뉘앙스','다이나믹','고스트 노트','킥','스네어','하이햇','심벌','필인','프레이즈','악센트','인터랙션',
+     '찹스','테크닉','오케스트레이션','배리에이션','타임'],
+   collab:{
+     bands:['The New Power Generation (Prince 백밴드) — 펑크 · 알앤비','Cameo — 펑크','Maze ft. Frankie Beverly — 소울 · 펑크',"D'Angelo & The Vanguard — 네오 소울"],
+     artists:['Prince (보컬·기타)','Justin Timberlake (보컬)','Patti LaBelle (보컬)','Bootsy Collins (베이스)','Hikaru Utada (보컬)']
    }}
 ];
 let drummerDB=[];
 let drummerFilterTags=[];
 let drummerOpenSet=new Set();
 let drummerPhotoOpenSet=new Set();
+let drummerYtOpenSet=new Set();
 let drummerCollabOpenSet=new Set();
 function escHtml(s){return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function loadDrummerDB(){
@@ -2196,9 +2247,12 @@ function loadDrummerDB(){
   }catch(e){
     drummerDB=JSON.parse(JSON.stringify(DRUMMER_DB_DEFAULT));
   }
+  // 이름을 한글 표기 → 영문 표기로 변경 (기존에 저장된 사진/링크/체크는 그대로 유지)
+  const NAME_RENAME_MAP={'라넬루이스':'Larnell Lewis','베니그랩':'Benny Greb'};
+  drummerDB.forEach(d=>{ if(NAME_RENAME_MAP[d.name]) d.name=NAME_RENAME_MAP[d.name]; });
   // 드러머별 태그·협연 정보를 최신 버전으로 강제 동기화 (예전 브라우저 저장 데이터 보정)
   // 앞으로 태그/협연 내용을 갱신할 때는 이 버전 문자열만 올려주면 전체가 최신화됩니다.
-  const FULL_SYNC_VERSION='v10';
+  const FULL_SYNC_VERSION='v13';
   const FULL_SYNC_KEY='drum_drummer_fullsync_'+FULL_SYNC_VERSION;
   if(!localStorage.getItem(FULL_SYNC_KEY)){
     DRUMMER_DB_DEFAULT.forEach(def=>{
@@ -2309,6 +2363,20 @@ function updateDrummerName(idx,val){
   drummerDB[idx].name=val;
   saveDrummerDB();
 }
+function drummerYtUrl(d){
+  if(d.ytUrl && d.ytUrl.trim()) return d.ytUrl.trim();
+  return 'https://www.youtube.com/results?search_query='+encodeURIComponent((d.name||'')+' drummer');
+}
+function toggleDrummerYtEdit(idx){
+  if(drummerYtOpenSet.has(idx)) drummerYtOpenSet.delete(idx); else drummerYtOpenSet.add(idx);
+  renderDrummerDB();
+}
+function updateDrummerYtUrl(idx,val){
+  if(!drummerDB[idx]) return;
+  drummerDB[idx].ytUrl=val.trim();
+  saveDrummerDB();
+  renderDrummerDB();
+}
 function addDrummer(){
   drummerDB.push({name:'',tags:[]});
   saveDrummerDB();
@@ -2321,6 +2389,7 @@ function deleteDrummer(idx){
   drummerDB.splice(idx,1);
   drummerOpenSet.delete(idx);
   drummerPhotoOpenSet.delete(idx);
+  drummerYtOpenSet.delete(idx);
   saveDrummerDB();
   renderDrummerDB();
 }
@@ -2338,13 +2407,19 @@ function renderDrummerDB(){
     const isOpen=drummerOpenSet.has(i);
     const isCollabOpen=drummerCollabOpenSet.has(i);
     const isPhotoOpen=drummerPhotoOpenSet.has(i);
+    const isYtOpen=drummerYtOpenSet.has(i);
     return `<div class="drummer-entry">
       <div class="drummer-entry-head">
         <button type="button" class="drummer-collab-toggle" onclick="toggleDrummerCollab(${i})" title="협연 정보">${isCollabOpen?'▾':'▸'}</button>
         <div class="drummer-photo">${d.img?`<img src="${escHtml(d.img)}" alt="">`:'🥁'}</div>
         <input type="text" class="drummer-name-input" value="${escHtml(d.name)}" placeholder="드러머 이름" oninput="updateDrummerName(${i},this.value)">
+        <a class="drummer-yt-link" href="${escHtml(drummerYtUrl(d))}" target="_blank" rel="noopener" title="유튜브에서 보기">▶</a>
+        <button type="button" class="drummer-photoedit-toggle" onclick="toggleDrummerYtEdit(${i})">${isYtOpen?'▾':'▸'} 링크</button>
         <button type="button" class="drummer-photoedit-toggle" onclick="toggleDrummerPhotoEdit(${i})">${isPhotoOpen?'▾':'▸'} 사진</button>
         <button type="button" class="drummer-tagedit-toggle" onclick="toggleDrummerTagEdit(${i})">${isOpen?'▾':'▸'} 태그편집</button>
+      </div>
+      <div class="drummer-photoedit-wrap${isYtOpen?' open':''}">
+        <input type="text" placeholder="유튜브 채널/영상 URL (비워두면 이름으로 자동 검색)" value="${d.ytUrl?escHtml(d.ytUrl):''}" onchange="updateDrummerYtUrl(${i},this.value)">
       </div>
       <div class="drummer-photoedit-wrap${isPhotoOpen?' open':''}">
         <label>파일 선택<input type="file" accept="image/*" onchange="updateDrummerImgFile(${i},this)"></label>
