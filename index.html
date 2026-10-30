@@ -35,9 +35,6 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-seri
 .inp:focus{border-color:var(--accent)}
 .inp::placeholder{color:var(--text3)}
 textarea.inp{resize:vertical;line-height:1.7}
-.cg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
-.cb2{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:9px;color:var(--text2);font-size:.85rem;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .15s}
-.cb2.on{background:rgba(124,58,237,.25);border-color:var(--accent);color:#fff;font-weight:700}
 .nl{list-style:none}
 .nl li{padding:5px 0;font-size:.84rem;border-bottom:1px solid rgba(42,42,64,.4)}
 .nl li:last-child{border-bottom:none}
@@ -64,18 +61,13 @@ textarea.inp{resize:vertical;line-height:1.7}
 .cattime-btn{background:rgba(124,58,237,.25);border:1px solid var(--accent);border-radius:5px;color:#fff;font-size:.65rem;padding:2px 7px;cursor:pointer;font-family:'Space Mono',monospace;line-height:1.4}
 .cattime-btn.reset{background:rgba(42,42,64,.6);border-color:var(--border);color:var(--text2)}
 .cattime-btn:active{opacity:.7}
-.delbtn{background:none;border:none;color:var(--text3);cursor:pointer;font-size:.85rem;padding:2px 4px;border-radius:4px}
 .pribtn{background:none;border:none;color:var(--text3);cursor:pointer;font-size:.9rem;padding:2px;opacity:.4;transition:all .15s}
 .pribtn:hover{opacity:.8}
 .pribtn.on{color:var(--gold);opacity:1}
 .clr.pri{background:rgba(245,158,11,.08)}
-.grpwrap{display:flex;align-items:center;gap:8px}
-.grpbadge{flex:none;font-size:.62rem;font-weight:700;padding:1px 7px;border-radius:10px;background:rgba(148,163,184,.18);color:#94a3b8;white-space:nowrap}
-.grpbadge.deep{background:rgba(124,58,237,.25);color:#c4b5fd}
 .clr.redrow .cltxt{color:#ef4444!important}
 #body-rhy .clr.redrow .cltxt{color:#fff!important}
 .clr.pri .cltxt{color:var(--gold);font-weight:700}
-.delbtn:hover{color:var(--red)}
 .addbtn{background:none;border:1px dashed var(--text3);border-radius:8px;color:var(--text3);font-size:.76rem;padding:7px;width:100%;cursor:pointer;margin-top:5px;font-family:'Noto Sans KR',sans-serif}
 .cl-item-row{display:flex;align-items:center;gap:4px}
 .subtoggle{background:none;border:none;color:var(--accent3);cursor:pointer;font-size:.7rem;font-weight:700;padding:2px;width:14px;flex:none;transition:transform .15s}
@@ -86,8 +78,6 @@ textarea.inp{resize:vertical;line-height:1.7}
 .subitem{display:flex;align-items:center;gap:5px;padding:3px 0}
 .subitem input[type=checkbox]{width:15px;height:15px;accent-color:var(--accent2);cursor:pointer;flex:none}
 .subtxt{background:transparent;border:none;color:var(--text);font-size:.8rem;font-weight:600;width:100%;outline:none;font-family:'Noto Sans KR',sans-serif}
-.subdel{background:none;border:none;color:var(--text3);cursor:pointer;font-size:.7rem;padding:1px 3px;flex:none}
-.subdel:hover{color:var(--red)}
 .subadd{background:none;border:none;color:var(--accent3);cursor:pointer;font-size:.72rem;font-weight:700;padding:4px 0;font-family:'Noto Sans KR',sans-serif;opacity:1}
 .subadd:hover{opacity:1}
 .subitem-row{display:flex;align-items:center;gap:4px;width:100%}
@@ -109,8 +99,6 @@ textarea.inp{resize:vertical;line-height:1.7}
 .drummer-entry-head{display:flex;align-items:center;gap:8px}
 .drummer-name-input{flex:1;background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--text);font-size:.9rem;font-weight:700;padding:3px 2px;font-family:'Noto Sans KR',sans-serif}
 .drummer-name-input:focus{outline:none;border-color:var(--accent)}
-.drummer-del{background:none;border:none;color:var(--text3);cursor:pointer;font-size:.85rem;flex:none}
-.drummer-del:hover{color:var(--red)}
 .drummer-tagedit-toggle{background:none;border:none;color:var(--accent3);cursor:pointer;font-size:.7rem;font-weight:700;flex:none;white-space:nowrap}
 .drummer-collab-toggle{background:none;border:none;color:var(--accent3);cursor:pointer;font-size:.7rem;font-weight:700;flex:none;white-space:nowrap}
 .drummer-collab-wrap{display:none;margin-top:8px;padding-top:8px;border-top:1px dashed var(--border)}
@@ -508,7 +496,6 @@ const RHY_TREE=[
 ];
 
 
-
 const TEC_TREE=[
   {parent:'콤비네이션', children:['오케스트레이션','플램 활용','32비트 활용','쉼표 활용','심벌 활용','엇박 활용','스와핑 활용','3·4·6연음','4연음 3·5·6 그루핑','6연음 3·4·5 그루핑']},
   {parent:'스틱킹', children:['오케스트레이션','플램 활용','32비트 활용','쉼표 활용','심벌 활용','엇박 활용','스와핑 활용','킥 밀기','킥 유니즌','손 발 치환','3·4·6연음','4연음 3·5·6 그루핑','6연음 3·4·5 그루핑']},
@@ -542,15 +529,6 @@ const TEC_TREE=[
 ];
 
 const ETC=['녹음','아이디어 연구','인스타 악보 따라하기 · 응용','화성학 공부'];
-
-const RYTEC=[
-  '메트로놈 1마디키고 3마디 끄고 돌아오기+(필)',
-  '1코러스 리듬 1코러스 솔로 (리듬, 찹스)',
-  'MR 연습',
-  '이야기 전개 연습 (10분이상 끊기지 않고 말하듯)',
-  '전진 연습 (절지 않고 쭉 밀고 나가기, 빨라져도 안절게 만들기, 단어 사용하기 편하게 익히기)'
-];
-
 
 
 function buildRef(elId,data,cat,cls){
@@ -668,7 +646,6 @@ function buildRhyRef(){
     });
   });
 }
-
 
 
 function buildRytecRef(){
@@ -938,18 +915,6 @@ function addSubItem(btn){
   if(last) last.focus();
   as();
 }
-function togglePri(btn){
-  const on=btn.classList.toggle('on');
-  btn.closest('tr').classList.toggle('pri',on);
-  as();
-}
-function addLabel(cat,txt){
-  const tb=document.getElementById('body-'+cat);
-  if(!tb) return;
-  const tr=document.createElement('tr'); tr.className='clr cllabel';
-  tr.innerHTML=`<td colspan="6" style="padding:5px 10px;font-size:.72rem;color:var(--text3);font-style:italic;letter-spacing:.3px;border-bottom:1px solid var(--border);user-select:none">${txt}</td>`;
-  tb.appendChild(tr);
-}
 function fromRef(cat,txt,idx){
   addRow(cat,txt);
   const el=document.getElementById('ri-'+cat+'-'+idx);
@@ -960,7 +925,7 @@ function fromRef(cat,txt,idx){
 function getCL(){
   const r=[];
   ['pad','phy','rhy','tec','book','exam','etc','misc2','prob'].forEach(c=>{
-    document.querySelectorAll('#body-'+c+' .clr:not(.cllabel)').forEach(tr=>{
+    document.querySelectorAll('#body-'+c+' .clr').forEach(tr=>{
       const txt=tr.querySelector('.cltxt').value.trim(); if(!txt)return;
       const nums=tr.querySelectorAll('.clnum');
       const pri=tr.querySelector('.pribtn')?.classList.contains('on')||false;
@@ -977,23 +942,9 @@ function getCL(){
 
 
 let grooveBuilder='';
-function setGrooveBuilder(v){grooveBuilder=v;}
 
 
-let grooveComboBase = '';
-let grooveComboParts = [];
-let grooveComboRow = null;
 let grooveComboInput = null;
-
-function updateGrooveCombo(){
-  if(!grooveComboBase) return;
-  const txt = grooveComboBase + (grooveComboParts.length ? ' + ' + grooveComboParts.join(' + ') : '');
-
-  if(grooveComboRow && grooveComboRow.isConnected){
-    const t = grooveComboRow.querySelector('.task-text');
-    if(t) t.textContent = txt;
-  }
-}
 
 
 let sv=0;
@@ -1503,7 +1454,6 @@ const MON_DEFAULT=[
   {cat:"misc2",txt:"메트릭 모듈레이션",chk:false,mins:'',tempo:'',set:''},
   {cat:"misc2",txt:"리니어 리듬",chk:false,mins:'',tempo:'',set:''},
 ];
-// 화~금은 사진 받는 대로 채울 예정 — 지금은 월요일과 동일하게 임시 설정
 const TUE_DEFAULT=[
   {cat:"pad",txt:"싱글 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"기본기 매일"},
   {cat:"pad",txt:"더블 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"기본기 매일"},
@@ -1698,7 +1648,7 @@ const DEFAULT_VERSION='v20.56'; // 기본값 바뀌면 이 숫자 올리기
 const DEFAULT_VER_KEY='drum_default_ver';
 
 function loadDefaultCL(list){
-  list.forEach(c=>{ if(c.label) addLabel(c.cat,c.txt); else addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set,undefined,undefined,c.grp,c.red); });
+  list.forEach(c=>addRow(c.cat,c.txt,c.chk,c.mins,c.tempo,c.set,undefined,undefined,c.grp,c.red));
 }
 
 function shouldUseDefault(d){
@@ -1729,9 +1679,6 @@ function initDayButtons(){
   applyTecTags(currentDay);
   loadSharedSoloDom();
   refreshAllCatTargets();
-}
-function loadMonLabels(){
-  MON_DEFAULT.filter(c=>c.label).forEach(c=>addLabel(c.cat,c.txt));
 }
 // ── 리듬 헤더 태그 색상 토글 (요일별) ────────────────────
 const RHYTAG_KEY='drum_rhytag_v1';
@@ -1811,7 +1758,7 @@ function loadSharedSolo(){
 })();
 function saveSharedSolo(){
   const prob=[];
-  document.querySelectorAll('#body-prob .clr:not(.cllabel)').forEach(tr=>{
+  document.querySelectorAll('#body-prob .clr').forEach(tr=>{
     const txt=tr.querySelector('.cltxt').value.trim();if(!txt)return;
     const nums=tr.querySelectorAll('.clnum');
     const pri=tr.querySelector('.pribtn')?.classList.contains('on')||false;
@@ -1852,7 +1799,7 @@ function loadSharedTecIdea(){
   try{return JSON.parse(localStorage.getItem(TEC_IDEA_KEY))||{chk:false,mins:'',tempo:'',set:'',sub:[]};}catch{return{chk:false,mins:'',tempo:'',set:'',sub:[]};}
 }
 function saveSharedTecIdea(){
-  const tr=[...document.querySelectorAll('#body-tec .clr:not(.cllabel)')].find(r=>r.querySelector('.cltxt')?.value.trim()==='아이디어');
+  const tr=[...document.querySelectorAll('#body-tec .clr')].find(r=>r.querySelector('.cltxt')?.value.trim()==='아이디어');
   if(!tr) return;
   const nums=tr.querySelectorAll('.clnum');
   const sub=[...tr.querySelectorAll('.subitem')].map(si=>({txt:si.querySelector('.subtxt').value.trim(),chk:si.querySelector('input[type=checkbox]').checked})).filter(s=>s.txt);
@@ -1988,7 +1935,6 @@ function delRec(id,e){
   dbSet(dbGet().filter(r=>r.id!==id));renderHist();toast('🗑️ 삭제되었습니다');
 }
 
-const CE={'매우 좋음':'😄','좋음':'😊','보통':'😐','나쁨':'😔'};
 const SS=n=>'★'.repeat(n||0)+'☆'.repeat(5-(n||0));
 
 function renderHist(){
@@ -2112,11 +2058,6 @@ function swUpdateDisplay(){
 function swStartSumTimer(){
   if(swSumInterval) return;
   swSumInterval=setInterval(swUpdateDisplay,500);
-}
-function swStopSumTimer(){
-  // 아직 실행 중인 카테고리 타이머가 있으면 유지
-  const anyRunning=SW_CATS.some(c=>catSwState[c]&&catSwState[c].running);
-  if(!anyRunning){ clearInterval(swSumInterval); swSumInterval=null; }
 }
 function swInit(){ swStartSumTimer(); swUpdateDisplay(); }
 
@@ -2385,14 +2326,6 @@ function addDrummer(){
   const last=inputs[inputs.length-1];
   if(last) last.focus();
 }
-function deleteDrummer(idx){
-  drummerDB.splice(idx,1);
-  drummerOpenSet.delete(idx);
-  drummerPhotoOpenSet.delete(idx);
-  drummerYtOpenSet.delete(idx);
-  saveDrummerDB();
-  renderDrummerDB();
-}
 function renderDrummerDB(){
   const body=document.getElementById('drummerDbBody');
   if(!body) return;
@@ -2581,4 +2514,4 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 </script>
 </body>
-</html>\n<!-- 문제점/고쳐야할점: 시작 필인 다양하게 넣기, 킥으로만 끝내는 것 고치기 -->\n
+</html>
