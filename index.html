@@ -807,18 +807,8 @@ function updateBestTempoFromRow(input){
   if(!txt) return;
   updateBestTempo(txt, input.value);
 }
-// '카피 응용' 항목(장르: 리듬 카피 응용 / 테크닉: 카피 응용)의 기본 하위 항목
-// 장르(리듬 카피 응용)용 = 그루브 응용 / 테크닉(카피 응용)용 = 필인 응용
-const COPY_APPLY_GROOVE=['킥 바꾸기 (손은 그대로, 킥 위치 변경·추가)','하이햇 바꾸기 (8분 ↔ 16분, 햇 ↔ 라이드, 오픈 위치)','스네어 바꾸기 (고스트 넣기·빼기, 악센트 위치)','음 빼기 (킥·햇 일부를 쉼으로, 여백 만들기)','킥 위치 밀기','템포 바꾸기 (느리게 / 빠르게)','다른 악기로 옮기기 (하이햇 → 라이드벨·림·탐)','조각 섞기 (A의 킥 + B의 하이햇)','다른 리듬에 적용','다른 노래에 적용','원본 4마디 ↔ 변형 4마디 번갈아 치기'];
-// (이전 그루브 목록: 저장된 데이터 변환 시 구분용)
-const COPY_APPLY_GROOVE_V2=['킥 바꾸기 (손은 그대로, 킥 위치 변경·추가)','하이햇 바꾸기 (8분 ↔ 16분, 햇 ↔ 라이드, 오픈 위치)','스네어 바꾸기 (고스트 넣기·빼기, 악센트 위치)','음 빼기 (킥·햇 일부를 쉼으로, 여백 만들기)','시작 위치 밀기 (패턴을 8분·16분 하나 뒤로)','템포 바꾸기 (느리게 / 빠르게)','느낌 바꾸기 (스트레이트 ↔ 셔플·스윙)','다른 악기로 옮기기 (하이햇 → 라이드벨·림·탐)','조각 섞기 (A의 킥 + B의 하이햇)','다른 리듬에 적용 (예: 펑크 킥을 보사노바 위에)','다른 노래에 적용','원본 4마디 ↔ 변형 4마디 번갈아 치기'];
-const COPY_APPLY_FILL=['악기 이동 (스네어 → 탐)','시작 위치 밀기 (16분음표 하나씩 뒤로)','음 빼기 (일부를 쉼으로)','킥 바꾸기 (손 패턴은 그대로, 킥 위치 변경·추가)','강약 바꾸기 (악센트·고스트 위치 변경)','쪼개는 단위 바꾸기 (16분 ↔ 셋잇단)','방향 뒤집기 (끝에서 시작으로)','다른 노래에 적용','다른 리듬에 적용'];
-function isCopyApplyRow(cat,txt){return (cat==='rhy'&&txt==='리듬 카피 응용')||(cat==='tec'&&txt==='카피 응용');}
-function copyApplySubs(cat){return (cat==='rhy'?COPY_APPLY_GROOVE:COPY_APPLY_FILL).map(t=>({txt:t,chk:false,sub:[]}));}
 function addRow(cat,txt,chk,mins,tempo,set,pri,sub,grp,red){
   if(cat==='ryt') cat='rhy';
-  const isCopyApply=isCopyApplyRow(cat,txt);
-  if(isCopyApply && sub===undefined) sub=copyApplySubs(cat);
   if(cat==='tec' && txt==='아이디어'){
     const shared=loadSharedTecIdea();
     chk=shared.chk; mins=shared.mins; tempo=shared.tempo; set=shared.set; sub=shared.sub;
@@ -853,8 +843,7 @@ function addRow(cat,txt,chk,mins,tempo,set,pri,sub,grp,red){
   const minsVal = mins || (setLabel==='세트' ? '1' : '');
   const setVal = set || (setLabel==='세트' ? '3/0' : '');
   const hasSub = Array.isArray(sub) && sub.length>0;
-  const subOpen = isCopyApply ? (hasSub && sub.some(x=>x&&x.chk)) : hasSub; // 카피 응용은 기본 접힘, 체크된 게 있으면 펼침
-  const allowSub = (cat==='rhy' && (txt==='리듬 카피' || txt==='드러머' || txt==='드럼 카피' || txt==='드러머 카피' || txt==='아이디어')) || (cat==='tec' && txt==='아이디어') || isCopyApply;
+  const allowSub = (cat==='rhy' && (txt==='리듬 카피' || txt==='드러머' || txt==='드럼 카피' || txt==='드러머 카피' || txt==='아이디어')) || (cat==='tec' && txt==='아이디어');
   const hideBpmSet = cat==='etc' || cat==='rhy' || (cat==='exam' && ['입시곡'].includes(txt));
   const subItemsHtml = (sub||[]).map(s=>{
     const hasSubSub = Array.isArray(s.sub) && s.sub.length>0;
@@ -864,8 +853,8 @@ function addRow(cat,txt,chk,mins,tempo,set,pri,sub,grp,red){
   const tr=document.createElement('tr'); tr.className='clr'+(pri?' pri':'');
   tr.innerHTML=`<td class="chkcell"><input type="checkbox" ${chk?'checked':''}></td>
     <td>
-      ${allowSub?`<div class="cl-item-row"><button type="button" class="subtoggle${subOpen?' open':''}" onclick="toggleSubList(this)" title="하위 리스트">▸</button><input type="text" class="cltxt" value="${txt||''}" placeholder="연습 항목 입력" oninput="as()"></div>
-      <div class="sublist-wrap${subOpen?' open':''}"><div class="sublist">${subItemsHtml}</div><button type="button" class="subadd" onclick="addSubItem(this)">+ 하위 항목</button></div>`:`<input type="text" class="cltxt" value="${txt||''}" placeholder="연습 항목 입력" oninput="as()">`}
+      ${allowSub?`<div class="cl-item-row"><button type="button" class="subtoggle${hasSub?' open':''}" onclick="toggleSubList(this)" title="하위 리스트">▸</button><input type="text" class="cltxt" value="${txt||''}" placeholder="연습 항목 입력" oninput="as()"></div>
+      <div class="sublist-wrap${hasSub?' open':''}"><div class="sublist">${subItemsHtml}</div><button type="button" class="subadd" onclick="addSubItem(this)">+ 하위 항목</button></div>`:`<input type="text" class="cltxt" value="${txt||''}" placeholder="연습 항목 입력" oninput="as()">`}
     </td>
     ${cat==='rhy'?'':`<td style="text-align:center"><input type="text" class="clnum" value="${minsVal}" placeholder="분" oninput="as()">${prevMins?`<span class='prev-hint' data-prev="${prevMins}" onclick="fillPrev(this)">${prevMins}분</span>`:''}<button type="button" class="lapbtn" onclick="catLap(this,'${cat}')" title="스톱워치에서 경과 시간 가져오기">⏱ 기록</button></td>`}
     ${hideBpmSet?'':`<td style="text-align:center"><input type="text" class="clnum" value="${tempo||''}" placeholder="BPM" oninput="as();updateBestTempoFromRow(this)">${prevTempo?`<span class='prev-hint' data-prev="${prevTempo}" onclick="fillPrev(this)">${prevTempo}</span>`:''}</td>
@@ -1293,6 +1282,41 @@ function loadDayCL(d){
         const bm2=loadBestTempoMap();
         if(bm2['다이나믹 세분화 하기']&&!bm2['톤연구(다이나믹 세분화)']){ bm2['톤연구(다이나믹 세분화)']=bm2['다이나믹 세분화 하기']; saveBestTempoMap(bm2); }
       }catch(e){}
+      // '드럼으로 멜로디 연주 · 멜로디 따라가기'는 목·금에만 두고 나머지 요일에서는 1회 제거 (저장된 데이터)
+      if(d!==3&&d!==4){
+        try{
+          const rk='drum_mig_melody_rm_v1_'+d;
+          if(!localStorage.getItem(rk)){
+            localStorage.setItem(rk,'1');
+            const n0=o.cl.length;
+            o.cl=o.cl.filter(x=>!(x&&x.cat==='rhy'&&x.txt==='드럼으로 멜로디 연주 · 멜로디 따라가기'));
+            if(o.cl.length!==n0) localStorage.setItem(getDayCLKey(d),JSON.stringify(o));
+          }
+        }catch(e){}
+      }
+      // 목요일: 장르의 '50~70정도로 리듬 치기' 제거 (저장된 데이터에서는 1회만)
+      if(d===3){
+        try{
+          if(!localStorage.getItem('drum_mig_thu_rm_v1')){
+            localStorage.setItem('drum_mig_thu_rm_v1','1');
+            const n0=o.cl.length;
+            o.cl=o.cl.filter(x=>!(x&&x.cat==='rhy'&&x.txt==='50~70정도로 리듬 치기 (3분마다 그루브 변경)'));
+            if(o.cl.length!==n0) localStorage.setItem(getDayCLKey(d),JSON.stringify(o));
+          }
+          // 앞서 함께 지워졌을 수 있는 '메트로놈 변형 연습'을 목요일에 1회 복원
+          if(!localStorage.getItem('drum_mig_thu_metro_v1')){
+            localStorage.setItem('drum_mig_thu_metro_v1','1');
+            const mt='메트로놈 - 메트로놈 변형 연습(1마디~4마디 키고 끄기, n박으로 생각하기) + (필)';
+            if(!o.cl.some(x=>x&&x.cat==='rhy'&&(x.txt===mt||x.txt==='메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)'))){
+              let pos=-1;
+              o.cl.forEach((x,i)=>{ if(x&&x.cat==='rhy'&&typeof x.txt==='string'&&x.txt.indexOf('MR 연습')===0) pos=i; });
+              if(pos<0) o.cl.forEach((x,i)=>{ if(x&&x.cat==='rhy'&&x.txt==='리듬 카피 응용') pos=i; });
+              o.cl.splice(pos<0?o.cl.length:pos+1,0,{cat:'rhy',chk:false,txt:mt,mins:'',tempo:'',set:'',pri:false,sub:[],grp:'매일',red:false});
+              localStorage.setItem(getDayCLKey(d),JSON.stringify(o));
+            }
+          }
+        }catch(e){}
+      }
       // 장르: 메트로놈 항목 이름 변경 (저장된 데이터 + 최고 BPM 기록도 새 이름으로 이어받기)
       o.cl.forEach(x=>{ if(x&&x.cat==='rhy'&&x.txt==='메트로놈 - 메트로놈 1마디 키고 1마디 끄기 +(필)') x.txt='메트로놈 - 메트로놈 변형 연습(1마디~4마디 키고 끄기, n박으로 생각하기) + (필)'; });
       try{
@@ -1343,61 +1367,6 @@ function loadDayCL(d){
           }
         }catch(e){}
       }
-      // '카피 응용' 항목(장르·테크닉)에 기본 하위 항목 추가 — 저장된 데이터에는 요일마다 1회만 (체크 기록은 유지)
-      {
-        const ck='drum_mig_copyapplysub_v1_'+d;
-        try{
-          if(!localStorage.getItem(ck)){
-            localStorage.setItem(ck,'1');
-            let changed=false;
-            o.cl.forEach(x=>{ if(x&&isCopyApplyRow(x.cat,x.txt)&&(!Array.isArray(x.sub)||x.sub.length===0)){ x.sub=copyApplySubs(x.cat); changed=true; } });
-            if(changed) localStorage.setItem(getDayCLKey(d),JSON.stringify(o));
-          }
-        }catch(e){}
-      }
-      // 장르 '리듬 카피 응용': 예전 기본 하위 항목(필인용)을 그루브용 목록으로 교체 — 요일마다 1회, 직접 추가·수정한 하위 항목은 유지
-      {
-        const gk='drum_mig_copyapplysub_groove_v2_'+d;
-        try{
-          if(!localStorage.getItem(gk)){
-            localStorage.setItem(gk,'1');
-            let changed=false;
-            o.cl.forEach(x=>{
-              if(!(x&&x.cat==='rhy'&&x.txt==='리듬 카피 응용')) return;
-              const cur=Array.isArray(x.sub)?x.sub:[];
-              const custom=cur.filter(y=>y&&COPY_APPLY_FILL.indexOf(y.txt)<0&&COPY_APPLY_GROOVE.indexOf(y.txt)<0);
-              const hadOld=cur.some(y=>y&&COPY_APPLY_FILL.indexOf(y.txt)>=0);
-              if(!hadOld && cur.length>0) return;
-              const keepChk={}; cur.forEach(y=>{ if(y&&y.chk) keepChk[y.txt]=true; });
-              x.sub=COPY_APPLY_GROOVE.map(t=>({txt:t,chk:!!keepChk[t],sub:[]})).concat(custom);
-              changed=true;
-            });
-            if(changed) localStorage.setItem(getDayCLKey(d),JSON.stringify(o));
-          }
-        }catch(e){}
-      }
-      // 장르 '리듬 카피 응용': 그루브 목록 문구 정리(시작 위치 밀기→킥 위치 밀기, 느낌 바꾸기 삭제, 다른 리듬에 적용 간소화) — 요일마다 1회, 직접 추가한 항목은 유지
-      {
-        const g3='drum_mig_copyapplysub_groove_v3_'+d;
-        try{
-          if(!localStorage.getItem(g3)){
-            localStorage.setItem(g3,'1');
-            let changed=false;
-            const oldOnly=COPY_APPLY_GROOVE_V2.filter(t=>COPY_APPLY_GROOVE.indexOf(t)<0);
-            const remap={'시작 위치 밀기 (패턴을 8분·16분 하나 뒤로)':'킥 위치 밀기','다른 리듬에 적용 (예: 펑크 킥을 보사노바 위에)':'다른 리듬에 적용'};
-            o.cl.forEach(x=>{
-              if(!(x&&x.cat==='rhy'&&x.txt==='리듬 카피 응용')) return;
-              const cur=Array.isArray(x.sub)?x.sub:[];
-              if(!cur.some(y=>y&&oldOnly.indexOf(y.txt)>=0)) return;
-              const keepChk={}; cur.forEach(y=>{ if(y&&y.chk) keepChk[remap[y.txt]||y.txt]=true; });
-              const custom=cur.filter(y=>y&&COPY_APPLY_GROOVE_V2.indexOf(y.txt)<0&&COPY_APPLY_GROOVE.indexOf(y.txt)<0&&COPY_APPLY_FILL.indexOf(y.txt)<0);
-              x.sub=COPY_APPLY_GROOVE.map(t=>({txt:t,chk:!!keepChk[t],sub:[]})).concat(custom);
-              changed=true;
-            });
-            if(changed) localStorage.setItem(getDayCLKey(d),JSON.stringify(o));
-          }
-        }catch(e){}
-      }
       // 기타 연습(남은 시간에 할 것들): 폴리리듬 · 메트릭 모듈레이션 · 리니어 리듬 — 요일마다 1회만 추가
       if([0,1,2,3,4,6].includes(d)){
         const mk='drum_mig_misc2_v1_'+d;
@@ -1414,6 +1383,14 @@ function loadDayCL(d){
             if(changed) localStorage.setItem(getDayCLKey(d),JSON.stringify(o));
           }
         }catch(e){}
+      }
+      // 목요일: '솔로 빌드업 연습'은 항상 장르 맨 아래로
+      if(d===3){
+        const si=o.cl.findIndex(x=>x&&x.cat==='rhy'&&x.txt==='솔로 빌드업 연습 (빌드업, 선그리고 다이나믹 표현, 리듬부터 솔로)');
+        if(si>=0){
+          let last=-1; o.cl.forEach((x,i)=>{ if(x&&x.cat==='rhy') last=i; });
+          if(last>si){ const it=o.cl.splice(si,1)[0]; o.cl.splice(last,0,it); }
+        }
       }
       // 테크닉: '지금까지 연습한거로 놀기'는 항상 테크닉 맨 아래로
       {
@@ -1543,7 +1520,6 @@ const TUE_DEFAULT=[
   {cat:"rhy",txt:"솔로 빌드업 연습 (빌드업, 선그리고 다이나믹 표현, 리듬부터 솔로)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"50~70정도로 리듬 치기 (3분마다 그루브 변경)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
-  {cat:"rhy",txt:"드럼으로 멜로디 연주 · 멜로디 따라가기",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"rhy",txt:"톤연구(다이나믹 세분화)",chk:false,mins:'',tempo:'',set:'',red:true},
   {cat:"rhy",txt:"특정 멜로디 주제 삼아 꾸미기",chk:false,mins:'',tempo:'',set:'',red:true},
   {cat:"tec",txt:"카피 연습",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
@@ -1616,11 +1592,10 @@ const THU_DEFAULT=[
   {cat:"rhy",txt:"리듬 카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"MR 연습 - Jazz · Fusion Jazz",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"rhy",txt:"메트로놈 - 메트로놈 변형 연습(1마디~4마디 키고 끄기, n박으로 생각하기) + (필)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
-  {cat:"rhy",txt:"솔로 빌드업 연습 (빌드업, 선그리고 다이나믹 표현, 리듬부터 솔로)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
-  {cat:"rhy",txt:"50~70정도로 리듬 치기 (3분마다 그루브 변경)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"드럼으로 멜로디 연주 · 멜로디 따라가기",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"rhy",txt:"톤연구(다이나믹 세분화)",chk:false,mins:'',tempo:'',set:'',red:true},
+  {cat:"rhy",txt:"솔로 빌드업 연습 (빌드업, 선그리고 다이나믹 표현, 리듬부터 솔로)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"tec",txt:"카피 연습",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"tec",txt:"카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"tec",txt:"하이햇 인디펜던스",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
