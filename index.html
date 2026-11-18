@@ -1598,6 +1598,104 @@ function loadDayCL(d){
           }
         }catch(e){}
       }
+      // 장르: 목요일 'Fusion Jazz - 특정 멜로디 주제 삼아 꾸미기' 삭제, '드럼으로 멜로디 연주 · 멜로디 따라가기' → '… · 꾸미기' — 요일마다 1회, 최고 BPM 기록도 이어받기
+      {
+        const mlk='drum_mig_melody_rename_v1_'+d;
+        try{
+          if(!localStorage.getItem(mlk)){
+            localStorage.setItem(mlk,'1');
+            let changed=false;
+            if(d===3){ const n2=o.cl.length; o.cl=o.cl.filter(x=>!(x&&x.cat==='rhy'&&x.txt==='Fusion Jazz - 특정 멜로디 주제 삼아 꾸미기')); if(o.cl.length!==n2) changed=true; }
+            o.cl.forEach(x=>{ if(x&&x.cat==='rhy'&&x.txt==='드럼으로 멜로디 연주 · 멜로디 따라가기'){ x.txt='드럼으로 멜로디 연주 · 꾸미기'; changed=true; } });
+            if(changed) localStorage.setItem(getDayCLKey(d),JSON.stringify(o));
+            const bm8=loadBestTempoMap();
+            if(bm8['드럼으로 멜로디 연주 · 멜로디 따라가기']&&!bm8['드럼으로 멜로디 연주 · 꾸미기']){ bm8['드럼으로 멜로디 연주 · 꾸미기']=bm8['드럼으로 멜로디 연주 · 멜로디 따라가기']; saveBestTempoMap(bm8); }
+          }
+        }catch(e){}
+      }
+      // '파트 고정 꾸미기'는 월·수·일에만 — 화요일 저장 데이터에서 1회 제거 (수요일에는 이미 있음)
+      if(d===1){
+        const tk1='drum_mig_fixdecor_no_tue_v1';
+        try{
+          if(!localStorage.getItem(tk1)){
+            localStorage.setItem(tk1,'1');
+            const n3=o.cl.length;
+            o.cl=o.cl.filter(x=>!(x&&x.cat==='rhy'&&x.txt==='파트 고정 꾸미기'));
+            if(o.cl.length!==n3) localStorage.setItem(getDayCLKey(d),JSON.stringify(o));
+          }
+        }catch(e){}
+      }
+      // 파트 고정 꾸미기: 일요일 → 금요일로 이동 / 테크닉 '6연음 리듬(쉼표 넣기)' 화·목·일에 추가 — 저장된 데이터에 요일마다 1회
+      {
+        const mv='drum_mig_fix_sun2fri_six_v1_'+d;
+        try{
+          if(!localStorage.getItem(mv)){
+            localStorage.setItem(mv,'1');
+            let changed=false;
+            if(d===6){ const n4=o.cl.length; o.cl=o.cl.filter(x=>!(x&&x.cat==='rhy'&&x.txt==='파트 고정 꾸미기')); if(o.cl.length!==n4) changed=true; }
+            if(d===4 && !o.cl.some(x=>x&&x.cat==='rhy'&&x.txt==='파트 고정 꾸미기')){
+              let at=-1; o.cl.forEach((x,i)=>{ if(x&&x.cat==='rhy'&&x.txt==='리듬 카피 응용') at=i; });
+              if(at<0) o.cl.forEach((x,i)=>{ if(x&&x.cat==='rhy') at=i; });
+              if(at>=0){ o.cl.splice(at+1,0,{cat:'rhy',chk:false,txt:'파트 고정 꾸미기',mins:'',tempo:'',set:'',pri:false,sub:fixDecorSubs(),grp:'매일',red:false}); changed=true; }
+            }
+            if((d===1||d===3||d===6) && !o.cl.some(x=>x&&x.cat==='tec'&&x.txt==='6연음 리듬(쉼표 넣기)')){
+              const anchors=['4연음 5그루핑','6연음 5그루핑','6연음 4그루핑'];
+              let at2=-1; o.cl.forEach((x,i)=>{ if(x&&x.cat==='tec'&&anchors.indexOf(x.txt)>=0) at2=i; });
+              if(at2<0) o.cl.forEach((x,i)=>{ if(x&&x.cat==='tec'&&x.grp==='깊게') at2=i; });
+              if(at2>=0){ o.cl.splice(at2+1,0,{cat:'tec',chk:false,txt:'6연음 리듬(쉼표 넣기)',mins:'',tempo:'',set:'',pri:false,sub:[],grp:'깊게',red:false}); changed=true; }
+            }
+            if(changed) localStorage.setItem(getDayCLKey(d),JSON.stringify(o));
+          }
+        }catch(e){}
+      }
+      // 장르 '필인 후 리듬 복귀(원 · 투 · 쓰리 · 포)' 전 요일 삭제 — 저장된 데이터에서 요일마다 1회 제거
+      {
+        const fk9='drum_mig_remove_fillreturn_v1_'+d;
+        try{
+          if(!localStorage.getItem(fk9)){
+            localStorage.setItem(fk9,'1');
+            const n9=o.cl.length;
+            o.cl=o.cl.filter(x=>!(x&&x.cat==='rhy'&&typeof x.txt==='string'&&x.txt.indexOf('필인 후 리듬 복귀')===0));
+            if(o.cl.length!==n9) localStorage.setItem(getDayCLKey(d),JSON.stringify(o));
+          }
+        }catch(e){}
+      }
+      // 테크닉: '제한하기 - 1 e & a 에 들어가기' → '제한하기 - 1 & 에 들어가기' — 요일마다 1회, 최고 BPM 기록도 이어받기
+      {
+        const lk='drum_mig_limit_1and_v1_'+d;
+        try{
+          if(!localStorage.getItem(lk)){
+            localStorage.setItem(lk,'1');
+            let changed=false;
+            o.cl.forEach(x=>{ if(x&&x.cat==='tec'&&x.txt==='제한하기 - 1 e & a 에 들어가기'){ x.txt='제한하기 - 1 & 에 들어가기'; changed=true; } });
+            if(changed) localStorage.setItem(getDayCLKey(d),JSON.stringify(o));
+            const bm9=loadBestTempoMap();
+            if(bm9['제한하기 - 1 e & a 에 들어가기']&&!bm9['제한하기 - 1 & 에 들어가기']){ bm9['제한하기 - 1 & 에 들어가기']=bm9['제한하기 - 1 e & a 에 들어가기']; saveBestTempoMap(bm9); }
+          }
+        }catch(e){}
+      }
+      // '6연음 리듬(쉼표 넣기)': 테크닉 → 장르(MR 연습 바로 아래)로 이동 — 화·목·일 저장 데이터에 1회, 체크·분 기록 이어받기
+      if(d===1||d===3||d===6){
+        const mk6='drum_mig_six_to_rhy_v1_'+d;
+        try{
+          if(!localStorage.getItem(mk6)){
+            localStorage.setItem(mk6,'1');
+            const T6='6연음 리듬(쉼표 넣기)';
+            const old=o.cl.find(x=>x&&x.cat==='tec'&&x.txt===T6);
+            let changed=false;
+            if(old){ o.cl=o.cl.filter(x=>x!==old); changed=true; }
+            if(!o.cl.some(x=>x&&x.cat==='rhy'&&x.txt===T6)){
+              let at=-1; o.cl.forEach((x,i)=>{ if(x&&x.cat==='rhy'&&typeof x.txt==='string'&&x.txt.indexOf('MR 연습')===0) at=i; });
+              if(at<0) o.cl.forEach((x,i)=>{ if(x&&x.cat==='rhy') at=i; });
+              if(at>=0){
+                o.cl.splice(at+1,0,{cat:'rhy',chk:!!(old&&old.chk),txt:T6,mins:(old&&old.mins)||'',tempo:(old&&old.tempo)||'',set:(old&&old.set)||'',pri:false,sub:[],grp:'깊게',red:false});
+                changed=true;
+              }
+            }
+            if(changed) localStorage.setItem(getDayCLKey(d),JSON.stringify(o));
+          }
+        }catch(e){}
+      }
       // 기타 연습(남은 시간에 할 것들): 폴리리듬 · 메트릭 모듈레이션 · 리니어 리듬 — 요일마다 1회만 추가
       if([0,1,2,3,4,6].includes(d)){
         const mk='drum_mig_misc2_v1_'+d;
@@ -1708,7 +1806,7 @@ const MON_DEFAULT=[
   {cat:"tec",txt:"카피 연습",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"tec",txt:"카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"tec",txt:"하이햇 인디펜던스",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
-  {cat:"tec",txt:"제한하기 - 1 e & a 에 들어가기",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"제한하기 - 1 & 에 들어가기",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"tec",txt:"4연음 콤비네이션",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"tec",txt:"4연음 스틱킹",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"tec",txt:"리듬 모티브 반복",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
@@ -1737,13 +1835,12 @@ const TUE_DEFAULT=[
   {cat:"phy",txt:"피지컬 - 손발손발",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"rhy",txt:"리듬 카피 사용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"리듬 카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
-  {cat:"rhy",txt:"파트 고정 꾸미기",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"MR 연습 - Hip Hop · Jazz Hip Hop · R&B · Neo Soul",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
-  {cat:"rhy",txt:"필인 후 리듬 복귀(원 · 투 · 쓰리 · 포)",chk:false,mins:'',tempo:'',set:''},
+  {cat:"rhy",txt:"6연음 리듬(쉼표 넣기)",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"rhy",txt:"메트로놈 변형 연습(1마디~4마디 키고 끄기, n박으로 생각하기) + (필)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"솔로 빌드업 연습 (빌드업, 선그리고 다이나믹 표현, 리듬부터 솔로)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
-  {cat:"rhy",txt:"드럼으로 멜로디 연주 · 멜로디 따라가기",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"rhy",txt:"드럼으로 멜로디 연주 · 꾸미기",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"rhy",txt:"50~70으로 리듬+톤 연구 (다이나믹 세분화 · 림샷 비율 · 하이햇 악센트)",chk:false,mins:'',tempo:'',set:'',red:true},
   {cat:"rhy",txt:"특정 멜로디 주제 삼아 꾸미기",chk:false,mins:'',tempo:'',set:'',red:true},
   {cat:"tec",txt:"카피 연습",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
@@ -1777,7 +1874,6 @@ const WED_DEFAULT=[
   {cat:"rhy",txt:"리듬 카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"파트 고정 꾸미기",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"MR 연습 - Funk · Gospel",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
-  {cat:"rhy",txt:"필인 후 리듬 복귀(원 · 투 · 쓰리 · 포)",chk:false,mins:'',tempo:'',set:''},
   {cat:"rhy",txt:"메트로놈 변형 연습(1마디~4마디 키고 끄기, n박으로 생각하기) + (필)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"솔로 빌드업 연습 (빌드업, 선그리고 다이나믹 표현, 리듬부터 솔로)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
@@ -1814,17 +1910,17 @@ const THU_DEFAULT=[
   {cat:"rhy",txt:"리듬 카피 사용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"리듬 카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"MR 연습 - Jazz · Fusion Jazz",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"rhy",txt:"6연음 리듬(쉼표 넣기)",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"rhy",txt:"메트로놈 변형 연습(1마디~4마디 키고 끄기, n박으로 생각하기) + (필)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"솔로 빌드업 연습 (빌드업, 선그리고 다이나믹 표현, 리듬부터 솔로)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
-  {cat:"rhy",txt:"드럼으로 멜로디 연주 · 멜로디 따라가기",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"rhy",txt:"드럼으로 멜로디 연주 · 꾸미기",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"rhy",txt:"50~70으로 리듬+톤 연구 (다이나믹 세분화 · 림샷 비율 · 하이햇 악센트)",chk:false,mins:'',tempo:'',set:'',red:true},
-  {cat:"rhy",txt:"Fusion Jazz - 특정 멜로디 주제 삼아 꾸미기",chk:false,mins:'',tempo:'',set:'',red:true},
   {cat:"tec",txt:"카피 연습",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"tec",txt:"카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"tec",txt:"하이햇 인디펜던스",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"tec",txt:"콜 앤 리스폰",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
-  {cat:"tec",txt:"제한하기 - 1 e & a 에 들어가기",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"제한하기 - 1 & 에 들어가기",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"tec",txt:"6연음 5그루핑",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"tec",txt:"루디먼트 응용",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"tec",txt:"모든 템포 필인",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
@@ -1850,11 +1946,12 @@ const FRI_DEFAULT=[
   {cat:"phy",txt:"피지컬 - 손발손발",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"rhy",txt:"리듬 카피 사용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"리듬 카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"파트 고정 꾸미기",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"MR 연습 - Bossa Nova · Samba · Latin",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"rhy",txt:"메트로놈 변형 연습(1마디~4마디 키고 끄기, n박으로 생각하기) + (필)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"솔로 빌드업 연습 (빌드업, 선그리고 다이나믹 표현, 리듬부터 솔로)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
-  {cat:"rhy",txt:"드럼으로 멜로디 연주 · 멜로디 따라가기",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"rhy",txt:"드럼으로 멜로디 연주 · 꾸미기",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"rhy",txt:"톤 연구 (다이나믹 세분화 · 림샷 비율 · 하이햇 악센트)",chk:false,mins:'',tempo:'',set:'',red:true},
   {cat:"tec",txt:"카피 연습",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"tec",txt:"카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
@@ -1888,9 +1985,8 @@ const SUN_DEFAULT=[
   {cat:"phy",txt:"피지컬 - 손발손발",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"rhy",txt:"리듬 카피 사용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"리듬 카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
-  {cat:"rhy",txt:"파트 고정 꾸미기",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"MR 연습 - Shuffle · Blues · Jungle",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
-  {cat:"rhy",txt:"필인 후 리듬 복귀(원 · 투 · 쓰리 · 포)",chk:false,mins:'',tempo:'',set:''},
+  {cat:"rhy",txt:"6연음 리듬(쉼표 넣기)",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"rhy",txt:"메트로놈 변형 연습(1마디~4마디 키고 끄기, n박으로 생각하기) + (필)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"솔로 빌드업 연습 (빌드업, 선그리고 다이나믹 표현, 리듬부터 솔로)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
