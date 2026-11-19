@@ -482,7 +482,7 @@ ex) 필인 후 타임이 더 안정적이었음" rows="5"></textarea></div>
 </div>
 </div>
 <script>
-const PAD=['싱글 스트로크','더블 스트로크','트리플 스트로크','핑거링','모울러 테크닉','4·6연음 스틱킹 및 악센트','루디먼트'];
+const PAD=['싱글 스트로크','더블 스트로크','트리플 스트로크','핑거링','모울러 테크닉','4연음 스틱킹 · 악센트','6연음 스틱킹 · 악센트','루디먼트'];
 
 const RHY_TREE=[
   {parent:'킥 위치 변경', children:[]},
@@ -1696,6 +1696,66 @@ function loadDayCL(d){
           }
         }catch(e){}
       }
+      // 피지컬 '피지컬 - ' 접두어 삭제(+ 스와핑 → 스와핑 · FLRRL) / 기본기: 월·수·금 '4연음 스틱킹 · 악센트', 화·목·일 '6연음 스틱킹 · 악센트' + 모든 요일 루디먼트 — 요일마다 1회, 최고 BPM 기록 이어받기
+      {
+        const pk2='drum_mig_phy_pad_split_v1_'+d;
+        try{
+          if(!localStorage.getItem(pk2)){
+            localStorage.setItem(pk2,'1');
+            let changed=false; const renames={};
+            o.cl.forEach(x=>{
+              if(x&&x.cat==='phy'&&typeof x.txt==='string'&&x.txt.indexOf('피지컬 - ')===0){
+                const oldT=x.txt; let nt=oldT.slice('피지컬 - '.length); if(nt==='스와핑') nt='스와핑 · FLRRL';
+                x.txt=nt; renames[oldT]=nt; changed=true;
+              }
+              if(x&&x.cat==='pad'&&x.txt==='4·6연음 스틱킹 및 악센트'&&(d===1||d===3||d===6)){
+                renames[x.txt]='6연음 스틱킹 · 악센트'; x.txt='6연음 스틱킹 · 악센트'; changed=true;
+              }
+            });
+            const lastPad=()=>{ let at=-1; o.cl.forEach((x,i)=>{ if(x&&x.cat==='pad') at=i; }); return at; };
+            const addPad=(t)=>{ if(o.cl.some(x=>x&&x.cat==='pad'&&x.txt===t)) return; const at=lastPad(); if(at<0) return; o.cl.splice(at+1,0,{cat:'pad',chk:false,txt:t,mins:'',tempo:'',set:'',pri:false,sub:[],grp:'기본기 깊게',red:false}); changed=true; };
+            if(d===0||d===2||d===4) addPad('4연음 스틱킹 · 악센트');
+            if(d===1||d===3||d===6) addPad('루디먼트');
+            if(changed) localStorage.setItem(getDayCLKey(d),JSON.stringify(o));
+            const bmx=loadBestTempoMap(); let bch=false;
+            Object.keys(renames).forEach(k=>{ if(bmx[k]&&!bmx[renames[k]]){ bmx[renames[k]]=bmx[k]; bch=true; } });
+            if(bch) saveBestTempoMap(bmx);
+          }
+        }catch(e){}
+      }
+      // 장르 '파트 고정 꾸미기' → '하이햇 꾸미기' (하위 항목 없음) — 요일마다 1회, 최고 BPM 기록 이어받기
+      {
+        const hk='drum_mig_fixdecor_to_hihat_v1_'+d;
+        try{
+          if(!localStorage.getItem(hk)){
+            localStorage.setItem(hk,'1');
+            let changed=false;
+            o.cl.forEach(x=>{ if(x&&x.cat==='rhy'&&x.txt==='파트 고정 꾸미기'){ x.txt='하이햇 꾸미기'; x.sub=[]; changed=true; } });
+            if(changed) localStorage.setItem(getDayCLKey(d),JSON.stringify(o));
+            const bmh=loadBestTempoMap();
+            if(bmh['파트 고정 꾸미기']&&!bmh['하이햇 꾸미기']){ bmh['하이햇 꾸미기']=bmh['파트 고정 꾸미기']; saveBestTempoMap(bmh); }
+          }
+        }catch(e){}
+      }
+      // 장르 요일 재배치: 하이햇 꾸미기 월·목 / 브로큰 비트(신규) 화·금 / 6연음 리듬(쉼표 넣기) 수·일 — 저장된 데이터에 요일마다 1회
+      {
+        const rk3='drum_mig_rhy_hat_broken_six_v1_'+d;
+        try{
+          if(!localStorage.getItem(rk3)){
+            localStorage.setItem(rk3,'1');
+            let changed=false;
+            const HAT='하이햇 꾸미기', BRK='브로큰 비트', SIX='6연음 리듬(쉼표 넣기)';
+            const has=t=>o.cl.some(x=>x&&x.cat==='rhy'&&x.txt===t);
+            const drop=t=>{ const n=o.cl.length; o.cl=o.cl.filter(x=>!(x&&x.cat==='rhy'&&x.txt===t)); if(o.cl.length!==n) changed=true; };
+            const addAfter=(t,grp,prefix)=>{ if(has(t)) return; let at=-1; o.cl.forEach((x,i)=>{ if(x&&x.cat==='rhy'&&typeof x.txt==='string'&&x.txt.indexOf(prefix)===0) at=i; }); if(at<0) o.cl.forEach((x,i)=>{ if(x&&x.cat==='rhy') at=i; }); if(at<0) return; o.cl.splice(at+1,0,{cat:'rhy',chk:false,txt:t,mins:'',tempo:'',set:'',pri:false,sub:[],grp:grp,red:false}); changed=true; };
+            if(d===1){ addAfter(BRK,'매일','리듬 카피 응용'); drop(SIX); }
+            if(d===2){ drop(HAT); addAfter(SIX,'깊게','MR 연습'); }
+            if(d===3){ addAfter(HAT,'매일','리듬 카피 응용'); drop(SIX); }
+            if(d===4){ drop(HAT); addAfter(BRK,'매일','리듬 카피 응용'); }
+            if(changed) localStorage.setItem(getDayCLKey(d),JSON.stringify(o));
+          }
+        }catch(e){}
+      }
       // 기타 연습(남은 시간에 할 것들): 폴리리듬 · 메트릭 모듈레이션 · 리니어 리듬 — 요일마다 1회만 추가
       if([0,1,2,3,4,6].includes(d)){
         const mk='drum_mig_misc2_v1_'+d;
@@ -1792,13 +1852,14 @@ const MON_DEFAULT=[
   {cat:"pad",txt:"더블 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"기본기 매일"},
   {cat:"pad",txt:"트리플 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
   {cat:"pad",txt:"루디먼트",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
-  {cat:"phy",txt:"피지컬 - 모울러 테크닉",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
-  {cat:"phy",txt:"피지컬 - RLK 다운업",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
-  {cat:"phy",txt:"피지컬 - FLR · FRRL",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
-  {cat:"phy",txt:"피지컬 - 손발손발",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"pad",txt:"4연음 스틱킹 · 악센트",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
+  {cat:"phy",txt:"모울러 테크닉",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"RLK 다운업",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"FLR · FRRL",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"손발손발",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"rhy",txt:"리듬 카피 사용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"리듬 카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
-  {cat:"rhy",txt:"파트 고정 꾸미기",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"하이햇 꾸미기",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"MR 연습 - Ballad · POP",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"rhy",txt:"메트로놈 변형 연습(1마디~4마디 키고 끄기, n박으로 생각하기) + (필)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
@@ -1828,15 +1889,16 @@ const TUE_DEFAULT=[
   {cat:"pad",txt:"싱글 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"기본기 매일"},
   {cat:"pad",txt:"더블 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"기본기 매일"},
   {cat:"pad",txt:"핑거링",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
-  {cat:"pad",txt:"4·6연음 스틱킹 및 악센트",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
+  {cat:"pad",txt:"6연음 스틱킹 · 악센트",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
+  {cat:"pad",txt:"루디먼트",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
   {cat:"phy",txt:"임용훈 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
-  {cat:"phy",txt:"피지컬 - 스와핑",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
-  {cat:"phy",txt:"피지컬 - 더블킥",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
-  {cat:"phy",txt:"피지컬 - 손발손발",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"스와핑 · FLRRL",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"더블킥",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"손발손발",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"rhy",txt:"리듬 카피 사용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"리듬 카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"브로큰 비트",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"MR 연습 - Hip Hop · Jazz Hip Hop · R&B · Neo Soul",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
-  {cat:"rhy",txt:"6연음 리듬(쉼표 넣기)",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"rhy",txt:"메트로놈 변형 연습(1마디~4마디 키고 끄기, n박으로 생각하기) + (필)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"솔로 빌드업 연습 (빌드업, 선그리고 다이나믹 표현, 리듬부터 솔로)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
@@ -1866,14 +1928,15 @@ const WED_DEFAULT=[
   {cat:"pad",txt:"더블 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"기본기 매일"},
   {cat:"pad",txt:"트리플 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
   {cat:"pad",txt:"루디먼트",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
-  {cat:"phy",txt:"피지컬 - 모울러 테크닉",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
-  {cat:"phy",txt:"피지컬 - RLK 다운업",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
-  {cat:"phy",txt:"피지컬 - FLR · FRRL",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
-  {cat:"phy",txt:"피지컬 - 손발손발",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"pad",txt:"4연음 스틱킹 · 악센트",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
+  {cat:"phy",txt:"모울러 테크닉",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"RLK 다운업",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"FLR · FRRL",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"손발손발",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"rhy",txt:"리듬 카피 사용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"리듬 카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
-  {cat:"rhy",txt:"파트 고정 꾸미기",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"MR 연습 - Funk · Gospel",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"rhy",txt:"6연음 리듬(쉼표 넣기)",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"rhy",txt:"메트로놈 변형 연습(1마디~4마디 키고 끄기, n박으로 생각하기) + (필)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"솔로 빌드업 연습 (빌드업, 선그리고 다이나믹 표현, 리듬부터 솔로)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
@@ -1902,15 +1965,16 @@ const THU_DEFAULT=[
   {cat:"pad",txt:"싱글 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"기본기 매일"},
   {cat:"pad",txt:"더블 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"기본기 매일"},
   {cat:"pad",txt:"핑거링",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
-  {cat:"pad",txt:"4·6연음 스틱킹 및 악센트",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
+  {cat:"pad",txt:"6연음 스틱킹 · 악센트",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
+  {cat:"pad",txt:"루디먼트",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
   {cat:"phy",txt:"임용훈 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
-  {cat:"phy",txt:"피지컬 - 스와핑",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
-  {cat:"phy",txt:"피지컬 - 더블킥",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
-  {cat:"phy",txt:"피지컬 - 손발손발",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"스와핑 · FLRRL",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"더블킥",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"손발손발",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"rhy",txt:"리듬 카피 사용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"리듬 카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"하이햇 꾸미기",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"MR 연습 - Jazz · Fusion Jazz",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
-  {cat:"rhy",txt:"6연음 리듬(쉼표 넣기)",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"rhy",txt:"메트로놈 변형 연습(1마디~4마디 키고 끄기, n박으로 생각하기) + (필)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"솔로 빌드업 연습 (빌드업, 선그리고 다이나믹 표현, 리듬부터 솔로)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
@@ -1940,13 +2004,14 @@ const FRI_DEFAULT=[
   {cat:"pad",txt:"더블 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"기본기 매일"},
   {cat:"pad",txt:"트리플 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
   {cat:"pad",txt:"루디먼트",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
-  {cat:"phy",txt:"피지컬 - 모울러 테크닉",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
-  {cat:"phy",txt:"피지컬 - RLK 다운업",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
-  {cat:"phy",txt:"피지컬 - FLR · FRRL",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
-  {cat:"phy",txt:"피지컬 - 손발손발",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"pad",txt:"4연음 스틱킹 · 악센트",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
+  {cat:"phy",txt:"모울러 테크닉",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"RLK 다운업",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"FLR · FRRL",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"손발손발",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"rhy",txt:"리듬 카피 사용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"리듬 카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
-  {cat:"rhy",txt:"파트 고정 꾸미기",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"브로큰 비트",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"MR 연습 - Bossa Nova · Samba · Latin",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"rhy",txt:"메트로놈 변형 연습(1마디~4마디 키고 끄기, n박으로 생각하기) + (필)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"솔로 빌드업 연습 (빌드업, 선그리고 다이나믹 표현, 리듬부터 솔로)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
@@ -1978,11 +2043,12 @@ const SUN_DEFAULT=[
   {cat:"pad",txt:"싱글 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"기본기 매일"},
   {cat:"pad",txt:"더블 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"기본기 매일"},
   {cat:"pad",txt:"핑거링",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
-  {cat:"pad",txt:"4·6연음 스틱킹 및 악센트",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
+  {cat:"pad",txt:"6연음 스틱킹 · 악센트",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
+  {cat:"pad",txt:"루디먼트",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
   {cat:"phy",txt:"임용훈 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
-  {cat:"phy",txt:"피지컬 - 스와핑",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
-  {cat:"phy",txt:"피지컬 - 더블킥",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
-  {cat:"phy",txt:"피지컬 - 손발손발",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"스와핑 · FLRRL",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"더블킥",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"손발손발",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"rhy",txt:"리듬 카피 사용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"리듬 카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"MR 연습 - Shuffle · Blues · Jungle",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
