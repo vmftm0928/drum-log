@@ -861,7 +861,8 @@ function addRow(cat,txt,chk,mins,tempo,set,pri,sub,grp,red){
   const padSetItems=['싱글 스트로크','더블 스트로크','핑거링','트리플 스트로크','모울러 테크닉','피지컬','임용훈 스트로크'];
   const setLabel = ((cat==='pad'||cat==='phy') && padSetItems.some(s=>txt&&txt.includes(s.split(' ')[0]))) ? '세트' : '번호';
   const minsVal = mins || (setLabel==='세트' ? '1' : '');
-  const setVal = set || (setLabel==='세트' ? '3/0' : '');
+  const setDefault3 = (setLabel==='세트') || (cat==='phy' && (txt==='FRRL' || txt==='FLRRL')); // FRRL·FLRRL은 번호 칸 기본값 3/0
+  const setVal = set || (setDefault3 ? '3/0' : '');
   const hasSub = Array.isArray(sub) && sub.length>0;
   const subOpen = (isCopyApply||isFixDecor||isCopyUse) ? (hasSub && sub.some(x=>x&&x.chk)) : hasSub; // 카피 응용은 기본 접힘, 체크된 게 있으면 펼침
   const allowSub = (cat==='rhy' && (txt==='리듬 카피' || txt==='드러머' || txt==='드럼 카피' || txt==='드러머 카피' || txt==='아이디어')) || (cat==='tec' && txt==='아이디어') || isCopyApply || isFixDecor || isCopyUse;
@@ -879,7 +880,7 @@ function addRow(cat,txt,chk,mins,tempo,set,pri,sub,grp,red){
     </td>
     ${cat==='rhy'?'':`<td style="text-align:center"><input type="text" class="clnum" value="${minsVal}" placeholder="분" oninput="as()">${prevMins?`<span class='prev-hint' data-prev="${prevMins}" onclick="fillPrev(this)">${prevMins}분</span>`:''}<button type="button" class="lapbtn" onclick="catLap(this,'${cat}')" title="스톱워치에서 경과 시간 가져오기">⏱ 기록</button></td>`}
     ${hideBpmSet?'':`<td style="text-align:center"><input type="text" class="clnum" value="${tempo||''}" placeholder="BPM" oninput="as();updateBestTempoFromRow(this)">${prevTempo?`<span class='prev-hint' data-prev="${prevTempo}" onclick="fillPrev(this)">${prevTempo}</span>`:''}</td>
-    <td style="text-align:center">${setLabel==='세트'?`<div class="setstep"><input type="text" class="clnum" value="${setVal}" placeholder="${setLabel}" oninput="as()"><span class="stepbtns"><button type="button" class="stepbtn" onclick="stepSet(this,1)">▲</button><button type="button" class="stepbtn" onclick="stepSet(this,-1)">▼</button></span></div>`:`<input type="text" class="clnum" value="${set||''}" placeholder="${setLabel}" oninput="as()">`}${prevSet?`<span class='prev-hint' data-prev="${prevSet}" onclick="fillPrev(this)">${prevSet}</span>`:''}</td>`}
+    <td style="text-align:center">${(setLabel==='세트'||cat==='phy')?`<div class="setstep"><input type="text" class="clnum" value="${setVal}" placeholder="${setLabel}" oninput="as()"><span class="stepbtns"><button type="button" class="stepbtn" onclick="stepSet(this,1)">▲</button><button type="button" class="stepbtn" onclick="stepSet(this,-1)">▼</button></span></div>`:`<input type="text" class="clnum" value="${set||''}" placeholder="${setLabel}" oninput="as()">`}${prevSet?`<span class='prev-hint' data-prev="${prevSet}" onclick="fillPrev(this)">${prevSet}</span>`:''}</td>`}
     `;
   const mainChk=tr.querySelector('.chkcell input[type=checkbox]');
   if(mainChk) mainChk.addEventListener('change',as);
@@ -1756,6 +1757,27 @@ function loadDayCL(d){
           }
         }catch(e){}
       }
+      // 피지컬: 'FLR · FRRL' → 'FLR' + 'FRRL', '스와핑 · FLRRL' → '스와핑' + 'FLRRL' 따로 항목으로 분리 — 요일마다 1회, 최고 BPM 기록은 앞 항목이 이어받음
+      {
+        const sk='drum_mig_phy_split_v1_'+d;
+        try{
+          if(!localStorage.getItem(sk)){
+            localStorage.setItem(sk,'1');
+            let changed=false; const pairs=[['FLR · FRRL','FLR','FRRL'],['스와핑 · FLRRL','스와핑','FLRRL']];
+            pairs.forEach(pr=>{
+              const i=o.cl.findIndex(x=>x&&x.cat==='phy'&&x.txt===pr[0]);
+              if(i<0) return;
+              const base=o.cl[i]; base.txt=pr[1];
+              o.cl.splice(i+1,0,{cat:'phy',chk:false,txt:pr[2],mins:'',tempo:'',set:'',pri:false,sub:[],grp:base.grp||'',red:false});
+              changed=true;
+            });
+            if(changed) localStorage.setItem(getDayCLKey(d),JSON.stringify(o));
+            const bmp=loadBestTempoMap(); let bch=false;
+            [['FLR · FRRL','FLR'],['스와핑 · FLRRL','스와핑']].forEach(pr=>{ if(bmp[pr[0]]&&!bmp[pr[1]]){ bmp[pr[1]]=bmp[pr[0]]; bch=true; } });
+            if(bch) saveBestTempoMap(bmp);
+          }
+        }catch(e){}
+      }
       // 기타 연습(남은 시간에 할 것들): 폴리리듬 · 메트릭 모듈레이션 · 리니어 리듬 — 요일마다 1회만 추가
       if([0,1,2,3,4,6].includes(d)){
         const mk='drum_mig_misc2_v1_'+d;
@@ -1855,7 +1877,8 @@ const MON_DEFAULT=[
   {cat:"pad",txt:"4연음 스틱킹 · 악센트",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
   {cat:"phy",txt:"모울러 테크닉",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"phy",txt:"RLK 다운업",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
-  {cat:"phy",txt:"FLR · FRRL",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"FLR",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"FRRL",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"phy",txt:"손발손발",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"rhy",txt:"리듬 카피 사용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"리듬 카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
@@ -1892,7 +1915,8 @@ const TUE_DEFAULT=[
   {cat:"pad",txt:"6연음 스틱킹 · 악센트",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
   {cat:"pad",txt:"루디먼트",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
   {cat:"phy",txt:"임용훈 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
-  {cat:"phy",txt:"스와핑 · FLRRL",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"스와핑",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"FLRRL",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"phy",txt:"더블킥",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"phy",txt:"손발손발",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"rhy",txt:"리듬 카피 사용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
@@ -1931,7 +1955,8 @@ const WED_DEFAULT=[
   {cat:"pad",txt:"4연음 스틱킹 · 악센트",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
   {cat:"phy",txt:"모울러 테크닉",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"phy",txt:"RLK 다운업",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
-  {cat:"phy",txt:"FLR · FRRL",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"FLR",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"FRRL",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"phy",txt:"손발손발",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"rhy",txt:"리듬 카피 사용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"리듬 카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
@@ -1968,7 +1993,8 @@ const THU_DEFAULT=[
   {cat:"pad",txt:"6연음 스틱킹 · 악센트",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
   {cat:"pad",txt:"루디먼트",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
   {cat:"phy",txt:"임용훈 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
-  {cat:"phy",txt:"스와핑 · FLRRL",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"스와핑",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"FLRRL",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"phy",txt:"더블킥",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"phy",txt:"손발손발",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"rhy",txt:"리듬 카피 사용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
@@ -2007,7 +2033,8 @@ const FRI_DEFAULT=[
   {cat:"pad",txt:"4연음 스틱킹 · 악센트",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
   {cat:"phy",txt:"모울러 테크닉",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"phy",txt:"RLK 다운업",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
-  {cat:"phy",txt:"FLR · FRRL",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"FLR",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"FRRL",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"phy",txt:"손발손발",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"rhy",txt:"리듬 카피 사용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"리듬 카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
@@ -2046,7 +2073,8 @@ const SUN_DEFAULT=[
   {cat:"pad",txt:"6연음 스틱킹 · 악센트",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
   {cat:"pad",txt:"루디먼트",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
   {cat:"phy",txt:"임용훈 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
-  {cat:"phy",txt:"스와핑 · FLRRL",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"스와핑",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"FLRRL",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"phy",txt:"더블킥",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"phy",txt:"손발손발",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"rhy",txt:"리듬 카피 사용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
