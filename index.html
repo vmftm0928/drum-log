@@ -1268,6 +1268,7 @@ function migratePhyCat(x){
   if(x && x.cat==='pad' && ((x.txt && x.txt.indexOf('피지컬')===0) || (x.grp && x.grp.indexOf('피지컬')===0))) x.cat='phy';
   return x;
 }
+let _rhySwapBusy=false;
 function loadDayCL(d){
   try{
     const r=localStorage.getItem(getDayCLKey(d));
@@ -1778,6 +1779,141 @@ function loadDayCL(d){
           }
         }catch(e){}
       }
+      // 피지컬 'FLRRL' 삭제 — 저장된 데이터에서 요일마다 1회 제거
+      {
+        const fl='drum_mig_remove_flrrl_v1_'+d;
+        try{
+          if(!localStorage.getItem(fl)){
+            localStorage.setItem(fl,'1');
+            const n8=o.cl.length;
+            o.cl=o.cl.filter(x=>!(x&&x.cat==='phy'&&x.txt==='FLRRL'));
+            if(o.cl.length!==n8) localStorage.setItem(getDayCLKey(d),JSON.stringify(o));
+          }
+        }catch(e){}
+      }
+      // 화요일 장르: '솔로 빌드업 연습(…)'과 '특정 멜로디 주제 삼아 꾸미기' 삭제 — 저장된 화요일 데이터에서 1회 제거
+      if(d===1){
+        const tk2='drum_mig_tue_remove_solo_melody_v1';
+        try{
+          if(!localStorage.getItem(tk2)){
+            localStorage.setItem(tk2,'1');
+            const n7=o.cl.length;
+            o.cl=o.cl.filter(x=>!(x&&x.cat==='rhy'&&typeof x.txt==='string'&&(x.txt.indexOf('솔로 빌드업 연습')===0||x.txt==='특정 멜로디 주제 삼아 꾸미기')));
+            if(o.cl.length!==n7) localStorage.setItem(getDayCLKey(d),JSON.stringify(o));
+          }
+        }catch(e){}
+      }
+      // 화요일 장르: '그루브 임팩트 카피' 추가 (리듬 카피 응용 바로 아래) — 저장된 화요일 데이터에 1회
+      if(d===1){
+        const gk2='drum_mig_tue_groove_impact_v1';
+        try{
+          if(!localStorage.getItem(gk2)){
+            localStorage.setItem(gk2,'1');
+            if(!o.cl.some(x=>x&&x.cat==='rhy'&&x.txt==='그루브 임팩트 카피')){
+              let at=-1; o.cl.forEach((x,i)=>{ if(x&&x.cat==='rhy'&&x.txt==='리듬 카피 응용') at=i; });
+              if(at<0) o.cl.forEach((x,i)=>{ if(x&&x.cat==='rhy') at=i; });
+              if(at>=0){
+                o.cl.splice(at+1,0,{cat:'rhy',chk:false,txt:'그루브 임팩트 카피',mins:'',tempo:'',set:'',pri:false,sub:[],grp:'매일',red:false});
+                localStorage.setItem(getDayCLKey(d),JSON.stringify(o));
+              }
+            }
+          }
+        }catch(e){}
+      }
+      // 피지컬 '더블킥' → '발발손손' — 요일마다 1회, 최고 BPM 기록 이어받기
+      {
+        const dk='drum_mig_doublekick_to_balbal_v1_'+d;
+        try{
+          if(!localStorage.getItem(dk)){
+            localStorage.setItem(dk,'1');
+            let changed=false;
+            o.cl.forEach(x=>{ if(x&&x.cat==='phy'&&x.txt==='더블킥'){ x.txt='발발손손'; changed=true; } });
+            if(changed) localStorage.setItem(getDayCLKey(d),JSON.stringify(o));
+            const bmd=loadBestTempoMap();
+            if(bmd['더블킥']&&!bmd['발발손손']){ bmd['발발손손']=bmd['더블킥']; saveBestTempoMap(bmd); }
+          }
+        }catch(e){}
+      }
+      // 테크닉 '하이햇 인디펜던스' 삭제 — 저장된 데이터에서 요일마다 1회 제거
+      {
+        const hik='drum_mig_remove_hihat_indep_v1_'+d;
+        try{
+          if(!localStorage.getItem(hik)){
+            localStorage.setItem(hik,'1');
+            const n6=o.cl.length;
+            o.cl=o.cl.filter(x=>!(x&&x.cat==='tec'&&x.txt==='하이햇 인디펜던스'));
+            if(o.cl.length!==n6) localStorage.setItem(getDayCLKey(d),JSON.stringify(o));
+          }
+        }catch(e){}
+      }
+      // 테크닉 제한하기: 월·수·금 = '1 e & a 섹션 or 필 고정 · 1 & 에 들어가기'(합침), 화·목·일 = '이동 위치 제한하기' — 요일마다 1회, 최고 BPM 기록 이어받기
+      {
+        const lk2='drum_mig_limit_alternate_v1_'+d;
+        try{
+          if(!localStorage.getItem(lk2)){
+            localStorage.setItem(lk2,'1');
+            const TGT=(d===0||d===2||d===4)?'제한하기 - 1 e & a 섹션 or 필 고정 · 1 & 에 들어가기':'제한하기 - 이동 위치 제한하기 (하이햇 금지, 탐 금지)';
+            const olds=[]; let changed=false;
+            o.cl.forEach(x=>{ if(x&&x.cat==='tec'&&typeof x.txt==='string'&&x.txt.indexOf('제한하기 - ')===0&&x.txt!==TGT){ olds.push(x.txt); x.txt=TGT; changed=true; } });
+            if(changed) localStorage.setItem(getDayCLKey(d),JSON.stringify(o));
+            const bml=loadBestTempoMap();
+            if(!bml[TGT]){ const src=olds.find(t=>bml[t]); if(src){ bml[TGT]=bml[src]; saveBestTempoMap(bml); } }
+          }
+        }catch(e){}
+      }
+      // 테크닉 제한하기 중복 정리: 예전 데이터와 겹쳐 '제한하기' 항목이 여러 개 보이면 요일별 항목 1개(월·수·금 / 화·목·일)로 합침 — 요일마다 1회, 체크·분·BPM·번호 기록 이어받기
+      if(d!==5){
+        const lk3='drum_mig_limit_dedupe_v2_'+d;
+        try{
+          if(!localStorage.getItem(lk3)){
+            localStorage.setItem(lk3,'1');
+            const TGT3=(d===0||d===2||d===4)?'제한하기 - 1 e & a 섹션 or 필 고정 · 1 & 에 들어가기':'제한하기 - 이동 위치 제한하기 (하이햇 금지, 탐 금지)';
+            const isLim=x=>x&&x.cat==='tec'&&typeof x.txt==='string'&&x.txt.indexOf('제한하기')===0;
+            const lims=o.cl.filter(isLim);
+            const oldNames=lims.map(x=>x.txt);
+            let changed=false;
+            if(lims.length>0){
+              const keep=lims.find(x=>x.txt===TGT3)||lims[0];
+              lims.forEach(x=>{
+                if(x===keep) return;
+                if(x.chk) keep.chk=true;
+                if(!keep.mins&&x.mins) keep.mins=x.mins;
+                if(!keep.tempo&&x.tempo) keep.tempo=x.tempo;
+                if(!keep.set&&x.set) keep.set=x.set;
+              });
+              keep.txt=TGT3;
+              o.cl=o.cl.filter(x=>!isLim(x)||x===keep);
+              changed=true;
+            }else{
+              const row={cat:'tec',chk:false,txt:TGT3,mins:'',tempo:'',set:'',pri:false,sub:[],grp:'깊게',red:false};
+              let at=-1; o.cl.forEach((x,i)=>{ if(x&&x.cat==='tec'&&x.txt==='카피 응용') at=i; });
+              if(at>=0){ o.cl.splice(at+1,0,row); changed=true; }
+            }
+            if(changed) localStorage.setItem(getDayCLKey(d),JSON.stringify(o));
+            const bm10=loadBestTempoMap();
+            if(!bm10[TGT3]){ const src=oldNames.find(t=>bm10[t]); if(src){ bm10[TGT3]=bm10[src]; saveBestTempoMap(bm10); } }
+          }
+        }catch(e){}
+      }
+      // 테크닉: 화요일 '4연음 콤비네이션' / 목요일 '6연음 콤비네이션' 추가 — 저장된 데이터에 1회 (각각 '4연음 5그루핑' / '6연음 5그루핑' 바로 위)
+      if(d===1||d===3){
+        const ck2='drum_mig_combi_tue_thu_v1_'+d;
+        try{
+          if(!localStorage.getItem(ck2)){
+            localStorage.setItem(ck2,'1');
+            const NEW=(d===1)?'4연음 콤비네이션':'6연음 콤비네이션';
+            const ANC=(d===1)?'4연음 5그루핑':'6연음 5그루핑';
+            if(!o.cl.some(x=>x&&x.cat==='tec'&&x.txt===NEW)){
+              let at=o.cl.findIndex(x=>x&&x.cat==='tec'&&x.txt===ANC);
+              if(at<0){ o.cl.forEach((x,i)=>{ if(x&&x.cat==='tec'&&x.grp==='깊게') at=i+1; }); }
+              if(at>=0){
+                o.cl.splice(at,0,{cat:'tec',chk:false,txt:NEW,mins:'',tempo:'',set:'',pri:false,sub:[],grp:'깊게',red:false});
+                localStorage.setItem(getDayCLKey(d),JSON.stringify(o));
+              }
+            }
+          }
+        }catch(e){}
+      }
       // 기타 연습(남은 시간에 할 것들): 폴리리듬 · 메트릭 모듈레이션 · 리니어 리듬 — 요일마다 1회만 추가
       if([0,1,2,3,4,6].includes(d)){
         const mk='drum_mig_misc2_v1_'+d;
@@ -1795,6 +1931,74 @@ function loadDayCL(d){
           }
         }catch(e){}
       }
+      // 테크닉 4연음/6연음 개편: 월·수·금 = 4연음 스틱킹·콤비네이션 / 화·목·일 = 6연음 스틱킹·콤비네이션 기본 + 요일별 추가 항목, '지금까지 연습한거로 놀기' 삭제 — 요일마다 1회, 같은 이름 항목의 체크·분·BPM 기록 이어받기
+      {
+        const tk46='drum_mig_tec_4_6_split_v1_'+d;
+        try{
+          if(!localStorage.getItem(tk46)){
+            localStorage.setItem(tk46,'1');
+            const PLAN46={
+              0:['4연음 스틱킹','4연음 콤비네이션','4연음 5그루핑'],
+              1:['6연음 스틱킹','6연음 콤비네이션','4연음 쉼표'],
+              2:['4연음 스틱킹','4연음 콤비네이션','6연음 쉼표'],
+              3:['6연음 스틱킹','6연음 콤비네이션','6연음 5그루핑 루디먼트 응용'],
+              4:['4연음 스틱킹','4연음 콤비네이션','6연음 4그루핑'],
+              6:['6연음 스틱킹','6연음 콤비네이션','6연음 5그루핑']
+            };
+            const ALL46=['4연음 스틱킹','4연음 콤비네이션','4연음 5그루핑','4연음 쉼표','6연음 스틱킹','6연음 콤비네이션','6연음 5그루핑','6연음 4그루핑','6연음 쉼표','6연음 5그루핑 루디먼트 응용'];
+            const PLAY46='지금까지 연습한거로 놀기 (남은 시간)';
+            let changed=false;
+            const n0=o.cl.length;
+            o.cl=o.cl.filter(x=>!(x&&x.cat==='tec'&&x.txt===PLAY46));
+            if(o.cl.length!==n0) changed=true;
+            const target=PLAN46[d];
+            if(target){
+              const managed=ALL46.concat(d===3?['루디먼트 응용']:[]);
+              const isM=x=>x&&x.cat==='tec'&&managed.indexOf(x.txt)>=0;
+              const old=o.cl.filter(isM);
+              let at=o.cl.findIndex(isM);
+              if(at<0){ let last=-1; o.cl.forEach((x,i)=>{ if(x&&x.cat==='tec') last=i; }); at=last>=0?last+1:o.cl.length; }
+              const rest=o.cl.filter(x=>!isM(x));
+              const rows=target.map(t=>{
+                let prev=old.find(x=>x.txt===t);
+                if(!prev && t==='6연음 5그루핑 루디먼트 응용') prev=old.find(x=>x.txt==='6연음 5그루핑');
+                return prev?Object.assign({},prev,{txt:t}):{cat:'tec',chk:false,txt:t,mins:'',tempo:'',set:'',pri:false,sub:[],grp:'깊게',red:false};
+              });
+              rest.splice(at,0,...rows);
+              o.cl=rest; changed=true;
+            }
+            if(changed) localStorage.setItem(getDayCLKey(d),JSON.stringify(o));
+          }
+        }catch(e){}
+      }
+      // 테크닉 루디먼트 응용: 목요일 = '루디먼트 응용'만(6연음 5그루핑 삭제) / 화·일 = 루디먼트 응용 삭제 — 요일마다 1회, 체크·분·BPM 기록 이어받기
+      {
+        const rk2='drum_mig_tec_rudiment_v2_'+d;
+        try{
+          if(!localStorage.getItem(rk2)){
+            localStorage.setItem(rk2,'1');
+            let changed=false;
+            if(d===1||d===6){
+              const n1=o.cl.length;
+              o.cl=o.cl.filter(x=>!(x&&x.cat==='tec'&&x.txt==='루디먼트 응용'));
+              if(o.cl.length!==n1) changed=true;
+            }
+            if(d===3){
+              const names=['6연음 5그루핑 루디먼트 응용','6연음 5그루핑','루디먼트 응용'];
+              const isM=x=>x&&x.cat==='tec'&&names.indexOf(x.txt)>=0;
+              const old=o.cl.filter(isM);
+              let at=o.cl.findIndex(isM);
+              if(at<0){ let last=-1; o.cl.forEach((x,i)=>{ if(x&&x.cat==='tec') last=i; }); at=last>=0?last+1:o.cl.length; }
+              const prev=old.find(x=>x.txt==='루디먼트 응용')||old.find(x=>x.txt==='6연음 5그루핑 루디먼트 응용')||old.find(x=>x.txt==='6연음 5그루핑');
+              const row=prev?Object.assign({},prev,{txt:'루디먼트 응용'}):{cat:'tec',chk:false,txt:'루디먼트 응용',mins:'',tempo:'',set:'',pri:false,sub:[],grp:'깊게',red:false};
+              const rest=o.cl.filter(x=>!isM(x));
+              rest.splice(at,0,row);
+              o.cl=rest; changed=true;
+            }
+            if(changed) localStorage.setItem(getDayCLKey(d),JSON.stringify(o));
+          }
+        }catch(e){}
+      }
       // 테크닉: '지금까지 연습한거로 놀기'는 항상 테크닉 맨 아래로
       {
         const ti=o.cl.findIndex(x=>x&&x.cat==='tec'&&x.txt==='지금까지 연습한거로 놀기 (남은 시간)');
@@ -1803,6 +2007,34 @@ function loadDayCL(d){
           if(last>ti){ const it=o.cl.splice(ti,1)[0]; o.cl.splice(last,0,it); }
         }
       }
+    }
+    // 장르(리듬) 항목: 월요일 ↔ 목요일 통째로 교환 — 저장된 데이터에 1회 (한쪽만 저장돼 있으면 그쪽은 새 기본값으로 채움)
+    if((d===0||d===3) && o && Array.isArray(o.cl) && !_rhySwapBusy && !localStorage.getItem('drum_mig_swap_rhy_mon_thu_v1')){
+      _rhySwapBusy=true;
+      try{
+        localStorage.setItem('drum_mig_swap_rhy_mon_thu_v1','1');
+        const other=(d===0)?3:0;
+        const oo=loadDayCL(other);
+        const A=(d===0)?o:oo, B=(d===0)?oo:o; // A=월, B=목
+        const isRhy=x=>x&&x.cat==='rhy';
+        const defRows=list=>list.filter(c=>c.cat==='rhy').map(c=>({cat:'rhy',chk:false,txt:c.txt,mins:'',tempo:'',set:'',pri:false,grp:c.grp||'',red:!!c.red}));
+        const rhyA=(A&&Array.isArray(A.cl))?A.cl.filter(isRhy):null;
+        const rhyB=(B&&Array.isArray(B.cl))?B.cl.filter(isRhy):null;
+        const newA=rhyB||defRows(MON_DEFAULT);
+        const newB=rhyA||defRows(THU_DEFAULT);
+        const put=(obj,rows)=>{ if(!obj||!Array.isArray(obj.cl)) return; const first=obj.cl.findIndex(isRhy); const rest=obj.cl.filter(x=>!isRhy(x)); const at=first>=0?Math.min(first,rest.length):rest.length; rest.splice(at,0,...rows); obj.cl=rest; };
+        put(A,newA); put(B,newB);
+        if(A) localStorage.setItem(getDayCLKey(0),JSON.stringify(A));
+        if(B) localStorage.setItem(getDayCLKey(3),JSON.stringify(B));
+      }catch(e){}finally{ _rhySwapBusy=false; }
+    }
+    // 월요일 장르: '50~70으로 리듬+' 부분 삭제 → '톤 연구 (…)' — 월요일은 항상 이 이름 (요일 교환 이후에도 유지, 최고 BPM 기록 이어받기)
+    if(d===0 && o && Array.isArray(o.cl)){
+      o.cl.forEach(x=>{ if(x&&x.cat==='rhy'&&x.txt==='50~70으로 리듬+톤 연구 (다이나믹 세분화 · 림샷 비율 · 하이햇 악센트)') x.txt='톤 연구 (다이나믹 세분화 · 림샷 비율 · 하이햇 악센트)'; });
+      try{
+        const bmm=loadBestTempoMap();
+        if(bmm['50~70으로 리듬+톤 연구 (다이나믹 세분화 · 림샷 비율 · 하이햇 악센트)']&&!bmm['톤 연구 (다이나믹 세분화 · 림샷 비율 · 하이햇 악센트)']){ bmm['톤 연구 (다이나믹 세분화 · 림샷 비율 · 하이햇 악센트)']=bmm['50~70으로 리듬+톤 연구 (다이나믹 세분화 · 림샷 비율 · 하이햇 악센트)']; saveBestTempoMap(bmm); }
+      }catch(e){}
     }
     return o;
   }catch(e){return null;}
@@ -1883,19 +2115,20 @@ const MON_DEFAULT=[
   {cat:"rhy",txt:"리듬 카피 사용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"리듬 카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"하이햇 꾸미기",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
-  {cat:"rhy",txt:"MR 연습 - Ballad · POP",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"rhy",txt:"MR 연습 - Jazz · Fusion Jazz",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"rhy",txt:"메트로놈 변형 연습(1마디~4마디 키고 끄기, n박으로 생각하기) + (필)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"솔로 빌드업 연습 (빌드업, 선그리고 다이나믹 표현, 리듬부터 솔로)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"드럼으로 멜로디 연주 · 꾸미기",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"rhy",txt:"톤 연구 (다이나믹 세분화 · 림샷 비율 · 하이햇 악센트)",chk:false,mins:'',tempo:'',set:'',red:true},
   {cat:"tec",txt:"카피 연습",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"tec",txt:"카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
-  {cat:"tec",txt:"하이햇 인디펜던스",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
-  {cat:"tec",txt:"제한하기 - 1 & 에 들어가기",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
-  {cat:"tec",txt:"4연음 콤비네이션",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"제한하기 - 1 e & a 섹션 or 필 고정 · 1 & 에 들어가기",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"tec",txt:"4연음 스틱킹",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"4연음 콤비네이션",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"4연음 5그루핑",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"tec",txt:"리듬 모티브 반복",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"tec",txt:"모든 템포 필인",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
-  {cat:"tec",txt:"지금까지 연습한거로 놀기 (남은 시간)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"exam",txt:"입시곡",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"exam",txt:"아메리칸 솔로 초견",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"exam",txt:"모던 리딩 텍스트 초견",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
@@ -1916,27 +2149,24 @@ const TUE_DEFAULT=[
   {cat:"pad",txt:"루디먼트",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
   {cat:"phy",txt:"임용훈 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"phy",txt:"스와핑",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
-  {cat:"phy",txt:"FLRRL",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
-  {cat:"phy",txt:"더블킥",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"발발손손",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"phy",txt:"손발손발",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"rhy",txt:"리듬 카피 사용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"리듬 카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"rhy",txt:"그루브 임팩트 카피",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"브로큰 비트",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"MR 연습 - Hip Hop · Jazz Hip Hop · R&B · Neo Soul",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"rhy",txt:"메트로놈 변형 연습(1마디~4마디 키고 끄기, n박으로 생각하기) + (필)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
-  {cat:"rhy",txt:"솔로 빌드업 연습 (빌드업, 선그리고 다이나믹 표현, 리듬부터 솔로)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"드럼으로 멜로디 연주 · 꾸미기",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"rhy",txt:"50~70으로 리듬+톤 연구 (다이나믹 세분화 · 림샷 비율 · 하이햇 악센트)",chk:false,mins:'',tempo:'',set:'',red:true},
-  {cat:"rhy",txt:"특정 멜로디 주제 삼아 꾸미기",chk:false,mins:'',tempo:'',set:'',red:true},
   {cat:"tec",txt:"카피 연습",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"tec",txt:"카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
-  {cat:"tec",txt:"하이햇 인디펜던스",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
-  {cat:"tec",txt:"제한하기 - 1 e & a 섹션 or 필 고정",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"제한하기 - 이동 위치 제한하기 (하이햇 금지, 탐 금지)",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"tec",txt:"콜 앤 리스폰",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
-  {cat:"tec",txt:"루디먼트 응용",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
-  {cat:"tec",txt:"4연음 5그루핑",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
-  {cat:"tec",txt:"지금까지 연습한거로 놀기 (남은 시간)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"tec",txt:"6연음 스틱킹",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"6연음 콤비네이션",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"4연음 쉼표",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"exam",txt:"입시곡",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"exam",txt:"스윙 컴핑 초견 (스네어, 킥, 보사노바 삼바)",chk:false,mins:'',tempo:'',set:''},
   {cat:"exam",txt:"섹션 초견 (8비트,스윙)",chk:false,mins:'',tempo:'',set:''},
@@ -1968,12 +2198,11 @@ const WED_DEFAULT=[
   {cat:"rhy",txt:"50~70으로 리듬+톤 연구 (다이나믹 세분화 · 림샷 비율 · 하이햇 악센트)",chk:false,mins:'',tempo:'',set:'',red:true},
   {cat:"tec",txt:"카피 연습",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"tec",txt:"카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
-  {cat:"tec",txt:"하이햇 인디펜던스",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
-  {cat:"tec",txt:"제한하기 - 이동 위치 제한하기 (하이햇 금지, 탐 금지)",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
-  {cat:"tec",txt:"4연음 쉼표",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"제한하기 - 1 e & a 섹션 or 필 고정 · 1 & 에 들어가기",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"4연음 스틱킹",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"4연음 콤비네이션",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"tec",txt:"6연음 쉼표",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"tec",txt:"리듬 모티브 반복",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
-  {cat:"tec",txt:"지금까지 연습한거로 놀기 (남은 시간)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"exam",txt:"입시곡",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"exam",txt:"아메리칸 솔로 초견",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"exam",txt:"모던 리딩 텍스트 초견",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
@@ -1994,27 +2223,23 @@ const THU_DEFAULT=[
   {cat:"pad",txt:"루디먼트",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
   {cat:"phy",txt:"임용훈 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"phy",txt:"스와핑",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
-  {cat:"phy",txt:"FLRRL",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
-  {cat:"phy",txt:"더블킥",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"발발손손",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"phy",txt:"손발손발",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"rhy",txt:"리듬 카피 사용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"리듬 카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"하이햇 꾸미기",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
-  {cat:"rhy",txt:"MR 연습 - Jazz · Fusion Jazz",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"rhy",txt:"MR 연습 - Ballad · POP",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"rhy",txt:"메트로놈 변형 연습(1마디~4마디 키고 끄기, n박으로 생각하기) + (필)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
-  {cat:"rhy",txt:"솔로 빌드업 연습 (빌드업, 선그리고 다이나믹 표현, 리듬부터 솔로)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"노래 연구후 연주하기 (멜로디 표현, 송폼 분석 다이나믹 분석 및 섹션 포인트 적기)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
-  {cat:"rhy",txt:"드럼으로 멜로디 연주 · 꾸미기",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
-  {cat:"rhy",txt:"50~70으로 리듬+톤 연구 (다이나믹 세분화 · 림샷 비율 · 하이햇 악센트)",chk:false,mins:'',tempo:'',set:'',red:true},
+  {cat:"rhy",txt:"톤 연구 (다이나믹 세분화 · 림샷 비율 · 하이햇 악센트)",chk:false,mins:'',tempo:'',set:'',red:true},
   {cat:"tec",txt:"카피 연습",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"tec",txt:"카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
-  {cat:"tec",txt:"하이햇 인디펜던스",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"tec",txt:"콜 앤 리스폰",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
-  {cat:"tec",txt:"제한하기 - 1 & 에 들어가기",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
-  {cat:"tec",txt:"6연음 5그루핑",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"제한하기 - 이동 위치 제한하기 (하이햇 금지, 탐 금지)",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"6연음 스틱킹",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"6연음 콤비네이션",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"tec",txt:"루디먼트 응용",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"tec",txt:"모든 템포 필인",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
-  {cat:"tec",txt:"지금까지 연습한거로 놀기 (남은 시간)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"exam",txt:"입시곡",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"exam",txt:"스윙 컴핑 초견 (스네어, 킥, 보사노바 삼바)",chk:false,mins:'',tempo:'',set:''},
   {cat:"exam",txt:"섹션 초견 (8비트,스윙)",chk:false,mins:'',tempo:'',set:''},
@@ -2047,13 +2272,12 @@ const FRI_DEFAULT=[
   {cat:"rhy",txt:"톤 연구 (다이나믹 세분화 · 림샷 비율 · 하이햇 악센트)",chk:false,mins:'',tempo:'',set:'',red:true},
   {cat:"tec",txt:"카피 연습",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"tec",txt:"카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
-  {cat:"tec",txt:"하이햇 인디펜던스",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
-  {cat:"tec",txt:"제한하기 - 1 e & a 섹션 or 필 고정",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"제한하기 - 1 e & a 섹션 or 필 고정 · 1 & 에 들어가기",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"tec",txt:"리듬 모티브 반복",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
-  {cat:"tec",txt:"6연음 콤비네이션",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
-  {cat:"tec",txt:"6연음 스틱킹",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"4연음 스틱킹",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"4연음 콤비네이션",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"6연음 4그루핑",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"tec",txt:"모든 템포 필인",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
-  {cat:"tec",txt:"지금까지 연습한거로 놀기 (남은 시간)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"exam",txt:"입시곡",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"exam",txt:"아메리칸 솔로 초견",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"exam",txt:"모던 리딩 텍스트 초견",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
@@ -2074,8 +2298,7 @@ const SUN_DEFAULT=[
   {cat:"pad",txt:"루디먼트",chk:false,mins:'',tempo:'',set:'',grp:"기본기 깊게"},
   {cat:"phy",txt:"임용훈 스트로크",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"phy",txt:"스와핑",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
-  {cat:"phy",txt:"FLRRL",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
-  {cat:"phy",txt:"더블킥",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
+  {cat:"phy",txt:"발발손손",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"phy",txt:"손발손발",chk:false,mins:'',tempo:'',set:'',grp:"피지컬 매일"},
   {cat:"rhy",txt:"리듬 카피 사용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"rhy",txt:"리듬 카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
@@ -2087,12 +2310,11 @@ const SUN_DEFAULT=[
   {cat:"rhy",txt:"50~70으로 리듬+톤 연구 (다이나믹 세분화 · 림샷 비율 · 하이햇 악센트)",chk:false,mins:'',tempo:'',set:'',red:true},
   {cat:"tec",txt:"카피 연습",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"tec",txt:"카피 응용",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
-  {cat:"tec",txt:"하이햇 인디펜던스",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"tec",txt:"콜 앤 리스폰",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"tec",txt:"제한하기 - 이동 위치 제한하기 (하이햇 금지, 탐 금지)",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
-  {cat:"tec",txt:"6연음 4그루핑",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
-  {cat:"tec",txt:"루디먼트 응용",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
-  {cat:"tec",txt:"지금까지 연습한거로 놀기 (남은 시간)",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
+  {cat:"tec",txt:"6연음 스틱킹",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"6연음 콤비네이션",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
+  {cat:"tec",txt:"6연음 5그루핑",chk:false,mins:'',tempo:'',set:'',grp:"깊게"},
   {cat:"exam",txt:"입시곡",chk:false,mins:'',tempo:'',set:'',grp:"매일"},
   {cat:"exam",txt:"스윙 컴핑 초견 (스네어, 킥, 보사노바 삼바)",chk:false,mins:'',tempo:'',set:''},
   {cat:"exam",txt:"섹션 초견 (8비트,스윙)",chk:false,mins:'',tempo:'',set:''},
@@ -2216,6 +2438,23 @@ function loadSharedSolo(){
   }catch(e){}
   try{localStorage.setItem(SOLO_LABEL_SYNC_KEY,'1');}catch(e){}
 })();
+// 문제점: '솔로중 킥단독 사용 및 킥 공간 만들때 흔들림 고치기' / '바운스 리듬 펄스' / '콤비네이션 더블 스틱킹 잘섞기' 삭제, '단어 정리(듣기 안헷갈리게하기)' 추가 — 저장된 데이터에 1회
+(function migrateSoloLabelsV4(){
+  const KEY4='drum_solo_label_sync_v4';
+  if(localStorage.getItem(KEY4)) return;
+  try{
+    const data=JSON.parse(localStorage.getItem(SOLO_KEY));
+    if(data && Array.isArray(data.prob)){
+      const drop=new Set(['솔로중 킥단독 사용 및 킥 공간 만들때 흔들림 고치기','바운스 리듬 펄스','콤비네이션 더블 스틱킹 잘섞기']);
+      const kept=data.prob.filter(item=>!(item && drop.has(item.txt)));
+      let changed=kept.length!==data.prob.length;
+      if(!kept.some(item=>item&&item.txt==='단어 정리(듣기 안헷갈리게하기)')){ kept.push({txt:'단어 정리(듣기 안헷갈리게하기)',chk:false,mins:'',tempo:'',set:''}); changed=true; }
+      data.prob=kept;
+      if(changed) localStorage.setItem(SOLO_KEY,JSON.stringify(data));
+    }
+  }catch(e){}
+  try{localStorage.setItem(KEY4,'1');}catch(e){}
+})();
 function saveSharedSolo(){
   const prob=[];
   document.querySelectorAll('#body-prob .clr').forEach(tr=>{
@@ -2235,19 +2474,17 @@ function loadSharedSoloDom(){
     {txt:'찹스 오래 유지하기',chk:false,mins:'',tempo:'',set:''},
     {txt:'타임키핑',chk:false,mins:'',tempo:'',set:''},
     {txt:'톤연구(다이나믹 세분화)',chk:false,mins:'',tempo:'',set:''},
-    {txt:'솔로중 킥단독 사용 및 킥 공간 만들때 흔들림 고치기',chk:false,mins:'',tempo:'',set:''},
     {txt:'시작 필인 다양하게 넣기',chk:false,mins:'',tempo:'',set:''},
     {txt:'킥으로만 끝내는 것 고치기',chk:false,mins:'',tempo:'',set:''},
     {txt:'작은 다이나믹에 안무너지기',chk:false,mins:'',tempo:'',set:''},
     {txt:'느린 템포에 안무너지기',chk:false,mins:'',tempo:'',set:''},
-    {txt:'바운스 리듬 펄스',chk:false,mins:'',tempo:'',set:''},
     {txt:'R,L,K 사운드 밸런스 및 다이나믹 조절',chk:false,mins:'',tempo:'',set:''},
     {txt:'힘빼고 치기',chk:false,mins:'',tempo:'',set:''},
-    {txt:'콤비네이션 더블 스틱킹 잘섞기',chk:false,mins:'',tempo:'',set:''},
+    {txt:'단어 정리(듣기 안헷갈리게하기)',chk:false,mins:'',tempo:'',set:''},
   ];
   probList.forEach(c=>addRow('prob',c.txt,c.chk,c.mins,c.tempo,c.set,c.pri));
   // 기존에 저장된 데이터가 있어도 새로 옮겨진 항목이 없으면 추가
-  ['작은 다이나믹에 안무너지기','느린 템포에 안무너지기','바운스 리듬 펄스','R,L,K 사운드 밸런스 및 다이나믹 조절','힘빼고 치기','콤비네이션 더블 스틱킹 잘섞기'].forEach(t=>{
+  ['작은 다이나믹에 안무너지기','느린 템포에 안무너지기','R,L,K 사운드 밸런스 및 다이나믹 조절','힘빼고 치기'].forEach(t=>{
     if(!probList.some(c=>c.txt===t)) addRow('prob',t,false,'','','');
   });
 }
